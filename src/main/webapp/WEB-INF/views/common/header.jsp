@@ -122,7 +122,7 @@
 	        <div></div>
 	        <div>
 	            <div class="logo-holder">
-	                <a href="#">
+	                <a href="/poing">
 	                    <img src="https://m.poing.co.kr/images/logo.png">
 	                </a>
 	            </div>
@@ -142,7 +142,7 @@
 	                <nav>
 	                    <ul>
 	                        <li>
-	                            <a href="#">로그인</a>
+	                            <a href="login">로그인</a>
 	                        </li>
 	                        <li>
 	                            <a href="#">고객센터</a>

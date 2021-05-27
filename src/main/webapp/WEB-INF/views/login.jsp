@@ -1,0 +1,91 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<style>
+			.login_box {
+				width: 500px;
+				margin: 0 auto;
+			}
+			h2 {
+				margin-top: 100px;
+				padding: 0 0 40px 0;
+				font-size: 2.0rem;
+				text-align: center;
+				font-weight: 700;
+			}
+			.input_box {
+    			margin-bottom: 15px;
+				width: 100%;
+				border: 1px solid rgba(196, 187, 171, 1);
+				font-family: Noto Sans KR,sans-serif;
+				font-weight: 400;
+				align-items: center;
+			}
+			.input_box > input {
+				border: none;
+				box-shadow: none;
+				font-size: 1.2rem;
+				box-sizing: border-box;
+				width: 100%;
+				padding: 15px 15px;
+			}
+			.login_box button {
+    			border: 1.3px solid #c4bbab;
+				width: 100%;
+				height: 48px;
+				border-radius: 24px;
+				font-size: 16px;
+				font-weight: 500;
+    			color: #c4bbab;
+				cursor: pointer;
+				margin-bottom: 10px;
+			}
+			.login_btn {
+				background-color: #c4bbab;
+				color: #fff !important;
+				font-weight: 700 !important;
+			}
+			.login_box > div {
+				margin-bottom: 100px;
+			}
+			.login_box a {
+				align-self: center;
+				font-size: .7rem;
+    			color: #c4bbab;
+				text-decoration: underline;
+			}
+		</style>
+		<script>
+			$(document).ready(function() {
+				
+			})
+		</script>
+		<title>Insert title here</title>
+	</head>
+	<body>
+		<div class="login_box">
+			<h2>로그인</h2>
+			<div>
+				<form action="">
+					<div class="input_box">
+						<input type="text" name="loginId" placeholder="이메일 입력">
+					</div>
+					<div class="input_box">
+						<input type="text" name="loginPW" placeholder="비밀번호 (6~16자)">
+					</div>
+				</form>
+				<button class="login_btn">로그인</button>
+				<div style="text-align: center;">
+					<a href="#">비밀번호 찾기</a>
+				</div>
+			</div>
+			<div>
+				<button>네이버 로그인</button>
+				<button onclick="location.href='signUp'">회원가입</button>
+			</div>
+		</div>
+	</body>
+</html>

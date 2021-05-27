@@ -69,7 +69,7 @@
 						<div class="ft-wrap" style="margin-bottom: 50px;overflow: hidden;">
 							<div class="footer_div">
 								<p class="hhj">고객센터</p>
-								<p style="padding:10px 0 10px 0; font-size: 25px; font-weight: 500; color: black;">0000-1234</p>
+								<p style="padding:10px 0 10px 0; font-size: 25px; font-weight: 500; color: black;">0000-0000</p>
 								<p style="text-align: left;">평일 09:00~12:00 (주말,공휴일 휴무)</p>
 								<br>
 								<a href="#" style="font-size: 17px;">1:1상담</a>
