@@ -98,6 +98,58 @@
                 fill: rgba(247, 168, 7, 1);
             }
             /* 별점 */
+            /* 페이징 */
+        .jss1025 {
+            padding: 50px 0 25px;
+            margin: 0;
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            background-color: #fff;
+        }
+        .jss1025 button {
+            height: 48px;
+            min-width: 48px;
+            margin: 0 2px;
+            padding: 0 10px;
+            font-size: 1.1rem;
+            border-radius: 8px; 
+            transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+            color: rgba(0, 0, 0, 1);
+            box-sizing: border-box;
+            text-align: center;
+            font-family: Noto Sans KR,sans-serif;
+            font-weight: 400;
+            line-height: 1.43;
+            border: 0;
+            cursor: pointer;
+            display: inline-flex;
+            outline: 0;
+            position: relative;
+            align-items: center;
+            user-select: none;
+            vertical-align: middle;
+            justify-content: center;
+            text-decoration: none;
+            background-color: transparent;
+            -webkit-appearance: none;
+            -webkit-tap-highlight-color: transparent;   
+        }
+        .jss1025 svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+            display: inline-block;
+            font-size: 2.4rem;
+            transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+            flex-shrink: 0;
+            user-select: none;
+        }
+        .jss1026 {
+            font-weight: 700 !important;
+            font-size: 1.3rem !important;
+        }
+        /* 페이징 */
 		</style>
 		<title>Insert title here</title>
 	</head>
@@ -181,6 +233,30 @@
 					</div>
 				</c:forEach>
 			</div>
+			<nav>
+	            <ul class="jss1025">
+	                <li>
+	                    <button tabindex="0" type="button" aria-current="true">
+	                        <span>
+	                            <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z"></path></svg>
+	                        </span>
+	                    </button>
+	                </li>
+	                <li>
+	                    <button tabindex="0" type="button" aria-current="true">1</button>
+	                </li>
+	                <li>
+	                    <button class="jss1026" tabindex="0" type="button" aria-current="true">2</button>
+	                </li>
+	                <li>
+	                    <button tabindex="0" type="button" aria-current="true">
+	                        <span class="MuiButton-label">
+	                            <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
+	                        </span>
+	                    </button>
+	                </li>
+	            </ul>
+	        </nav>
 		</div>
 	</body>
 </html>

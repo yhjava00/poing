@@ -254,13 +254,13 @@
                 <div class="category_content_box">
                     <div class="category_content swiper-container mySwiper">
                         <div class="swiper-wrapper">
-                            <c:forEach begin="1" end="10">
+                            <c:forEach var="vo" items="${mainInfo.category}">
                                 <div class="swiper-slide">
                                     <a href="#">
                                         <div>
-                                            <img src="https://c2.poing.co.kr/banner/MjAyMDA3/15954786725f191290043f6.png">
+                                            <img src="${vo.category_img}">
                                         </div>
-                                        <p>브런치</p>
+                                        <p>${vo.category_name}</p>
                                     </a>
                                 </div>
                             </c:forEach>

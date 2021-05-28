@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.spring.poing.vo.MemberVO" alias="memberVO"/>
+		<typeAlias type="com.spring.poing.vo.CategoryVO" alias="categoryVO"/>
+		<typeAlias type="com.spring.poing.vo.StoreVO" alias="storeVO"/>
+		<typeAlias type="com.spring.poing.vo.StoreInfoVO" alias="storInfoVO"/>
+		<typeAlias type="java.lang.String" alias="String"/>
+		<typeAlias type="java.util.List" alias="list"/>
+		<typeAlias type="java.util.Map" alias="map"/>
+	</typeAliases>
+</configuration>
