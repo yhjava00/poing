@@ -4,7 +4,7 @@ public class MemberVO {
 	
 	String id;
 	String pw;
-	String nicname;
+	String nickname;
 	
 	public String getId() {
 		return id;
@@ -18,11 +18,11 @@ public class MemberVO {
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
-	public String getNicname() {
-		return nicname;
+	public String getNickname() {
+		return nickname;
 	}
-	public void setNicname(String nicname) {
-		this.nicname = nicname;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 
 }

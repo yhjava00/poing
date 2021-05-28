@@ -58,27 +58,74 @@
 				text-decoration: underline;
 			}
 		</style>
+		<script type="text/javascript">
+			function signUp() {
+				var nickname = $('.nickname').val()
+				var email = $('.email').val()
+				var pw = $('.pw').val()
+				var pwCheck = $('.pwCheck').val()
+
+				var emailTest = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
+				var pwTest = /(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,16}$/
+
+				if(nickname==='') {
+					alert('닉네임을 입력하세요.')
+					return
+				}
+				
+				if(!emailTest.test(email)) {
+					alert('이메일을 입력하세요.')
+					return
+				}
+				
+				if(!pwTest.test(pw)) {
+					alert('비밀번호의 길이는 6~16이어야 하고 1개 이상의 문자, 숫자, 특수문자를 포함하여야 합니다.')
+					return
+				}
+				
+				if(pw!==pwCheck) {
+					alert('비밀번호가 일치하지 않습니다.')
+					return
+				}
+				
+				$.ajax({
+			        type: "post", 
+			        url: "signUp.do", 
+			        data: {'id':email, 'pw':pw, 'nickname':nickname},
+			        success:function (data, textStatus) {
+			        	if(data=='Exist member') {
+			        		alert('존재하는 이메일입니다.');
+			        	}else {
+			        		location.href='main';
+			        	}
+			        },
+			        error:function (data, textStatus) {
+			        	alert('에러가 발생했습니다.');
+			        }
+			    });
+			}
+		</script>
 		<title>Insert title here</title>
 	</head>
 	<body>
 		<div class="signUp_box">
 			<h2>회원가입</h2>
 			<div>
-				<form action="">
+				<form class="f">
 					<div class="input_box">
-						<input type="text" name="nickName" placeholder="닉네임 입력">
+						<input type="text" class="nickname" name="nickname" placeholder="닉네임 입력">
 					</div>
 					<div class="input_box">
-						<input type="text" name="email" placeholder="이메일 입력">
+						<input type="text" class="email" name="email" placeholder="이메일 입력">
 					</div>
 					<div class="input_box">
-						<input type="text" name="pw" placeholder="비밀번호 (6~16자)">
+						<input type="password" class="pw" name="pw" placeholder="비밀번호 (6~16자)">
 					</div>
 					<div class="input_box">
-						<input type="text" name="pwCheck" placeholder="비밀번호 확인">
+						<input type="password" class="pwCheck" name="pwCheck" placeholder="비밀번호 확인">
 					</div>
 				</form>
-				<button class="signUp_btn">가입완료</button>
+				<button class="signUp_btn" onclick="signUp()">가입완료</button>
 				<div style="text-align: center;">
 					<a href="login">이미 회원이신가요? 로그인</a>
 				</div>

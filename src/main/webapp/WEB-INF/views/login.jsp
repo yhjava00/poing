@@ -44,7 +44,7 @@
 				margin-bottom: 10px;
 			}
 			.login_btn {
-				background-color: #c4bbab;
+				background-color: rgba(236, 36, 57, 1);
 				color: #fff !important;
 				font-weight: 700 !important;
 			}
@@ -59,6 +59,40 @@
 			}
 		</style>
 		<script>
+			function login() {
+				var id = $('.loginId').val()
+				var pw = $('.loginPW').val()
+				
+				var emailTest = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
+
+				if(!emailTest.test(id)&&id!=='admin') {
+					alert('아이디는 이메일을 입력하세요.')
+					return
+				}
+				
+				if(pw==='') {
+					alert('비밀번호를 입력하세요.')
+					return
+				}
+				
+				$.ajax({
+			        type: "post", 
+			        url: "login.do", 
+			        data: {'id':id, 'pw':pw},
+			        success:function (data, textStatus) {
+			        	if(data=='no member') {
+			        		alert('존재하지 않는 회원입니다.');
+			        	}else if(data=='incorrect pw') {
+			        		alert('잘못된 비밀번호입니다.');
+			        	}else {
+			        		location.href='main';
+			        	}
+			        },
+			        error:function (data, textStatus) {
+			        	alert('에러가 발생했습니다.');
+			        }
+			    });
+			}
 			$(document).ready(function() {
 				
 			})
@@ -71,13 +105,13 @@
 			<div>
 				<form action="">
 					<div class="input_box">
-						<input type="text" name="loginId" placeholder="이메일 입력">
+						<input type="text" class="loginId" name="loginId" placeholder="이메일 입력">
 					</div>
 					<div class="input_box">
-						<input type="text" name="loginPW" placeholder="비밀번호 (6~16자)">
+						<input type="password" class="loginPW" name="loginPW" placeholder="비밀번호 (6~16자)">
 					</div>
 				</form>
-				<button class="login_btn">로그인</button>
+				<button class="login_btn" onclick="login()">로그인</button>
 				<div style="text-align: center;">
 					<a href="#">비밀번호 찾기</a>
 				</div>

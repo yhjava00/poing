@@ -20,4 +20,14 @@ public class MainDAOImpl implements MainDAO {
 		return sqlSession.selectList("main.category");
 	}
 	
+	@Override
+	public MemberVO selectMember(String id) {
+		return sqlSession.selectOne("main.selectMember", id);
+	}
+	
+	@Override
+	public int insertMember(MemberVO vo) {
+		return sqlSession.insert("main.insertMember", vo);
+	}
+	
 }

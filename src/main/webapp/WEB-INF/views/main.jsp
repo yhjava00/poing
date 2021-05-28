@@ -209,7 +209,6 @@
             }
             /* 별점 */
         </style>
-		<script src="http://code.jquery.com/jquery-latest.js"></script>
         <!-- Swiper JS -->
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
         <script type="text/javascript">
@@ -244,7 +243,7 @@
     </head>
     <body>
         <div class="main_img_box">
-            <img src="https://hitable2020images.blob.core.windows.net/sites/tablenjoy%2F2021-04%2F1618913880647_1920_%EC%82%AC%EC%9A%A9%EC%9E%90_PC_%EB%A9%94%EC%9D%B8%EB%A1%A4%EB%A7%81%EB%B0%B0%EB%84%88_%EA%B0%80%EC%A0%95%EC%9D%98%EB%8B%AC%EA%B8%B0%ED%9A%8D%EC%A0%84.jpg">
+            <img src="resources/main_img.jpg">
         </div>
         <div style="width: 80%; margin: 0 auto;">
             <div class="category_box">
@@ -258,7 +257,7 @@
                                 <div class="swiper-slide">
                                     <a href="#">
                                         <div>
-                                            <img src="${vo.category_img}">
+                                            <img src="resources/category/${vo.category_img}">
                                         </div>
                                         <p>${vo.category_name}</p>
                                     </a>

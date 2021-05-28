@@ -115,6 +115,7 @@
 	            transition: all 100ms linear;
 	        }
 		</style>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<title>Insert title here</title>
 	</head>
 	<body>
