@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -29,8 +30,9 @@
 				padding: 10px;
 			}
 			.search_content img {
-				height: 300px;
-				width: 300px;
+    			border-radius: 5px;
+				height: 275px;
+				width: 275px;
 			}
 			.recommend_p1 {
                 color: #1c2023;
@@ -99,72 +101,79 @@
             }
             /* 별점 */
             /* 페이징 */
-        .jss1025 {
-            padding: 50px 0 25px;
-            margin: 0;
-            display: flex;
-            list-style: none;
-            justify-content: center;
-            background-color: #fff;
-        }
-        .jss1025 button {
-            height: 48px;
-            min-width: 48px;
-            margin: 0 2px;
-            padding: 0 10px;
-            font-size: 1.1rem;
-            border-radius: 8px; 
-            transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-            color: rgba(0, 0, 0, 1);
-            box-sizing: border-box;
-            text-align: center;
-            font-family: Noto Sans KR,sans-serif;
-            font-weight: 400;
-            line-height: 1.43;
-            border: 0;
-            cursor: pointer;
-            display: inline-flex;
-            outline: 0;
-            position: relative;
-            align-items: center;
-            user-select: none;
-            vertical-align: middle;
-            justify-content: center;
-            text-decoration: none;
-            background-color: transparent;
-            -webkit-appearance: none;
-            -webkit-tap-highlight-color: transparent;   
-        }
-        .jss1025 svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-            display: inline-block;
-            font-size: 2.4rem;
-            transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-            flex-shrink: 0;
-            user-select: none;
-        }
-        .jss1026 {
-            font-weight: 700 !important;
-            font-size: 1.3rem !important;
-        }
-        /* 페이징 */
+	        .jss1025 {
+	            padding: 50px 0 25px;
+	            margin: 0;
+	            display: flex;
+	            list-style: none;
+	            justify-content: center;
+	            background-color: #fff;
+	        }
+	        .jss1025 button {
+	            height: 48px;
+	            min-width: 48px;
+	            margin: 0 2px;
+	            padding: 0 10px;
+	            font-size: 1.1rem;
+	            border-radius: 8px; 
+	            transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+	            color: rgba(0, 0, 0, 1);
+	            box-sizing: border-box;
+	            text-align: center;
+	            font-family: Noto Sans KR,sans-serif;
+	            font-weight: 400;
+	            line-height: 1.43;
+	            border: 0;
+	            cursor: pointer;
+	            display: inline-flex;
+	            outline: 0;
+	            position: relative;
+	            align-items: center;
+	            user-select: none;
+	            vertical-align: middle;
+	            justify-content: center;
+	            text-decoration: none;
+	            background-color: transparent;
+	            -webkit-appearance: none;
+	            -webkit-tap-highlight-color: transparent;   
+	        }
+	        .jss1025 svg {
+	            width: 16px;
+	            height: 16px;
+	            fill: currentColor;
+	            display: inline-block;
+	            font-size: 2.4rem;
+	            transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+	            flex-shrink: 0;
+	            user-select: none;
+	        }
+	        .jss1026 {
+	            font-weight: 700 !important;
+	            font-size: 1.3rem !important;
+	        }
+	        /* 페이징 */
 		</style>
 		<title>Insert title here</title>
 	</head>
 	<body>
 		<div class="search_box">
-			<h2>일식</h2>
-			<p>6 레스토랑</p>
+			<c:choose>
+			<c:when test="${!empty searchMap.search}">
+				<h2>${searchMap.search}</h2>
+			</c:when>
+			<c:otherwise>
+				<h2>전체보기</h2>
+			</c:otherwise>
+			</c:choose>
+			<p>${searchMap.totSearchNO} 레스토랑</p>
 			<div class="search_content_box">
-				<c:forEach begin="1" end="10">
+				<c:forEach var="vo" items="${searchMap.searchList}">
 					<div class="search_content">
 						<div>
-							<img src="https://c2.poing.co.kr/PIMAGE-original/MjAyMDA2/15917518495ee034a9054d2.png">
-							<p class="recommend_p1">장 스테이크</p>
-							<p class="recommend_p2">압구정 로데오에 합리적인 가격의 스테이크를 만날 수 있는 레스토랑</p>
-							<p class="recommend_p2"> 압구정  · 아메리칸  </p>
+							<img src="resources/main_img/${vo.main_img}">
+							<p class="recommend_p1">${vo.store_name}</p>
+							<p class="recommend_p2">${vo.introduce}</p>
+							<p class="recommend_p2">${vo.location1} · ${vo.location2}</p>
 							<span class="MuiRating-root jss1020 MuiRating-readOnly" role="img" aria-label="5 Stars">
 								<span class="MuiRating-decimal">
 									<span style="width: 0%; overflow: hidden; z-index: 1; position: absolute;">
@@ -235,26 +244,38 @@
 			</div>
 			<nav>
 	            <ul class="jss1025">
-	                <li>
-	                    <button tabindex="0" type="button" aria-current="true">
-	                        <span>
-	                            <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z"></path></svg>
-	                        </span>
-	                    </button>
-	                </li>
-	                <li>
-	                    <button tabindex="0" type="button" aria-current="true">1</button>
-	                </li>
-	                <li>
-	                    <button class="jss1026" tabindex="0" type="button" aria-current="true">2</button>
-	                </li>
-	                <li>
-	                    <button tabindex="0" type="button" aria-current="true">
-	                        <span class="MuiButton-label">
-	                            <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
-	                        </span>
-	                    </button>
-	                </li>
+	            	<c:if test="${searchMap.page != 1}">
+                		<li>
+		                    <button onclick="location.href='${contextPath}/search?search=${searchMap.search}&page=1'" tabindex="0" type="button" aria-current="true">
+		                        <span>
+		                            <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z"></path></svg>
+		                        </span>
+		                    </button>
+		                </li>
+	            	</c:if>
+	                <c:forEach var="i" begin="${searchMap.frontPage}" end="${searchMap.behindPage}">
+			                <c:choose>
+			                	<c:when test="${searchMap.page == i}">
+					                <li>
+					                    <button class="jss1026" onclick="location.href='${contextPath}/search?search=${searchMap.search}&page=${i}'" tabindex="0" type="button" aria-current="true">${i}</button>
+					                </li>
+			                	</c:when>
+			                	<c:otherwise>
+					                <li>
+					                    <button onclick="location.href='${contextPath}/search?search=${searchMap.search}&page=${i}'" tabindex="0" type="button" aria-current="true">${i}</button>
+					                </li>
+			                	</c:otherwise>
+			                </c:choose>
+	                </c:forEach>
+	                <c:if test="${searchMap.page != searchMap.lastPage}">
+		                <li>
+		                    <button onclick="location.href='${contextPath}/search?search=${searchMap.search}&page=${searchMap.lastPage}'" tabindex="0" type="button" aria-current="true">
+		                        <span class="MuiButton-label">
+		                            <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
+		                        </span>
+		                    </button>
+		                </li>
+	                </c:if>
 	            </ul>
 	        </nav>
 		</div>

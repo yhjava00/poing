@@ -1,5 +1,6 @@
 package com.spring.poing.main.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.poing.main.service.MainServiceImpl;
 import com.spring.poing.vo.MemberVO;
+import com.spring.poing.vo.StoreVO;
 
 @Controller
 public class MainControllerImpl implements MainController {
@@ -46,11 +49,22 @@ public class MainControllerImpl implements MainController {
 		
 		if(loginState.equals("login")) {
 			HttpSession session = request.getSession();
-			session.setAttribute("login_check", id);
+			session.setAttribute("loginCheck", id);
 			session.setMaxInactiveInterval(60*60*3);
 		}
 		
 		return loginState;
+	}
+	
+	@Override
+	@RequestMapping("/logOut.do")
+	public String logOutAction(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		
+		session.removeAttribute("loginCheck");
+		
+		return "redirect:/main";
 	}
 	
 	@Override
@@ -71,8 +85,20 @@ public class MainControllerImpl implements MainController {
 	
 	@Override
 	@RequestMapping("/search")
-	public String search() {
+	public String search(Model model, String search, 
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+		
+		Map<String, Object> searchMap = mainService.search(search, page);
+		
+		model.addAttribute("searchMap", searchMap);
+		
 		return "search";
+	}
+	
+	@Override
+	@RequestMapping("/store/*")
+	public String store() {
+		return "store";
 	}
 	
 }

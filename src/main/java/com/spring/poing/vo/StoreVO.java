@@ -3,6 +3,7 @@ package com.spring.poing.vo;
 public class StoreVO {
 	
 	int idx;
+	String category;
 	String store_name;
 	String introduce;
 	String location1;
@@ -17,6 +18,12 @@ public class StoreVO {
 	}
 	public String getStore_name() {
 		return store_name;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	public void setStore_name(String store_name) {
 		this.store_name = store_name;

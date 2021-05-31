@@ -275,15 +275,15 @@
                 <div class="recommend_content_box">
                     <div class="recommend_content swiper-container mySwiper2">
                         <div class="swiper-wrapper">
-                            <c:forEach begin="1" end="10">
+                            <c:forEach var="vo" items="${mainInfo.recommendList}">
                                 <div class="swiper-slide">
                                     <a href="#">
                                         <div>
-                                            <img src="https://c2.poing.co.kr/PIMAGE-original/MjAyMDA2/15934078505ef9796a40fc2.png">
+                                            <img src="resources/main_img/${vo.main_img}">
                                         </div>
-                                        <p class="recommend_p1">장 스테이크</p>
-                                        <p class="recommend_p2">압구정 로데오에 합리적인 가격의 스테이크를 만날 수 있는 레스토랑</p>
-                                        <p class="recommend_p2"> 압구정  · 아메리칸  </p>
+                                        <p class="recommend_p1">${vo.store_name}</p>
+                                        <p class="recommend_p2">${vo.introduce}</p>
+                                        <p class="recommend_p2">${vo.location1} · ${vo.location2}</p>
                                         <span class="MuiRating-root jss1020 MuiRating-readOnly" role="img" aria-label="5 Stars">
                                             <span class="MuiRating-decimal">
                                                 <span style="width: 0%; overflow: hidden; z-index: 1; position: absolute;">

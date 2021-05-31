@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.spring.poing.main.dao.MainDAOImpl;
 import com.spring.poing.vo.CategoryVO;
 import com.spring.poing.vo.MemberVO;
+import com.spring.poing.vo.StoreVO;
 
 @Service("mainService")
 public class MainServiceImpl implements MainService {
@@ -29,8 +30,10 @@ public class MainServiceImpl implements MainService {
 		Map<String, Object> mainInfo = new HashMap<String, Object>();
 		
 		List<CategoryVO> category = mainDAO.getCategory();
+		List<StoreVO> recommendList = mainDAO.selectRecommendList();
 		
 		mainInfo.put("category", category);
+		mainInfo.put("recommendList", recommendList);
 		
 		return mainInfo;
 	}
@@ -44,7 +47,7 @@ public class MainServiceImpl implements MainService {
 		
 		if(member==null) {
 			loginState = "no member";
-		}else if(!pw.equals(member.getPw())) {
+		}else if(!passwordEncoder.matches(pw, member.getPw())) {
 			loginState = "incorrect pw";
 		}
 		
@@ -66,6 +69,50 @@ public class MainServiceImpl implements MainService {
 		}
 		
 		return signUpState;
+	}
+	
+	@Override
+	public Map<String, Object> search(String search, int page) {
+		
+		int totSearchNO = mainDAO.totSearchNO(search);
+		
+		int lastPage = (totSearchNO-1)/12 + 1;
+		
+		if(page > lastPage)
+			page = lastPage;
+		
+		Map<String, Object> infoMap = new HashMap<String, Object>();
+		
+		infoMap.put("search", search);
+		infoMap.put("page", page);
+		
+		List<StoreVO> searchList = mainDAO.selectSearchList(infoMap);
+		
+		Map<String, Object> searchMap = new HashMap<String, Object>();
+		
+		int frontPage = 1;
+		int behindPage = lastPage;
+		
+		if(page>2) {
+			frontPage = page-2;
+		}
+		
+		if(page<lastPage-1) {
+			behindPage = page+2;
+		}
+		
+		searchMap.put("search", search);
+		
+		searchMap.put("totSearchNO", totSearchNO);
+		
+		searchMap.put("frontPage", frontPage);
+		searchMap.put("behindPage", behindPage);
+		searchMap.put("page", page);
+		searchMap.put("lastPage", lastPage);
+		
+		searchMap.put("searchList", searchList);
+		
+		return searchMap;
 	}
 	
 }

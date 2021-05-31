@@ -13,6 +13,10 @@
 		select * from category
 	</select>
 	
+	<select id="selectRecommendList" resultType="storeVO">
+		<![CDATA[select * from store where rownum < 10]]>
+	</select>
+	
 	<select id="selectMember" parameterType="String" resultType="memberVO">
 		select * from member where id=#{id} 
 	</select>
@@ -20,5 +24,19 @@
 	<insert id="insertMember" parameterType="memberVO">
 		insert into member (id, pw, nickname) values(#{id}, #{pw}, #{nickname})
 	</insert>
+	
+	<select id="totSearchNO" parameterType="String" resultType="int">
+		select count(idx) from store where store_name like '%' || #{search} || '%' or category like '%' || #{search} || '%'
+	</select>
+	
+	<select id="selectSearchList" parameterType="map" resultType="storeVO">
+		select * 
+		from (select rownum rn, A.* 
+				from (select s.* 
+						from store s 
+						where s.store_name like '%' || #{search} || '%' or s.category like '%' || #{search} || '%' 
+						order by s.idx desc) A)
+		where rn between (#{page}-1) * 12 + 1 and #{page} * 12 
+	</select>
 	
 </mapper>

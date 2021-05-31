@@ -14,10 +14,14 @@ public interface MainController {
 	
 	public String loginAction(HttpServletRequest request, String id, String pw);
 	
+	public String logOutAction(HttpServletRequest request);
+	
 	public String signUp();
 	
 	public String signUpAction(MemberVO vo);
 	
-	public String search();
+	public String search(Model model, String search, int page);
+	
+	public String store();
 
 }

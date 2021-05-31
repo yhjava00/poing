@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -129,22 +131,36 @@
 	            </div>
 	            <div class="header_search">
 	                <div>
-	                    <input type="text" placeholder="레스토랑을 검색하세요">
-	                    <button onclick="">
+	                	<form action="${contextPath}/search" method="get">
+	                    <input name="search" type="text" placeholder="레스토랑을 검색하세요">
+	                    <button onclick="submit">
 	                        <span>
 	                            <svg class="search_btn_img" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img">
 	                                <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283C15.024 19.308 13.042 20.003 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9c.003 2.042-.692 4.024-1.969 5.617zm-2.006-.742C17.295 14.57 18.003 12.82 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7 1.82.003 3.57-.706 4.875-1.975l.15-.15z"></path>
 	                            </svg>
 	                        </span>
 	                    </button>
+	                	</form>
 	                </div>
 	            </div>
 	            <div class="header_menu">
 	                <nav>
 	                    <ul>
-	                        <li>
-	                            <a href="login">로그인</a>
-	                        </li>
+	                    	<c:choose>
+	                    		<c:when test="${loginCheck == null}">
+			                        <li>
+			                            <a href="${contextPath}/login">로그인</a>
+			                        </li>	                    			
+	                    		</c:when>
+	                    		<c:when test="${loginCheck != null}">
+			                        <li>
+			                            <a href="${contextPath}/logOut.do">로그아웃</a>
+			                        </li>	                    			
+			                        <li>
+			                            <a href="${contextPath}/myPage">마이페이지</a>
+			                        </li>	                    		
+	                    		</c:when>
+	                    	</c:choose>
 	                        <li>
 	                            <a href="#">고객센터</a>
 	                        </li>
