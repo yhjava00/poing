@@ -16,4 +16,6 @@ public interface MainService {
 	
 	public Map<String, Object> search(String search, int page);
 	
+	public Map<String, Object> store(int storeIdx);
+	
 }

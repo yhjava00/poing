@@ -9,7 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import com.spring.poing.vo.CategoryVO;
 import com.spring.poing.vo.MemberVO;
+import com.spring.poing.vo.StoreAllVO;
 import com.spring.poing.vo.StoreVO;
+
+import oracle.net.aso.s;
 
 @Repository("mainDAO")
 public class MainDAOImpl implements MainDAO {
@@ -45,6 +48,16 @@ public class MainDAOImpl implements MainDAO {
 	@Override
 	public List<StoreVO> selectSearchList(Map<String, Object> searchMap) {
 		return sqlSession.selectList("main.selectSearchList", searchMap);
+	}
+	
+	@Override
+	public StoreAllVO selectStoreAllList(int storeIdx) {
+		return sqlSession.selectOne("main.selectStoreAllList", storeIdx);
+	}
+	
+	@Override
+	public List<String> selectStoreImgList(int storeIdx) {
+		return sqlSession.selectList("main.selectstoreImgList", storeIdx);
 	}
 	
 }

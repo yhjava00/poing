@@ -97,7 +97,16 @@ public class MainControllerImpl implements MainController {
 	
 	@Override
 	@RequestMapping("/store/*")
-	public String store() {
+	public String store(HttpServletRequest request) {
+		
+		String uri = request.getRequestURI();
+		
+		int storeIdx = Integer.parseInt(uri.substring(uri.lastIndexOf('/')+1));
+		
+		Map<String, Object> storeInfo = mainService.store(storeIdx);
+		
+		request.setAttribute("storeInfo", storeInfo);
+		
 		return "store";
 	}
 	

@@ -7,6 +7,7 @@
 		<typeAlias type="com.spring.poing.vo.MemberVO" alias="memberVO"/>
 		<typeAlias type="com.spring.poing.vo.CategoryVO" alias="categoryVO"/>
 		<typeAlias type="com.spring.poing.vo.StoreVO" alias="storeVO"/>
+		<typeAlias type="com.spring.poing.vo.StoreAllVO" alias="storeAllVO"/>
 		<typeAlias type="com.spring.poing.vo.StoreInfoVO" alias="storInfoVO"/>
 		<typeAlias type="java.lang.String" alias="String"/>
 		<typeAlias type="java.util.List" alias="list"/>

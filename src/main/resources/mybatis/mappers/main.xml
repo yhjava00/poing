@@ -39,4 +39,12 @@
 		where rn between (#{page}-1) * 12 + 1 and #{page} * 12 
 	</select>
 	
+	<select id="selectStoreAllList" parameterType="int" resultType="storeAllVO">
+		select * from store s inner join store_info i on s.idx = i.store_idx where s.idx = #{idx} 
+	</select>
+	
+	<select id="selectstoreImgList" parameterType="int" resultType="String">
+		select img_name from store_img where store_idx = #{idx}
+	</select>
+	
 </mapper>

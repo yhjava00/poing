@@ -6,152 +6,9 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<link rel="stylesheet" href="${contextPath}/resources/css/search.css">
 		<style>
-			.search_box {
-				width: 70%;
-				margin: 0 auto;
-			}
-			.search_box > h2 {
-				display: inline-block;
-				border-bottom: 2px solid rgba(236, 36, 57, 1);
-				margin-bottom: 5px;
-			}
-			.search_box > p {
-				color: #838383;
-    			font-size: 14px;
-			}
-			.search_content_box {
-				margin-top: 50px;
-				overflow: hidden;
-			}
-			.search_content {
-				float: left;
-				cursor: pointer;
-				padding: 10px;
-			}
-			.search_content img {
-    			border-radius: 5px;
-				height: 275px;
-				width: 275px;
-			}
-			.recommend_p1 {
-                color: #1c2023;
-                font-size: 16px;
-                font-weight: 700;
-                line-height: normal;
-                margin-top: 8px;
-                text-align: left;
-                
-            }
-            .recommend_p2 {    
-                color: #c4bbab;
-                font-size: 12px;
-                font-weight: 300;
-                line-height: 18px;
-                text-align: left;
-                text-overflow:ellipsis;
-                white-space:nowrap;
-                word-wrap:normal;
-                width:290px;
-                overflow:hidden;
-            }
-			/* 별점 */
-            .MuiRating-readOnly {
-                pointer-events: none;
-            }
-            .MuiRating-root {
-                color: #ffb400;
-                cursor: pointer;
-                display: inline-flex;
-                position: relative;
-                font-size: 2.4rem;
-                text-align: left;
-                -webkit-tap-highlight-color: transparent;
-            }
-            .MuiRating-decimal {
-                position: relative;
-            }
-            .jss1019 {
-                margin: 0;
-            }
-            .MuiRating-icon {
-                display: flex;
-                transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-                pointer-events: none;
-            }
-            .MuiSvgIcon-root {
-                fill: currentColor;
-                width: 1em;
-                height: 1em;
-                display: inline-block;
-                font-size: 2.4rem;
-                transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-                flex-shrink: 0;
-                user-select: none;
-            }
-            .jss1020 {
-                flex: none;
-            }
-            .jss1020 svg {
-                width: 18px;
-                height: 18px;
-            }
-            .jss1021 path {
-                fill: rgba(247, 168, 7, 1);
-            }
-            /* 별점 */
-            /* 페이징 */
-	        .jss1025 {
-	            padding: 50px 0 25px;
-	            margin: 0;
-	            display: flex;
-	            list-style: none;
-	            justify-content: center;
-	            background-color: #fff;
-	        }
-	        .jss1025 button {
-	            height: 48px;
-	            min-width: 48px;
-	            margin: 0 2px;
-	            padding: 0 10px;
-	            font-size: 1.1rem;
-	            border-radius: 8px; 
-	            transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-	            color: rgba(0, 0, 0, 1);
-	            box-sizing: border-box;
-	            text-align: center;
-	            font-family: Noto Sans KR,sans-serif;
-	            font-weight: 400;
-	            line-height: 1.43;
-	            border: 0;
-	            cursor: pointer;
-	            display: inline-flex;
-	            outline: 0;
-	            position: relative;
-	            align-items: center;
-	            user-select: none;
-	            vertical-align: middle;
-	            justify-content: center;
-	            text-decoration: none;
-	            background-color: transparent;
-	            -webkit-appearance: none;
-	            -webkit-tap-highlight-color: transparent;   
-	        }
-	        .jss1025 svg {
-	            width: 16px;
-	            height: 16px;
-	            fill: currentColor;
-	            display: inline-block;
-	            font-size: 2.4rem;
-	            transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-	            flex-shrink: 0;
-	            user-select: none;
-	        }
-	        .jss1026 {
-	            font-weight: 700 !important;
-	            font-size: 1.3rem !important;
-	        }
-	        /* 페이징 */
+			
 		</style>
 		<title>Insert title here</title>
 	</head>
@@ -168,7 +25,7 @@
 			<p>${searchMap.totSearchNO} 레스토랑</p>
 			<div class="search_content_box">
 				<c:forEach var="vo" items="${searchMap.searchList}">
-					<div class="search_content">
+					<div class="search_content" onclick="location.href='${contextPath}/store/${vo.idx}'">
 						<div>
 							<img src="resources/main_img/${vo.main_img}">
 							<p class="recommend_p1">${vo.store_name}</p>

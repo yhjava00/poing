@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.spring.poing.main.dao.MainDAOImpl;
 import com.spring.poing.vo.CategoryVO;
 import com.spring.poing.vo.MemberVO;
+import com.spring.poing.vo.StoreAllVO;
 import com.spring.poing.vo.StoreVO;
 
 @Service("mainService")
@@ -113,6 +114,20 @@ public class MainServiceImpl implements MainService {
 		searchMap.put("searchList", searchList);
 		
 		return searchMap;
+	}
+	
+	@Override
+	public Map<String, Object> store(int storeIdx) {
+		
+		Map<String, Object> storeInfo = new HashMap<String, Object>();
+		
+		StoreAllVO storeAllVO = mainDAO.selectStoreAllList(storeIdx);
+		List<String> storeImgList = mainDAO.selectStoreImgList(storeIdx);
+		
+		storeInfo.put("storeAllVO", storeAllVO);
+		storeInfo.put("storeImgList", storeImgList);
+		
+		return storeInfo;
 	}
 	
 }

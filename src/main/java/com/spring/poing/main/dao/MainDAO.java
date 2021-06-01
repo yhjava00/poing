@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.spring.poing.vo.CategoryVO;
 import com.spring.poing.vo.MemberVO;
+import com.spring.poing.vo.StoreAllVO;
 import com.spring.poing.vo.StoreVO;
 
 public interface MainDAO {
@@ -21,4 +22,7 @@ public interface MainDAO {
 	
 	public List<StoreVO> selectSearchList(Map<String, Object> searchMap);
 	
+	public StoreAllVO selectStoreAllList(int storeIdx);
+	
+	public List<String> selectStoreImgList(int storeIdx);
 }

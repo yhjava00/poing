@@ -22,6 +22,6 @@ public interface MainController {
 	
 	public String search(Model model, String search, int page);
 	
-	public String store();
+	public String store(HttpServletRequest request);
 
 }

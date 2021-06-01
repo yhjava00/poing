@@ -1,213 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
 		<link rel="stylesheet"  href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+		<link rel="stylesheet" href="${contextPath}/resources/css/main.css">
         <style>
-            .main_img_box {
-                width: 100%;
-                height: 405px;
-            }
-            .main_img_box > img {
-                width: 100%;
-                height: 405px;
-            }
-            .category_box {
-                padding-bottom: 20px;
-                padding-top: 20px;
-                width: 100%;
-                height: 300px;
-            }
-            .category_title {
-                padding: 8px 80px;
-            }
-            .category_title div {
-            	display: inline;
-                font-size: 1.7rem;
-                border-bottom: rgba(235, 0, 25, 1) solid 1px;
-            }
-            .category_content_box {
-                margin-top: 20px;
-                padding: 0px 80px;
-            }
-            .category_content {
-            }
-            .category_content > div{
-                width: 180px;
-            }
-            .category_content a {
-                margin-left: 20px;
-                margin-right: 0;
-                padding-right: 10px;
-                width: 180px;
-            }
-            .category_content img {
-                width: 180px;
-                height: 180px;
-            }
-            .category_content p {
-                color: #1c2023;
-                font-size: 16px;
-                font-weight: 700;
-                line-height: normal;
-                margin-top: 8px;
-                text-align: center;
-            }
-            .swiper-container {
-                width: 100%;
-                height: 100%;
-            }
-            .swiper-slide {
-                text-align: center;
-                font-size: 18px;
-                background: #fff;
-
-                /* Center slide text vertically */
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: -webkit-flex;
-                display: flex;
-                -webkit-box-pack: center;
-                -ms-flex-pack: center;
-                -webkit-justify-content: center;
-                justify-content: center;
-                -webkit-box-align: center;
-                -ms-flex-align: center;
-                -webkit-align-items: center;
-                align-items: center;
-            }
-
-            .swiper-slide img {
-                display: block;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-            .swiper-pagination {
-                left: 0;
-                width: 100%;
-            }
-            .swiper-pagination > span {
-                margin: 0px 5px;
-            }
-            .recommend_box {
-                padding-bottom: 20px;
-                padding-top: 20px;
-                width: 100%;
-            }
-            .recommend_title {
-                padding: 8px 80px;
-            }
-            .recommend_title div {
-            	display: inline;
-                font-size: 1.7rem;
-                border-bottom: rgba(235, 0, 25, 1) solid 1px;
-            }
-            .recommend_content_box {
-                margin-top: 20px;
-                padding: 0px 80px;
-            }
-            .recommend_content {
-            }
-            .recommend_content > div{
-                width: 275px;
-            }
-            .recommend_content a {
-                /* margin-left: 20px; */
-                margin-right: 0;
-                /* padding-right: 10px; */
-                width: 100%;
-                text-align: left !important;
-            }
-            .recommend_content img {
-                width: 275px;
-                height: 275px;
-            }
-            .recommend_p1 {
-                color: #1c2023;
-                font-size: 16px;
-                font-weight: 700;
-                line-height: normal;
-                margin-top: 8px;
-                text-align: left;
-                
-            }
-            .recommend_p2 {    
-                color: #c4bbab;
-                font-size: 12px;
-                font-weight: 300;
-                line-height: 18px;
-                text-align: left;
-                text-overflow:ellipsis;
-                white-space:nowrap;
-                word-wrap:normal;
-                width:280px;
-                overflow:hidden;
-            }
-            .swiper-pagination2 {
-                left: 0;
-                width: 100%;
-                text-align: center;
-            }
-            .swiper-pagination2 > span {
-                margin: 0px 5px;
-            }
-            .swiper-pagination3 {
-                left: 0;
-                width: 100%;
-                text-align: center;
-            }
-            .swiper-pagination3 > span {
-                margin: 0px 5px;
-            }
-            /* 별점 */
-            .MuiRating-readOnly {
-                pointer-events: none;
-            }
-            .MuiRating-root {
-                color: #ffb400;
-                cursor: pointer;
-                display: inline-flex;
-                position: relative;
-                font-size: 2.4rem;
-                text-align: left;
-                -webkit-tap-highlight-color: transparent;
-            }
-            .MuiRating-decimal {
-                position: relative;
-            }
-            .jss1019 {
-                margin: 0;
-            }
-            .MuiRating-icon {
-                display: flex;
-                transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-                pointer-events: none;
-            }
-            .MuiSvgIcon-root {
-                fill: currentColor;
-                width: 1em;
-                height: 1em;
-                display: inline-block;
-                font-size: 2.4rem;
-                transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-                flex-shrink: 0;
-                user-select: none;
-            }
-            .jss1020 {
-                flex: none;
-            }
-            .jss1020 svg {
-                width: 18px;
-                height: 18px;
-            }
-            .jss1021 path {
-                fill: rgba(247, 168, 7, 1);
-            }
-            /* 별점 */
+            
         </style>
         <!-- Swiper JS -->
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -255,7 +57,7 @@
                         <div class="swiper-wrapper">
                             <c:forEach var="vo" items="${mainInfo.category}">
                                 <div class="swiper-slide">
-                                    <a href="#">
+                                    <a href="search?search=${vo.category_name}">
                                         <div>
                                             <img src="resources/category/${vo.category_img}">
                                         </div>
@@ -277,7 +79,7 @@
                         <div class="swiper-wrapper">
                             <c:forEach var="vo" items="${mainInfo.recommendList}">
                                 <div class="swiper-slide">
-                                    <a href="#">
+                                    <a href="store/${vo.idx}">
                                         <div>
                                             <img src="resources/main_img/${vo.main_img}">
                                         </div>
