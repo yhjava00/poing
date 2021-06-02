@@ -1,5 +1,10 @@
 package com.spring.poing.main.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,10 +129,129 @@ public class MainServiceImpl implements MainService {
 		StoreAllVO storeAllVO = mainDAO.selectStoreAllList(storeIdx);
 		List<String> storeImgList = mainDAO.selectStoreImgList(storeIdx);
 		
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
+		
+		
+		Date tomorrowDate = new Date();
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(tomorrowDate);
+		cal.add(Calendar.DATE, 1);
+				
+		String tomorrow = dateFormat.format(cal.getTime());
+		
 		storeInfo.put("storeAllVO", storeAllVO);
 		storeInfo.put("storeImgList", storeImgList);
+		storeInfo.put("tomorrow", tomorrow);
 		
 		return storeInfo;
+	}
+	
+	@Override
+	public String selectTime(int storeIdx, String date) {
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
+		
+		try {
+			
+			Date selectDate = dateFormat.parse(date);
+			
+			Date todayDate = new Date();
+			
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(todayDate);
+			cal.add(Calendar.MONTH, 2);
+			
+			Date twoMonthsLater = cal.getTime();
+			
+			int compare = selectDate.compareTo(todayDate);
+			int compare2 = selectDate.compareTo(twoMonthsLater);
+			
+			if(compare<0||compare2>0) {
+				return "{ \"time\" : [], \"len\" : 0";
+			}
+			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		StoreAllVO storeAllVO = mainDAO.selectStoreAllList(storeIdx);
+		
+		List<String> selectTimeList = getSelectTimeList(storeAllVO.getOpening_hours());
+		
+		Map<String, Object> unreservedTimeInfo = new HashMap<String, Object>();
+		
+		unreservedTimeInfo.put("idx", storeIdx);
+		unreservedTimeInfo.put("date", date);
+		unreservedTimeInfo.put("peopleNum", 1);
+		
+		List<String> unreservedTimeList = mainDAO.getUnreservedTimeList(unreservedTimeInfo);
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("{ \"time\" : [");
+		
+		for(int i=0; i<selectTimeList.size(); i++) {
+			if(!unreservedTimeList.contains(selectTimeList.get(i)))
+				sb.append("\""+ selectTimeList.get(i) +"\", ");
+		}
+		
+		sb.deleteCharAt(sb.lastIndexOf(","));
+		
+		sb.append("], ");
+		
+		sb.append("\"len\" : " + (selectTimeList.size() - unreservedTimeList.size()) + "}");
+		
+		return sb.toString();
+	}
+	
+	public List<String> getSelectTimeList(String opening_hours) {
+		
+		List<String> selectTimeList = new ArrayList<String>();
+		
+		String firstTime = "";
+		String secondTime = null;
+		
+		if(opening_hours.contains("/")) {
+			firstTime = opening_hours.substring(0, opening_hours.indexOf('/')-1);
+			secondTime = opening_hours.substring(opening_hours.indexOf('/')+2);
+		} else {
+			firstTime = opening_hours;
+		}
+		
+		selectTimeListAdd(selectTimeList, firstTime);
+		
+		if(secondTime!=null) {
+			selectTimeListAdd(selectTimeList, secondTime);			
+		}
+		
+		return selectTimeList;
+	}
+	
+	public void selectTimeListAdd(List<String> selectTimeList, String time) {
+		
+		int hour = Integer.parseInt(time.substring(0, time.indexOf(':')));
+		int min = Integer.parseInt(time.substring(time.indexOf(':')+1, time.indexOf('~')));
+		
+		int closeHour = Integer.parseInt(time.substring(time.indexOf('~')+1, time.lastIndexOf(':')));
+		int closeMin = Integer.parseInt(time.substring(time.lastIndexOf(':')+1));
+		
+		if(min==30) {
+			selectTimeList.add(hour + "시 30분");
+			hour++;
+		}
+		
+		while(hour<closeHour) {
+			selectTimeList.add(hour + "시 00분");
+			selectTimeList.add(hour + "시 30분");
+			hour++;	
+		}
+		
+		selectTimeList.add(hour + "시 00분");
+		
+		if(closeMin==30)
+			selectTimeList.add(hour + "시 30분");
+
 	}
 	
 }

@@ -9,7 +9,14 @@ public class StoreVO {
 	String location1;
 	String location2;
 	String main_img;
+	float star;
 	
+	public float getStar() {
+		return star;
+	}
+	public void setStar(float star) {
+		this.star = star;
+	}
 	public int getIdx() {
 		return idx;
 	}

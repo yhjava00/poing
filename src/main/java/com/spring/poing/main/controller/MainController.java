@@ -23,5 +23,7 @@ public interface MainController {
 	public String search(Model model, String search, int page);
 	
 	public String store(HttpServletRequest request);
+	
+	public String askSelectTimeAction(int storeIdx, String date);
 
 }

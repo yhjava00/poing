@@ -18,4 +18,6 @@ public interface MainService {
 	
 	public Map<String, Object> store(int storeIdx);
 	
+	public String selectTime(int storeIdx, String date);
+	
 }

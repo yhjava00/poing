@@ -47,4 +47,17 @@
 		select img_name from store_img where store_idx = #{idx}
 	</select>
 	
+	<select id="unreservedTimeList" parameterType="map" resultType="String">
+		<![CDATA[
+		select DISTINCT(time)
+		from reservation r inner join store_info i 
+		on r.store_idx = i.store_idx 
+		where resdate = #{date} 
+		and  i.max_num_people < (select sum(people_num)
+								 from reservation 
+								 where store_idx = #{idx} 
+								 and time = r.time) + #{peopleNum}
+		]]>
+	</select>
+	
 </mapper>

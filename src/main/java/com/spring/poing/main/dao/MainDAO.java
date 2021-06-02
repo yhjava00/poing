@@ -25,4 +25,6 @@ public interface MainDAO {
 	public StoreAllVO selectStoreAllList(int storeIdx);
 	
 	public List<String> selectStoreImgList(int storeIdx);
+	
+	public List<String> getUnreservedTimeList(Map<String, Object> info);
 }

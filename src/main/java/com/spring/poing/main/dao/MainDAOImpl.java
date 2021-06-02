@@ -60,4 +60,9 @@ public class MainDAOImpl implements MainDAO {
 		return sqlSession.selectList("main.selectstoreImgList", storeIdx);
 	}
 	
+	@Override
+	public List<String> getUnreservedTimeList(Map<String, Object> info) {
+		return sqlSession.selectList("main.unreservedTimeList", info);
+	}
+	
 }

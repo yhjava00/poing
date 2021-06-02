@@ -343,7 +343,7 @@ margin-top: 10px;
 	cursor: pointer;
 }
 .count_module strong {
-			padding: 0 10px;
+	padding: 0 10px;
 	position: relative;
 	top: -4px;
 	font-size: 16px;
@@ -354,4 +354,8 @@ margin-top: 10px;
 	height: 30px;
 	font-size: 18px;
 	text-align: center;
+}
+.select_time_btn {
+	background: #ee2c30;
+	color: white !important;
 }

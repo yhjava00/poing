@@ -9,13 +9,27 @@ public class StoreAllVO {
 	String location1;
 	String location2;
 	String main_img;
+	float star;
 	
 	String addr;
 	String tel;
 	String opening_hours;
 	String closed_days;
 	String parking;
+	String maxNumPeople;
 	
+	public String getMaxNumPeople() {
+		return maxNumPeople;
+	}
+	public void setMaxNumPeople(String maxNumPeople) {
+		this.maxNumPeople = maxNumPeople;
+	}
+	public float getStar() {
+		return star;
+	}
+	public void setStar(float star) {
+		this.star = star;
+	}
 	public String getAddr() {
 		return addr;
 	}

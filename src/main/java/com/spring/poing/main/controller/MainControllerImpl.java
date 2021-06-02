@@ -110,4 +110,11 @@ public class MainControllerImpl implements MainController {
 		return "store";
 	}
 	
+	@Override
+	@ResponseBody
+	@RequestMapping("/askSelectTime.do")
+	public String askSelectTimeAction(int storeIdx, String date) {
+		return mainService.selectTime(storeIdx, date);
+	}
+	
 }
