@@ -92,8 +92,6 @@ public class MainControllerImpl implements MainController {
 		
 		model.addAttribute("searchMap", searchMap);
 		
-		//try again
-		
 		return "search";
 	}
 	
