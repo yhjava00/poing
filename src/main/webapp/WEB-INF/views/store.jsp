@@ -322,13 +322,7 @@
 					<div>
 						<div class="swiper-container mySwiper2">
 							<div class="swiper-wrapper select_time_swiper">
-								<!-- <c:forEach var="time" items="${storeInfo.selectTimeList}">
-									<div class="swiper-slide timeItem">
-										<button>
-											<span>${time}</span>
-										</button>
-									</div>
-								</c:forEach> -->
+								
 							</div>
 						</div>							
 					</div>
