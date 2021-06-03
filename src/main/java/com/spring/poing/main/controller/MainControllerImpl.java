@@ -1,6 +1,5 @@
 package com.spring.poing.main.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.poing.main.dao.MainDAO;
 import com.spring.poing.main.service.MainServiceImpl;
 import com.spring.poing.vo.MemberVO;
 import com.spring.poing.vo.ReservationVO;
+import com.spring.poing.vo.ReviewVO;
 import com.spring.poing.vo.StoreVO;
 
 @Controller
@@ -142,11 +141,30 @@ public class MainControllerImpl implements MainController {
 	@RequestMapping("/write_review")
 	public String writeReview(Model model, int placeId) {
 		
-		StoreVO store = mainService.mainDAO.selectStore(placeId);
+		StoreVO store = mainService.getStoreinfo(placeId);
 		
 		model.addAttribute("store", store);
 		
 		return "write_review";
+	}
+	
+	@Override
+	@ResponseBody
+	@RequestMapping("/write_review.do")
+	public String writeReviewAction(HttpServletRequest request, ReviewVO vo) {
+		HttpSession session = request.getSession();
+		
+		String member_id = (String)session.getAttribute("loginCheck");
+		
+		if(member_id==null) {
+			return "please login";
+		}
+
+		vo.setMember_id(member_id);
+		
+		String state = mainService.writeReview(vo);
+		
+		return state;
 	}
 	
 }

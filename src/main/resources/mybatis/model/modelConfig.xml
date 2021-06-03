@@ -10,6 +10,7 @@
 		<typeAlias type="com.spring.poing.vo.StoreAllVO" alias="storeAllVO"/>
 		<typeAlias type="com.spring.poing.vo.StoreInfoVO" alias="storInfoVO"/>
 		<typeAlias type="com.spring.poing.vo.ReservationVO" alias="reservationVO"/>
+		<typeAlias type="com.spring.poing.vo.ReviewVO" alias="reviewVO"/>
 		<typeAlias type="java.lang.String" alias="String"/>
 		<typeAlias type="java.util.List" alias="list"/>
 		<typeAlias type="java.util.Map" alias="map"/>

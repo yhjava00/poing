@@ -6,6 +6,7 @@ import java.util.Map;
 import com.spring.poing.vo.CategoryVO;
 import com.spring.poing.vo.MemberVO;
 import com.spring.poing.vo.ReservationVO;
+import com.spring.poing.vo.ReviewVO;
 import com.spring.poing.vo.StoreAllVO;
 import com.spring.poing.vo.StoreVO;
 
@@ -32,4 +33,12 @@ public interface MainDAO {
 	public List<String> getUnreservedTimeList(Map<String, Object> info);
 	
 	public int insertReservation(ReservationVO vo);
+	
+	public int insertReview(ReviewVO vo);
+	
+	public int canIWriteReview(Map<String, Object> info);
+	
+	public int countAllReview(int storeIdx);
+	
+	public List<ReviewVO> selectOnlyThreeReviewList(int storeIdx);
 }

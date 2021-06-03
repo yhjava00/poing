@@ -437,16 +437,10 @@
 				var storeIdx = ${store.idx}
 				
 				var star = $('.review_star').val()
-				var title = $('.review_title').val()
 				var content = $('.review_content').val()
 
 				if(star==='') {
 					alert('별점을 등록하세요.')
-					return
-				}
-
-				if(title==='' || title.length>100) {
-					alert('100자 이내의 제목을 입력하세요.')
 					return
 				}
 
@@ -458,8 +452,21 @@
 				$.ajax({
 						type: 'post', 
 						url: '/poing/write_review.do', 
-						data: {'date':$('#datepicker').val(), 'storeIdx':$('.store_idx').val()},
+						data: {'store_idx':storeIdx, 'content':content, 'star':star},
 						success:function (data, textStatus) {
+							
+							switch (data) {
+							case 'success' :
+								alert('작성완료')
+								location.href = '/poing/main'
+								return
+							case 'please login':
+								alert('로그인 후 작성하실 수 있습니다.')
+								break
+							case 'not visited':
+								alert('방문하신 매장에만 리뷰를 등록할 수 있습니다.')
+								break
+							}
 							
 						},
 						error:function (data, textStatus) {
@@ -538,12 +545,6 @@
 	                    </div>
 	                </div>
 	                <div class="b1044">
-	                    <div class="b1045">
-	                        <label class="b1046" data-shrink="true">제목</label>
-	                        <div class="b1047">
-	                            <input aria-invalid="false" placeholder="제목을 입력하세요." class="b1048 review_title" value="">
-	                        </div>
-	                    </div>
 	                    <div class="b1049">
 	                        <label class="b1046" data-shrink="true">내용</label>
 	                        <div class="b1050">

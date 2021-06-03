@@ -4,6 +4,7 @@
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"/>
 <c:set var="storeAllVO" value="${storeInfo.storeAllVO}"/>
 <c:set var="storeImgList" value="${storeInfo.storeImgList}"/>
+<c:set var="reviewList" value="${storeInfo.reviewList}"/>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,7 +13,7 @@
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="${contextPath}/resources/css/store.css?a">
+		<link rel="stylesheet" href="${contextPath}/resources/css/store.css?b">
 		<style>
 			
 		</style>
@@ -143,19 +144,23 @@
 					</section>
 					<section>
 						<h3 style="display: inline;">리뷰</h3>
-						<span class="count">(336)</span>
-						<c:forEach begin="1" end="3">
+						<span class="count">(${storeInfo.countAllReview})</span>
+						<button onclick="location.href='/poing/main'" class="all_review">전체보기></button>
+						<c:if test="${empty reviewList}">
+							<h3 style="margin: 10px 0px; text-align: center;">등록된 리뷰가 없습니다.</h3>
+						</c:if>
+						<c:forEach var="vo" items="${reviewList}">
 							<div class="review_box">
 								<div class="review_title">
 									<div class="review_profile">
 										<img src="${contextPath}/resources/user_none.png">
 									</div>
 									<div class="review_name_box">
-										<p>이순신</p>
+										<p>${vo.nickname}</p>
 										<span class="MuiRating-root jss1020 MuiRating-readOnly" role="img" aria-label="5 Stars">
 		                                    <c:forEach var="i" begin="1" end="5">
 												<c:choose>
-													<c:when test="${i<=4.5}">
+													<c:when test="${i<=vo.star}">
 														<span class="MuiRating-decimal">
 															<span style="width: 0%; overflow: hidden; z-index: 1; position: absolute;">
 																<span class="MuiRating-icon jss1019 MuiRating-iconFilled jss1021">
@@ -171,7 +176,7 @@
 													</c:when>
 													<c:otherwise>
 														<c:choose>
-															<c:when test="${i-4.5<1}">
+															<c:when test="${i-vo.star<1}">
 																<span class="MuiRating-decimal">
 																	<span style="width: 50%; overflow: hidden; z-index: 1; position: absolute;">
 																		<span class="MuiRating-icon jss1019 MuiRating-iconFilled jss1021">
@@ -204,14 +209,11 @@
 												</c:choose>
 											</c:forEach>
 		                                </span>
-		                                <span style="font-size: 12px; font-weight: 700">4.5</span>
+		                                <span style="font-size: 12px; font-weight: 700">${vo.star}.0</span>
 									</div>
 								</div>
 								<div class="review_content">
-									포잉 예약 첫 식사인데 맛있게 먹고 가용
-									리뷰에서 말한 옆자리 소음이 이해가 가긴 합니다,,
-									먹다가 배불러서 못먹은게 좀 있어서 아쉽네요 ㅠㅜ
-									담에 또 갈게요!
+									${vo.content}
 								</div>
 							</div>
 						</c:forEach>
@@ -304,15 +306,20 @@
 						data: {'store_idx':store_idx, 'resDate':resDate, 'people_num':people_num, 'time':resTime},
 						success:function (data, textStatus) {
 							
-							if(data === 'success') {
+							switch (data) {
+							case 'success':
 								alert('예약에 성공하셨습니다.')
 								location.href='/poing/main'
-							}else if(data === 'failed') {
+								return
+								break;
+							case 'failed':
 								alert('예약에 실패하셨습니다.')
-							}else if(data === 'please login') {
+								break;
+							case 'please login':
 								alert('로그인 후 예약하실 수 있습니다.')
+								break;								
 							}
-
+							
 						},
 						error:function (data, textStatus) {
 							alert('에러가 발생했습니다.');

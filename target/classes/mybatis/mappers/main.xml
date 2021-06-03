@@ -69,4 +69,37 @@
 		values (reservation_seq.nextVal, #{store_idx}, #{member_id}, #{resDate}, #{time}, #{people_num})
 	</insert>
 	
+	<insert id="insertReview">
+		insert into review (idx, store_idx, member_id, content, star, regdate)
+		values (review_seq.nextVal, #{store_idx}, #{member_id}, #{content}, #{star}, sysdate)
+	</insert>
+	
+	<select id="canIWriteReview" parameterType="map" resultType="int">
+		<![CDATA[
+		select resTable.cnt - reviewTable.cnt 
+		from (select count(*) cnt from reservation where store_idx = #{idx} and member_id = #{id} and (resdate < #{today} or (resdate = #{today} and time <= #{time}))) resTable, 
+		(select count(*) cnt from review where  store_idx = #{idx} and member_id = #{id}) reviewTable
+		]]>
+	</select>
+	
+	<select id="countAllReview" parameterType="int" resultType="int">
+		select count(*) from review where store_idx = #{storeIdx}
+	</select>
+	
+	<select id="selectOnlyThreeReviewList" parameterType="int" resultType="reviewVO">
+		<![CDATA[
+		select rownum, a.* 
+		from (select r.*, m.nickname 
+				from review r inner join member m on r.member_id = m.id  
+				where store_idx = #{storeIdx} order by idx desc) a
+		where rownum <= 3
+		]]>
+	</select>
+	
+	<select id="selectReviewList" parameterType="int" resultType="reviewVO">
+		<![CDATA[
+		select * 
+		]]>
+	</select>
+	
 </mapper>

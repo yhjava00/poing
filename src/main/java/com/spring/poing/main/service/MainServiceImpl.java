@@ -19,6 +19,7 @@ import com.spring.poing.main.dao.MainDAOImpl;
 import com.spring.poing.vo.CategoryVO;
 import com.spring.poing.vo.MemberVO;
 import com.spring.poing.vo.ReservationVO;
+import com.spring.poing.vo.ReviewVO;
 import com.spring.poing.vo.StoreAllVO;
 import com.spring.poing.vo.StoreVO;
 
@@ -26,7 +27,7 @@ import com.spring.poing.vo.StoreVO;
 public class MainServiceImpl implements MainService {
 	
 	@Autowired
-	public MainDAOImpl mainDAO;
+	MainDAOImpl mainDAO;
 	
 	@Inject
 	PasswordEncoder passwordEncoder;
@@ -129,9 +130,10 @@ public class MainServiceImpl implements MainService {
 		
 		StoreAllVO storeAllVO = mainDAO.selectStoreAll(storeIdx);
 		List<String> storeImgList = mainDAO.selectStoreImgList(storeIdx);
+		List<ReviewVO> reviewList = mainDAO.selectOnlyThreeReviewList(storeIdx);
+		int countAllReview = mainDAO.countAllReview(storeIdx);
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
-		
 		
 		Date tomorrowDate = new Date();
 		
@@ -143,6 +145,8 @@ public class MainServiceImpl implements MainService {
 		
 		storeInfo.put("storeAllVO", storeAllVO);
 		storeInfo.put("storeImgList", storeImgList);
+		storeInfo.put("reviewList", reviewList);
+		storeInfo.put("countAllReview", countAllReview);
 		storeInfo.put("tomorrow", tomorrow);
 		
 		return storeInfo;
@@ -261,11 +265,50 @@ public class MainServiceImpl implements MainService {
 		
 		int insertNum = mainDAO.insertReservation(vo);
 		
-		if(insertNum<1) {
+		if(insertNum < 1) {
 			state = "failed";
 		}
 		
 		return state;
+	}
+	
+	@Override
+	public String writeReview(ReviewVO vo) {
+		
+		String state = "success";
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd/hh시 mm분");
+		Date todayDate = new Date();
+		String dayAndTime = dateFormat.format(todayDate);
+		
+		String today = dayAndTime.substring(0, dayAndTime.indexOf("/"));
+		String time = dayAndTime.substring(dayAndTime.indexOf("/")+1);
+		
+		Map<String, Object> info = new HashMap<String, Object>();
+		
+		info.put("today", today);
+		info.put("time", time);
+		info.put("id", vo.getMember_id());
+		info.put("idx", vo.getStore_idx());
+		
+		int canReviewNum = mainDAO.canIWriteReview(info);
+
+		if(canReviewNum<=0) {
+			return "not visited";
+		}
+		
+		int insertNum = mainDAO.insertReview(vo);
+		
+		if(insertNum < 1) {
+			state = "failde";
+		}
+		
+		return state;
+	}
+	
+	@Override
+	public StoreVO getStoreinfo(int storeIdx) {
+		return mainDAO.selectStore(storeIdx);
 	}
 	
 }

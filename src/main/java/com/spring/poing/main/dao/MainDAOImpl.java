@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.spring.poing.vo.CategoryVO;
 import com.spring.poing.vo.MemberVO;
 import com.spring.poing.vo.ReservationVO;
+import com.spring.poing.vo.ReviewVO;
 import com.spring.poing.vo.StoreAllVO;
 import com.spring.poing.vo.StoreVO;
 
@@ -75,4 +76,25 @@ public class MainDAOImpl implements MainDAO {
 	public int insertReservation(ReservationVO vo) {
 		return sqlSession.insert("main.insertReservation", vo);
 	}
+	
+	@Override
+	public int insertReview(ReviewVO vo) {
+		return sqlSession.insert("main.insertReview", vo);
+	}
+	
+	@Override
+	public int canIWriteReview(Map<String, Object> info) {
+		return sqlSession.selectOne("main.canIWriteReview", info);
+	}
+	
+	@Override
+	public int countAllReview(int storeIdx) {
+		return sqlSession.selectOne("main.countAllReview", storeIdx);
+	}
+	
+	@Override
+	public List<ReviewVO> selectOnlyThreeReviewList(int storeIdx) {
+		return sqlSession.selectList("main.selectOnlyThreeReviewList", storeIdx);
+	}
+	
 }
