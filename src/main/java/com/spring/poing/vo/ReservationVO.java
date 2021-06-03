@@ -6,8 +6,15 @@ public class ReservationVO {
 	int store_idx;
 	String member_id;
 	String resDate;
+	String time;
 	int people_num;
 	
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
+	}
 	public int getIdx() {
 		return idx;
 	}

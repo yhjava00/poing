@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 
 import com.spring.poing.vo.MemberVO;
+import com.spring.poing.vo.ReservationVO;
 
 public interface MainController {
 	
@@ -25,5 +26,9 @@ public interface MainController {
 	public String store(HttpServletRequest request);
 	
 	public String askSelectTimeAction(int storeIdx, String date);
+	
+	public String reservation(HttpServletRequest request, ReservationVO vo);
+	
+	public String writeReview(Model model, int placeId);
 
 }

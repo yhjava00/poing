@@ -31,4 +31,8 @@
 		<put-attribute name="body" value="/WEB-INF/views/store.jsp"/>
 	</definition>
 	
+	<definition name="write_review" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/write_review.jsp"/>
+	</definition>
+	
 </tiles-definitions>

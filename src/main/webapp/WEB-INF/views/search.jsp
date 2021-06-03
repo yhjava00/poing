@@ -27,7 +27,14 @@
 				<c:forEach var="vo" items="${searchMap.searchList}">
 					<div class="search_content" onclick="location.href='${contextPath}/store/${vo.idx}'">
 						<div>
-							<img src="resources/main_img/${vo.main_img}">
+							<c:choose>
+								<c:when test="${vo.main_img == 'no img'}">
+									<img src="resources/test/16001534905f60679293b3e.jpeg">									
+								</c:when>
+								<c:otherwise>
+									<img src="resources/store/${vo.idx}/${vo.main_img}">
+								</c:otherwise>
+							</c:choose>
 							<p class="recommend_p1">${vo.store_name}</p>
 							<p class="recommend_p2">${vo.introduce}</p>
 							<p class="recommend_p2">${vo.location1} · ${vo.location2}</p>

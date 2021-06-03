@@ -107,7 +107,7 @@
 					<div class="swiper-container mySwiper">
 						<div class="swiper-wrapper">
 							<div class="swiper-slide">
-								<img src="${contextPath}/resources/main_img/${storeAllVO.main_img}">
+								<img src="${contextPath}/resources/store/${storeAllVO.idx}/${storeAllVO.main_img}">
 							</div>
 							<c:forEach var="img" items="${storeImgList}">
 								<div class="swiper-slide">
@@ -215,7 +215,7 @@
 								</div>
 							</div>
 						</c:forEach>
-						<button class="a4032" tabindex="0" type="submit">
+						<button onclick="location.href='${contextPath}/write_review?placeId=${storeAllVO.idx}'" class="a4032" tabindex="0" type="submit">
 							<span class="a4033">리뷰 작성</span>
 							<span class="a4034"></span>
 						</button>
@@ -223,12 +223,12 @@
 				</div>
 				<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 				<script>
-				var swiper = new Swiper(".mySwiper", {
-					navigation: {
-					nextEl: ".swiper-button-next",
-					prevEl: ".swiper-button-prev",
-					},
-				});
+					var swiper = new Swiper(".mySwiper", {
+						navigation: {
+						nextEl: ".swiper-button-next",
+						prevEl: ".swiper-button-prev",
+						},
+					});
 				</script>
 			</section>
 			<script>
@@ -248,6 +248,7 @@
 				function selectTime(btn) {
 					$('.time_btn').removeClass('select_time_btn')
 					$(btn).addClass('select_time_btn')
+					$('.reservation_time').val($(btn).text())
 				}
 
 				function setTime() {
@@ -259,14 +260,14 @@
 						url: '/poing/askSelectTime.do', 
 						data: {'date':$('#datepicker').val(), 'storeIdx':$('.store_idx').val()},
 						success:function (data, textStatus) {
-
-							var json = JSON.parse(data)
 							
-							for(var i=0; i<json.len; i++) {
+							$('.reservation_time').val('')
+
+							for(var i=0; i<data.len; i++) {
 								var item = '<div class="swiper-slide timeItem" style="width: 112px; margin-right: 10px;">'
-								item += '<button onclick="selectTime(this)" class="time_btn"><span>'
-								item += json.time[i]
-								item += '</span></button></div>'
+								item += '<button onclick="selectTime(this)" class="time_btn">'
+								item += data.time[i]
+								item += '</button></div>'
 								$('.select_time_swiper').append(item)
 							}
 
@@ -283,6 +284,41 @@
 							alert('에러가 발생했습니다.');
 						}
 					});
+				}
+
+				function reservation() {
+
+					var store_idx = $('.store_idx').val()
+					var resDate = $('#datepicker').val()
+					var people_num = $('.count_view').text().substring(0, 1)
+					var resTime = $('.reservation_time').val()
+
+					if(resTime==='') {
+						alert('예약 시간을 선택하세요')
+						return
+					}
+
+					$.ajax({
+						type: 'post', 
+						url: '/poing/reservation.do', 
+						data: {'store_idx':store_idx, 'resDate':resDate, 'people_num':people_num, 'time':resTime},
+						success:function (data, textStatus) {
+							
+							if(data === 'success') {
+								alert('예약에 성공하셨습니다.')
+								location.href='/poing/main'
+							}else if(data === 'failed') {
+								alert('예약에 실패하셨습니다.')
+							}else if(data === 'please login') {
+								alert('로그인 후 예약하실 수 있습니다.')
+							}
+
+						},
+						error:function (data, textStatus) {
+							alert('에러가 발생했습니다.');
+						}
+					});
+
 				}
 
 			    $(function() {
@@ -320,6 +356,7 @@
 						시간 선택하기 (슬라이드 후 원하는 시간을 선택하세요.)
 					</div>
 					<div>
+						<input type="hidden" class="reservation_time">
 						<div class="swiper-container mySwiper2">
 							<div class="swiper-wrapper select_time_swiper">
 								
@@ -327,7 +364,7 @@
 						</div>							
 					</div>
 				</div>
-				<button class="reservation_btn">예약하기</button>
+				<button onclick="reservation()" class="reservation_btn">예약하기</button>
 			</div>
 		</div>
 	</body>

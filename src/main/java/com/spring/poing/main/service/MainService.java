@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.spring.poing.vo.MemberVO;
+import com.spring.poing.vo.ReservationVO;
 import com.spring.poing.vo.StoreVO;
 
 public interface MainService {
@@ -19,5 +20,7 @@ public interface MainService {
 	public Map<String, Object> store(int storeIdx);
 	
 	public String selectTime(int storeIdx, String date);
+	
+	public String reservation(ReservationVO vo);
 	
 }

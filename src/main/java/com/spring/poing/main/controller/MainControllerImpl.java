@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.poing.main.dao.MainDAO;
 import com.spring.poing.main.service.MainServiceImpl;
 import com.spring.poing.vo.MemberVO;
+import com.spring.poing.vo.ReservationVO;
 import com.spring.poing.vo.StoreVO;
 
 @Controller
@@ -112,9 +114,39 @@ public class MainControllerImpl implements MainController {
 	
 	@Override
 	@ResponseBody
-	@RequestMapping("/askSelectTime.do")
+	@RequestMapping(value = "/askSelectTime.do", produces = "application/json; charset=UTF-8")
 	public String askSelectTimeAction(int storeIdx, String date) {
 		return mainService.selectTime(storeIdx, date);
+	}
+	
+	@Override
+	@ResponseBody
+	@RequestMapping("/reservation.do")
+	public String reservation(HttpServletRequest request, ReservationVO vo) {
+		HttpSession session = request.getSession();
+		
+		String member_id = (String)session.getAttribute("loginCheck");
+		
+		if(member_id==null) {
+			return "please login";
+		}
+		
+		vo.setMember_id(member_id);
+		
+		String state = mainService.reservation(vo);
+		
+		return state;
+	}
+	
+	@Override
+	@RequestMapping("/write_review")
+	public String writeReview(Model model, int placeId) {
+		
+		StoreVO store = mainService.mainDAO.selectStore(placeId);
+		
+		model.addAttribute("store", store);
+		
+		return "write_review";
 	}
 	
 }

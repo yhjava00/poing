@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.spring.poing.vo.CategoryVO;
 import com.spring.poing.vo.MemberVO;
+import com.spring.poing.vo.ReservationVO;
 import com.spring.poing.vo.StoreAllVO;
 import com.spring.poing.vo.StoreVO;
 
@@ -51,8 +52,13 @@ public class MainDAOImpl implements MainDAO {
 	}
 	
 	@Override
-	public StoreAllVO selectStoreAllList(int storeIdx) {
-		return sqlSession.selectOne("main.selectStoreAllList", storeIdx);
+	public StoreAllVO selectStoreAll(int storeIdx) {
+		return sqlSession.selectOne("main.selectStoreAll", storeIdx);
+	}
+	
+	@Override
+	public StoreVO selectStore(int storeIdx) {
+		return sqlSession.selectOne("main.selectStore", storeIdx);
 	}
 	
 	@Override
@@ -65,4 +71,8 @@ public class MainDAOImpl implements MainDAO {
 		return sqlSession.selectList("main.unreservedTimeList", info);
 	}
 	
+	@Override
+	public int insertReservation(ReservationVO vo) {
+		return sqlSession.insert("main.insertReservation", vo);
+	}
 }

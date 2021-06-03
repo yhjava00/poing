@@ -81,7 +81,7 @@
                                 <div class="swiper-slide">
                                     <a href="store/${vo.idx}">
                                         <div>
-                                            <img src="resources/main_img/${vo.main_img}">
+                                            <img src="resources/store/${vo.idx}/${vo.main_img}">
                                         </div>
                                         <p class="recommend_p1">${vo.store_name}</p>
                                         <p class="recommend_p2">${vo.introduce}</p>

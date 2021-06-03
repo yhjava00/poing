@@ -39,8 +39,12 @@
 		where rn between (#{page}-1) * 12 + 1 and #{page} * 12 
 	</select>
 	
-	<select id="selectStoreAllList" parameterType="int" resultType="storeAllVO">
-		select * from store s inner join store_info i on s.idx = i.store_idx where s.idx = #{idx} 
+	<select id="selectStoreAll" parameterType="int" resultType="storeAllVO">
+		select * from store s inner join store_info i on s.idx = i.store_idx where s.idx = #{storeIdx} 
+	</select>
+	
+	<select id="selectStore" parameterType="int" resultType="storeVO">
+		select * from store where idx = #{storeIdx}
 	</select>
 	
 	<select id="selectstoreImgList" parameterType="int" resultType="String">
@@ -59,5 +63,10 @@
 								 and time = r.time) + #{peopleNum}
 		]]>
 	</select>
+	
+	<insert id="insertReservation" parameterType="reservationVO">
+		insert into reservation (idx, store_idx, member_id, resDate, time, people_num)
+		values (reservation_seq.nextVal, #{store_idx}, #{member_id}, #{resDate}, #{time}, #{people_num})
+	</insert>
 	
 </mapper>

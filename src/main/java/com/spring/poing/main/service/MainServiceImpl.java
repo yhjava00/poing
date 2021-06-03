@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.spring.poing.main.dao.MainDAOImpl;
 import com.spring.poing.vo.CategoryVO;
 import com.spring.poing.vo.MemberVO;
+import com.spring.poing.vo.ReservationVO;
 import com.spring.poing.vo.StoreAllVO;
 import com.spring.poing.vo.StoreVO;
 
@@ -25,7 +26,7 @@ import com.spring.poing.vo.StoreVO;
 public class MainServiceImpl implements MainService {
 	
 	@Autowired
-	MainDAOImpl mainDAO;
+	public MainDAOImpl mainDAO;
 	
 	@Inject
 	PasswordEncoder passwordEncoder;
@@ -126,7 +127,7 @@ public class MainServiceImpl implements MainService {
 		
 		Map<String, Object> storeInfo = new HashMap<String, Object>();
 		
-		StoreAllVO storeAllVO = mainDAO.selectStoreAllList(storeIdx);
+		StoreAllVO storeAllVO = mainDAO.selectStoreAll(storeIdx);
 		List<String> storeImgList = mainDAO.selectStoreImgList(storeIdx);
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
@@ -175,7 +176,7 @@ public class MainServiceImpl implements MainService {
 			e.printStackTrace();
 		}
 		
-		StoreAllVO storeAllVO = mainDAO.selectStoreAllList(storeIdx);
+		StoreAllVO storeAllVO = mainDAO.selectStoreAll(storeIdx);
 		
 		List<String> selectTimeList = getSelectTimeList(storeAllVO.getOpening_hours());
 		
@@ -251,7 +252,20 @@ public class MainServiceImpl implements MainService {
 		
 		if(closeMin==30)
 			selectTimeList.add(hour + "시 30분");
+	}
+	
+	@Override
+	public String reservation(ReservationVO vo) {
 
+		String state = "success";
+		
+		int insertNum = mainDAO.insertReservation(vo);
+		
+		if(insertNum<1) {
+			state = "failed";
+		}
+		
+		return state;
 	}
 	
 }
