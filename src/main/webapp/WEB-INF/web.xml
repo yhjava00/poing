@@ -24,6 +24,7 @@
 		<param-value>
 			/WEB-INF/spring/action-mybatis.xml
 			/WEB-INF/spring/spring-security.xml
+			/WEB-INF/spring/dispatcher-servlet.xml
 		</param-value>
 	</context-param>
 	

@@ -38,15 +38,23 @@
 				height: 48px;
 				border-radius: 24px;
 				font-size: 16px;
-				font-weight: 500;
-    			color: #c4bbab;
 				cursor: pointer;
 				margin-bottom: 10px;
 			}
+			.naver_signUp {
+				background-color: rgba(25, 206, 96, 1);
+				color: #fff;
+				font-weight: 700;
+			}
+			.kakao_signUp {
+				background-color: rgba(250, 217, 0, 1);
+				color: #fff;
+				font-weight: 700;
+			}
 			.signUp_btn {
 				background-color: rgba(236, 36, 57, 1);
-				color: #fff !important;
-				font-weight: 700 !important;
+				color: #fff;
+				font-weight: 700;
 			}
 			.signUp_box > div {
 				margin-bottom: 100px;
@@ -131,8 +139,8 @@
 				</div>
 			</div>
 			<div>
-				<button>네이버로 가입하기</button>
-				<button>카카오톡으로 가입하기</button>
+				<button class="naver_signUp">네이버로 가입하기</button>
+				<!-- <button class="kakao_signUp">카카오톡으로 가입하기</button> -->
 			</div>
 		</div>
 	</body>

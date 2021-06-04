@@ -109,6 +109,13 @@
 			<version>1.2</version>
 		</dependency>
 		
+		<!-- 이메일 발송 관련 라이브러리 -->
+        <dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.3</version>
+		</dependency>
+		
 		<!-- 마이바티스 -->
 		<dependency>
 			<groupId>commons-beanutils</groupId>

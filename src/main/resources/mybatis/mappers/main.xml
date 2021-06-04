@@ -29,6 +29,10 @@
 		insert into member (id, pw, nickname) values(#{id}, #{pw}, #{nickname})
 	</insert>
 	
+	<update id="changePw" parameterType="map">
+		update member set pw = #{pw} where id = #{id}
+	</update>
+	
 	<select id="totSearchNO" parameterType="String" resultType="int">
 		select count(idx) from store where store_name like '%' || #{search} || '%' or category like '%' || #{search} || '%'
 	</select>

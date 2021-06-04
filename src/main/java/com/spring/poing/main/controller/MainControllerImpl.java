@@ -1,11 +1,16 @@
 package com.spring.poing.main.controller;
 
 import java.util.Map;
+import java.util.Random;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +28,7 @@ public class MainControllerImpl implements MainController {
 	
 	@Autowired
 	MainServiceImpl mainService;
-	
+
 	@Override
 	@RequestMapping(value = {"/", "/main"})
 	public String main(Model model) {
@@ -55,6 +60,12 @@ public class MainControllerImpl implements MainController {
 		}
 		
 		return loginState;
+	}
+	
+	@Override
+	@RequestMapping("/findPw")
+	public String findPw() {
+		return "findPw";
 	}
 	
 	@Override

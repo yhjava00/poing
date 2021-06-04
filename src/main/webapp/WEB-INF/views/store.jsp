@@ -16,7 +16,7 @@
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="${contextPath}/resources/css/store.css?b">
+		<link rel="stylesheet" href="${contextPath}/resources/css/store.css?c">
 		<script>
 			var count = 2;
 

@@ -14,6 +14,8 @@ public interface MainService {
 	
 	public String login(String id, String pw);
 	
+	public String findPw(String id, String pw);
+	
 	public String signUp(MemberVO vo);
 	
 	public Map<String, Object> search(String search, int page);

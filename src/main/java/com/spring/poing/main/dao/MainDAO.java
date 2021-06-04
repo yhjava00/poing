@@ -20,6 +20,8 @@ public interface MainDAO {
 	
 	public int insertMember(MemberVO vo);
 	
+	public int changePw(Map<String, String> info);
+	
 	public int totSearchNO(String search);
 	
 	public int totReviewNO(int storeIdx);

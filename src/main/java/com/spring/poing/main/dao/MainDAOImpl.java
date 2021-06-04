@@ -43,6 +43,11 @@ public class MainDAOImpl implements MainDAO {
 	}
 	
 	@Override
+	public int changePw(Map<String, String> info) {
+		return sqlSession.update("main.changePw", info);
+	}
+	
+	@Override
 	public int totSearchNO(String search) {
 		return sqlSession.selectOne("main.totSearchNO", search);
 	}

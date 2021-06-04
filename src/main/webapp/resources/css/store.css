@@ -184,6 +184,19 @@ dd {
 	font-size: 14px;
 	font-weight: 300;
 }
+.review_content > p {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: box;
+	margin-top:1px; 
+	max-height:80px;
+	overflow:hidden; 
+	vertical-align:top; 
+	text-overflow: ellipsis; 
+	word-break:break-all; 
+	-webkit-box-orient:vertical; 
+	-webkit-line-clamp:3
+}
 .a4032{
 	padding: 13px 16px;
 	font-size: 1.0rem;

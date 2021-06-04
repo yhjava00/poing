@@ -70,13 +70,12 @@
 			$(document).ready(function() {
 	            $(".enter").keydown(function(key) {
 	                if (key.keyCode == 13) {
-	                    login()
+	                	findPw()
 	                }
 	            });
 	        });
-			function login() {
+			function findPw() {
 				var id = $('.loginId').val()
-				var pw = $('.loginPW').val()
 				
 				var emailTest = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
 
@@ -85,21 +84,15 @@
 					return
 				}
 				
-				if(pw==='') {
-					alert('비밀번호를 입력하세요.')
-					return
-				}
-				
 				$.ajax({
 			        type: "post", 
-			        url: "login.do", 
-			        data: {'id':id, 'pw':pw},
+			        url: "findPw.do", 
+			        data: {'id':id},
 			        success:function (data, textStatus) {
 			        	if(data=='no member') {
 			        		alert('존재하지 않는 회원입니다.');
-			        	}else if(data=='incorrect pw') {
-			        		alert('잘못된 비밀번호입니다.');
 			        	}else {
+			        		alert('새로운 비밀번호를 보냈습니다.')
 			        		location.href='main';
 			        	}
 			        },
@@ -108,32 +101,19 @@
 			        }
 			    });
 			}
-			$(document).ready(function() {
-				
-			})
 		</script>
 		<title>Insert title here</title>
 	</head>
 	<body>
 		<div class="login_box">
-			<h2>로그인</h2>
+			<h2>비밀번호를 잊으셨나요?</h2>
 			<div>
-				<form action="">
+				<form name="f">
 					<div class="input_box">
 						<input type="text" class="loginId enter" name="loginId" placeholder="이메일 입력">
 					</div>
-					<div class="input_box">
-						<input type="password" class="loginPW enter" name="loginPW" placeholder="비밀번호 (6~16자)">
-					</div>
 				</form>
-				<button class="login_btn" onclick="login()">로그인</button>
-				<div style="text-align: center;">
-					<a href="findPw">비밀번호 찾기</a>
-				</div>
-			</div>
-			<div>
-				<button class="naver_login_btn">네이버 로그인</button>
-				<button class="signUp_btn" onclick="location.href='signUp'">회원가입</button>
+				<button class="login_btn" onclick="findPw()">이메일로 비밀번호 찾기</button>
 			</div>
 		</div>
 	</body>

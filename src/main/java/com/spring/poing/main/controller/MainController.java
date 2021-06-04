@@ -16,6 +16,8 @@ public interface MainController {
 	
 	public String loginAction(HttpServletRequest request, String id, String pw);
 	
+	public String findPw();
+	
 	public String logOutAction(HttpServletRequest request);
 	
 	public String signUp();

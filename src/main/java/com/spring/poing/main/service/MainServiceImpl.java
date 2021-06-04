@@ -63,6 +63,27 @@ public class MainServiceImpl implements MainService {
 	}
 	
 	@Override
+	public String findPw(String id, String pw) {
+		
+		MemberVO member = mainDAO.selectMember(id);
+		
+		if(member==null) {
+			return "no member";
+		}
+		
+		pw = passwordEncoder.encode(pw);
+		
+		Map<String, String> info = new HashMap<String, String>();
+		
+		info.put("id", id);
+		info.put("pw", pw);
+		
+		mainDAO.changePw(info);
+		
+		return "success";
+	}
+	
+	@Override
 	public String signUp(MemberVO vo) {
 		
 		String signUpState = "signUp";
