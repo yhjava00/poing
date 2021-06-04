@@ -22,6 +22,8 @@ public interface MainDAO {
 	
 	public int totSearchNO(String search);
 	
+	public int totReviewNO(int storeIdx);
+	
 	public List<StoreVO> selectSearchList(Map<String, Object> searchMap);
 	
 	public StoreAllVO selectStoreAll(int storeIdx);
@@ -34,11 +36,13 @@ public interface MainDAO {
 	
 	public int insertReservation(ReservationVO vo);
 	
+	public int updateStoreStar(Map<String, Object> info);
+	
 	public int insertReview(ReviewVO vo);
 	
 	public int canIWriteReview(Map<String, Object> info);
 	
-	public int countAllReview(int storeIdx);
-	
 	public List<ReviewVO> selectOnlyThreeReviewList(int storeIdx);
+	
+	public List<ReviewVO> selectReviewList(Map<String, Object> info);
 }

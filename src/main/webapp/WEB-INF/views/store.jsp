@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<% pageContext.setAttribute("replaceChar", "\n"); %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"/>
 <c:set var="storeAllVO" value="${storeInfo.storeAllVO}"/>
 <c:set var="storeImgList" value="${storeInfo.storeImgList}"/>
@@ -14,9 +17,6 @@
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" href="${contextPath}/resources/css/store.css?b">
-		<style>
-			
-		</style>
 		<script>
 			var count = 2;
 
@@ -49,10 +49,18 @@
 			<section class="storeASide">
 				<div>
 					<h1>${storeAllVO.store_name}</h1>
+					<c:choose>
+                   		<c:when test="${storeAllVO.countAllReview == 0}">
+                   			<c:set var="star" value="${storeAllVO.star}"/>
+                   		</c:when>
+                   		<c:otherwise>
+                           	<c:set var="star" value="${storeAllVO.star / storeAllVO.countAllReview}"/>
+                   		</c:otherwise>
+                   	</c:choose>
 					<span class="MuiRating-root jss1020 MuiRating-readOnly" role="img" aria-label="5 Stars">
 							<c:forEach var="i" begin="1" end="5">
 								<c:choose>
-									<c:when test="${i<=storeAllVO.star}">
+									<c:when test="${i<=star}">
 										<span class="MuiRating-decimal">
 											<span style="width: 0%; overflow: hidden; z-index: 1; position: absolute;">
 												<span class="MuiRating-icon jss1019 MuiRating-iconFilled jss1021">
@@ -68,7 +76,7 @@
 									</c:when>
 									<c:otherwise>
 										<c:choose>
-											<c:when test="${i-storeAllVO.star<1}">
+											<c:when test="${i-star<1}">
 												<span class="MuiRating-decimal">
 													<span style="width: 50%; overflow: hidden; z-index: 1; position: absolute;">
 														<span class="MuiRating-icon jss1019 MuiRating-iconFilled jss1021">
@@ -101,8 +109,11 @@
 								</c:choose>
 							</c:forEach>
 					</span>
-					<span>${storeAllVO.star}</span>
-					<p class="thinP" style="display: inline;">(265)</p>
+					<span>
+                      	<fmt:formatNumber var="star" value="${star}"/>
+                      	${fn:substring(star, 0, 3)}
+                   	</span>
+					<p class="thinP" style="display: inline;">(${storeAllVO.countAllReview})</p>
 					<p class="thinP">${storeAllVO.introduce}</p>
 					<p class="thinP" style="margin-bottom: 10px;">${storeAllVO.location1} ${storeAllVO.location2} · ${storeAllVO.category}</p>
 					<div class="swiper-container mySwiper">
@@ -144,8 +155,8 @@
 					</section>
 					<section>
 						<h3 style="display: inline;">리뷰</h3>
-						<span class="count">(${storeInfo.countAllReview})</span>
-						<button onclick="location.href='/poing/main'" class="all_review">전체보기></button>
+						<span class="count">(${storeAllVO.countAllReview})</span>
+						<button onclick="location.href='/poing/review?placeId=${storeAllVO.idx}'" class="all_review">전체보기></button>
 						<c:if test="${empty reviewList}">
 							<h3 style="margin: 10px 0px; text-align: center;">등록된 리뷰가 없습니다.</h3>
 						</c:if>
@@ -213,7 +224,7 @@
 									</div>
 								</div>
 								<div class="review_content">
-									${vo.content}
+									<p>${fn:replace(vo.content, replaceChar, "<br>")}</p>
 								</div>
 							</div>
 						</c:forEach>

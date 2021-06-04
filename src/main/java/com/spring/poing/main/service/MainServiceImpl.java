@@ -131,7 +131,6 @@ public class MainServiceImpl implements MainService {
 		StoreAllVO storeAllVO = mainDAO.selectStoreAll(storeIdx);
 		List<String> storeImgList = mainDAO.selectStoreImgList(storeIdx);
 		List<ReviewVO> reviewList = mainDAO.selectOnlyThreeReviewList(storeIdx);
-		int countAllReview = mainDAO.countAllReview(storeIdx);
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
 		
@@ -146,7 +145,6 @@ public class MainServiceImpl implements MainService {
 		storeInfo.put("storeAllVO", storeAllVO);
 		storeInfo.put("storeImgList", storeImgList);
 		storeInfo.put("reviewList", reviewList);
-		storeInfo.put("countAllReview", countAllReview);
 		storeInfo.put("tomorrow", tomorrow);
 		
 		return storeInfo;
@@ -275,8 +273,6 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public String writeReview(ReviewVO vo) {
 		
-		String state = "success";
-		
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd/hh시 mm분");
 		Date todayDate = new Date();
 		String dayAndTime = dateFormat.format(todayDate);
@@ -300,10 +296,61 @@ public class MainServiceImpl implements MainService {
 		int insertNum = mainDAO.insertReview(vo);
 		
 		if(insertNum < 1) {
-			state = "failde";
+			return "failde";
 		}
 		
-		return state;
+		info.clear();
+		
+		info.put("storeIdx", vo.getStore_idx());
+		info.put("star", vo.getStar());
+		
+		mainDAO.updateStoreStar(info);
+		
+		return "success";
+	}
+	
+	@Override
+	public Map<String, Object> review(int placeId, int page) {
+		
+		int totReviewNO = mainDAO.totReviewNO(placeId);
+		
+		int lastPage = (totReviewNO-1)/30 + 1;
+		
+		if(page > lastPage)
+			page = lastPage;
+		
+		Map<String, Object> info = new HashMap<String, Object>();
+		
+		info.put("storeIdx", placeId);
+		info.put("page", page);
+		
+		List<ReviewVO> reviewList = mainDAO.selectReviewList(info);
+		StoreVO store = mainDAO.selectStore(placeId);
+
+		Map<String, Object> reviewInfo = new HashMap<String, Object>();
+		
+		int frontPage = 1;
+		int behindPage = lastPage;
+		
+		if(page>2) {
+			frontPage = page-2;
+		}
+		
+		if(page<lastPage-1) {
+			behindPage = page+2;
+		}
+		
+		reviewInfo.put("store", store);
+		reviewInfo.put("reviewList", reviewList);
+		
+		reviewInfo.put("totReviewNO", totReviewNO);
+		
+		reviewInfo.put("frontPage", frontPage);
+		reviewInfo.put("behindPage", behindPage);
+		reviewInfo.put("page", page);
+		reviewInfo.put("lastPage", lastPage);
+		
+		return reviewInfo;
 	}
 	
 	@Override

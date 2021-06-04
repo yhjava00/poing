@@ -167,4 +167,16 @@ public class MainControllerImpl implements MainController {
 		return state;
 	}
 	
+	@Override
+	@RequestMapping("/review")
+	public String review(Model model, int placeId,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+		
+		Map<String, Object> reviewInfo = mainService.review(placeId, page);
+		
+		model.addAttribute("reviewInfo", reviewInfo);
+		
+		return "review";
+	}
+	
 }

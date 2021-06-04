@@ -10,7 +10,14 @@ public class StoreVO {
 	String location2;
 	String main_img;
 	float star;
+	int countAllReview;
 	
+	public int getCountAllReview() {
+		return countAllReview;
+	}
+	public void setCountAllReview(int countAllReview) {
+		this.countAllReview = countAllReview;
+	}
 	public float getStar() {
 		return star;
 	}

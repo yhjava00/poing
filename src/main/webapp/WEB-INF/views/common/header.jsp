@@ -131,8 +131,8 @@
 	            </div>
 	            <div class="header_search">
 	                <div>
-	                	<form action="${contextPath}/search" method="get">
-	                    <input name="search" type="text" placeholder="레스토랑을 검색하세요">
+	                	<form name="search_form" action="${contextPath}/search" method="get">
+	                    <input class="search_enter" name="search" type="text" placeholder="레스토랑을 검색하세요">
 	                    <button onclick="submit">
 	                        <span>
 	                            <svg class="search_btn_img" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img">

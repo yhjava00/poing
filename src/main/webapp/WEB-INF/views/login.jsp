@@ -59,6 +59,13 @@
 			}
 		</style>
 		<script>
+			$(document).ready(function() {
+	            $(".enter").keydown(function(key) {
+	                if (key.keyCode == 13) {
+	                    login()
+	                }
+	            });
+	        });
 			function login() {
 				var id = $('.loginId').val()
 				var pw = $('.loginPW').val()
@@ -105,10 +112,10 @@
 			<div>
 				<form action="">
 					<div class="input_box">
-						<input type="text" class="loginId" name="loginId" placeholder="이메일 입력">
+						<input type="text" class="loginId enter" name="loginId" placeholder="이메일 입력">
 					</div>
 					<div class="input_box">
-						<input type="password" class="loginPW" name="loginPW" placeholder="비밀번호 (6~16자)">
+						<input type="password" class="loginPW enter" name="loginPW" placeholder="비밀번호 (6~16자)">
 					</div>
 				</form>
 				<button class="login_btn" onclick="login()">로그인</button>

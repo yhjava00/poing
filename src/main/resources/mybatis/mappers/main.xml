@@ -14,7 +14,11 @@
 	</select>
 	
 	<select id="selectRecommendList" resultType="storeVO">
-		<![CDATA[select * from store where rownum < 10]]>
+		<![CDATA[
+			select * 
+			from (select rownum , s.* from store s order by countAllReview desc) 
+			where rownum <= 10
+		]]>
 	</select>
 	
 	<select id="selectMember" parameterType="String" resultType="memberVO">
@@ -27,6 +31,10 @@
 	
 	<select id="totSearchNO" parameterType="String" resultType="int">
 		select count(idx) from store where store_name like '%' || #{search} || '%' or category like '%' || #{search} || '%'
+	</select>
+	
+	<select id="totReviewNO" parameterType="int" resultType="int">
+		select count(idx) from review where store_idx = #{storeIdx}
 	</select>
 	
 	<select id="selectSearchList" parameterType="map" resultType="storeVO">
@@ -53,14 +61,14 @@
 	
 	<select id="unreservedTimeList" parameterType="map" resultType="String">
 		<![CDATA[
-		select DISTINCT(time)
-		from reservation r inner join store_info i 
-		on r.store_idx = i.store_idx 
-		where resdate = #{date} 
-		and  i.max_num_people < (select sum(people_num)
-								 from reservation 
-								 where store_idx = #{idx} 
-								 and time = r.time) + #{peopleNum}
+			select DISTINCT(time)
+			from reservation r inner join store_info i 
+			on r.store_idx = i.store_idx 
+			where resdate = #{date} 
+			and  i.max_num_people < (select sum(people_num)
+									 from reservation 
+									 where store_idx = #{idx} 
+									 and time = r.time) + #{peopleNum}
 		]]>
 	</select>
 	
@@ -69,36 +77,41 @@
 		values (reservation_seq.nextVal, #{store_idx}, #{member_id}, #{resDate}, #{time}, #{people_num})
 	</insert>
 	
-	<insert id="insertReview">
+	<insert id="insertReview" parameterType="reviewVO">
 		insert into review (idx, store_idx, member_id, content, star, regdate)
 		values (review_seq.nextVal, #{store_idx}, #{member_id}, #{content}, #{star}, sysdate)
 	</insert>
 	
+	<update id="updateStoreStar" parameterType="map">
+		update store set countAllReview = countAllreview + 1, star = star + #{star} where idx = #{storeIdx}
+	</update>
+	
 	<select id="canIWriteReview" parameterType="map" resultType="int">
 		<![CDATA[
-		select resTable.cnt - reviewTable.cnt 
-		from (select count(*) cnt from reservation where store_idx = #{idx} and member_id = #{id} and (resdate < #{today} or (resdate = #{today} and time <= #{time}))) resTable, 
-		(select count(*) cnt from review where  store_idx = #{idx} and member_id = #{id}) reviewTable
+			select resTable.cnt - reviewTable.cnt 
+			from (select count(*) cnt from reservation where store_idx = #{idx} and member_id = #{id} and (resdate < #{today} or (resdate = #{today} and time <= #{time}))) resTable, 
+			(select count(*) cnt from review where  store_idx = #{idx} and member_id = #{id}) reviewTable
 		]]>
-	</select>
-	
-	<select id="countAllReview" parameterType="int" resultType="int">
-		select count(*) from review where store_idx = #{storeIdx}
 	</select>
 	
 	<select id="selectOnlyThreeReviewList" parameterType="int" resultType="reviewVO">
 		<![CDATA[
-		select rownum, a.* 
-		from (select r.*, m.nickname 
-				from review r inner join member m on r.member_id = m.id  
-				where store_idx = #{storeIdx} order by idx desc) a
-		where rownum <= 3
+			select rownum, a.* 
+			from (select r.*, m.nickname 
+					from review r inner join member m on r.member_id = m.id  
+					where store_idx = #{storeIdx} order by idx desc) a
+			where rownum <= 3
 		]]>
 	</select>
 	
-	<select id="selectReviewList" parameterType="int" resultType="reviewVO">
+	<select id="selectReviewList" parameterType="map" resultType="reviewVO">
 		<![CDATA[
-		select * 
+			select * 
+			from (select rownum rn, A.* 
+					from (select r.*, m.nickname 
+							from review r inner join member m on r.member_id = m.id  
+							where store_idx = #{storeIdx} order by idx desc) A)
+			where rn between (#{page}-1) * 30 + 1 and #{page} * 30 
 		]]>
 	</select>
 	

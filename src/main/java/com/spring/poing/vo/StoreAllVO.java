@@ -10,6 +10,7 @@ public class StoreAllVO {
 	String location2;
 	String main_img;
 	float star;
+	int countAllReview;
 	
 	String addr;
 	String tel;
@@ -17,7 +18,13 @@ public class StoreAllVO {
 	String closed_days;
 	String parking;
 	String maxNumPeople;
-	
+
+	public int getCountAllReview() {
+		return countAllReview;
+	}
+	public void setCountAllReview(int countAllReview) {
+		this.countAllReview = countAllReview;
+	}
 	public String getMaxNumPeople() {
 		return maxNumPeople;
 	}

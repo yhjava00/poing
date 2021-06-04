@@ -48,6 +48,11 @@ public class MainDAOImpl implements MainDAO {
 	}
 	
 	@Override
+	public int totReviewNO(int storeIdx) {
+		return sqlSession.selectOne("main.totReviewNO", storeIdx);
+	}
+	
+	@Override
 	public List<StoreVO> selectSearchList(Map<String, Object> searchMap) {
 		return sqlSession.selectList("main.selectSearchList", searchMap);
 	}
@@ -78,6 +83,11 @@ public class MainDAOImpl implements MainDAO {
 	}
 	
 	@Override
+	public int updateStoreStar(Map<String, Object> info) {
+		return sqlSession.update("main.updateStoreStar", info);
+	}
+	
+	@Override
 	public int insertReview(ReviewVO vo) {
 		return sqlSession.insert("main.insertReview", vo);
 	}
@@ -88,13 +98,13 @@ public class MainDAOImpl implements MainDAO {
 	}
 	
 	@Override
-	public int countAllReview(int storeIdx) {
-		return sqlSession.selectOne("main.countAllReview", storeIdx);
+	public List<ReviewVO> selectOnlyThreeReviewList(int storeIdx) {
+		return sqlSession.selectList("main.selectOnlyThreeReviewList", storeIdx);
 	}
 	
 	@Override
-	public List<ReviewVO> selectOnlyThreeReviewList(int storeIdx) {
-		return sqlSession.selectList("main.selectOnlyThreeReviewList", storeIdx);
+	public List<ReviewVO> selectReviewList(Map<String, Object> info) {
+		return sqlSession.selectList("main.selectReviewList", info);
 	}
 	
 }

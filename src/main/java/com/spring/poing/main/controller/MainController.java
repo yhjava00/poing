@@ -33,5 +33,7 @@ public interface MainController {
 	public String writeReview(Model model, int placeId);
 	
 	public String writeReviewAction(HttpServletRequest request, ReviewVO vo);
+	
+	public String review(Model model, int placeId, int page);
 
 }

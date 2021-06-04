@@ -150,8 +150,9 @@ dd {
 	font-size: 12px;
 	font-weight: 700;
 	line-height: 1.67;
-}.review_box {
-margin-top: 10px;
+}
+.review_box {
+	margin-top: 10px;
 }
 .review_title {
 	height: 46px;
@@ -178,11 +179,11 @@ margin-top: 10px;
 	font-weight: 700;
 	font-size: 14px;
 }
-         .review_content {
-         	margin-left: 46px;
-    font-size: 14px;
-    font-weight: 300;
-         }
+.review_content {
+	margin-left: 46px;
+	font-size: 14px;
+	font-weight: 300;
+}
 .a4032{
 	padding: 13px 16px;
 	font-size: 1.0rem;

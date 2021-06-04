@@ -26,6 +26,8 @@ public interface MainService {
 	
 	public String writeReview(ReviewVO vo);
 	
+	public Map<String, Object> review(int placeId, int page);
+	
 	public StoreVO getStoreinfo(int storeIdx);
 	
 }
