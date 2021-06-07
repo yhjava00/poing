@@ -29,9 +29,6 @@ public class MainServiceImpl implements MainService {
 	@Autowired
 	MainDAOImpl mainDAO;
 	
-	@Inject
-	PasswordEncoder passwordEncoder;
-	
 	@Override
 	public Map<String, Object> getMainInfo() {
 		
@@ -44,60 +41,6 @@ public class MainServiceImpl implements MainService {
 		mainInfo.put("recommendList", recommendList);
 		
 		return mainInfo;
-	}
-	
-	@Override
-	public String login(String id, String pw) {
-		
-		String loginState = "login";
-		
-		MemberVO member = mainDAO.selectMember(id);
-		
-		if(member==null) {
-			loginState = "no member";
-		}else if(!passwordEncoder.matches(pw, member.getPw())) {
-			loginState = "incorrect pw";
-		}
-		
-		return loginState;
-	}
-	
-	@Override
-	public String findPw(String id, String pw) {
-		
-		MemberVO member = mainDAO.selectMember(id);
-		
-		if(member==null) {
-			return "no member";
-		}
-		
-		pw = passwordEncoder.encode(pw);
-		
-		Map<String, String> info = new HashMap<String, String>();
-		
-		info.put("id", id);
-		info.put("pw", pw);
-		
-		mainDAO.changePw(info);
-		
-		return "success";
-	}
-	
-	@Override
-	public String signUp(MemberVO vo) {
-		
-		String signUpState = "signUp";
-		
-		MemberVO member = mainDAO.selectMember(vo.getId());
-		
-		if(member==null) {
-			vo.setPw(passwordEncoder.encode(vo.getPw()));
-			mainDAO.insertMember(vo);
-		}else {
-			signUpState = "Exist member";
-		}
-		
-		return signUpState;
 	}
 	
 	@Override
@@ -377,6 +320,14 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public StoreVO getStoreinfo(int storeIdx) {
 		return mainDAO.selectStore(storeIdx);
+	}
+	
+	@Override
+	public Map<String, Object> myPage(String path, int page) {
+		
+		
+		
+		return null;
 	}
 	
 }

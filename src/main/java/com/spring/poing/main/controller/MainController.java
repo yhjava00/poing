@@ -12,18 +12,6 @@ public interface MainController {
 	
 	public String main(Model model);
 	
-	public String login();
-	
-	public String loginAction(HttpServletRequest request, String id, String pw);
-	
-	public String findPw();
-	
-	public String logOutAction(HttpServletRequest request);
-	
-	public String signUp();
-	
-	public String signUpAction(MemberVO vo);
-	
 	public String search(Model model, String search, int page);
 	
 	public String store(HttpServletRequest request);
@@ -37,5 +25,7 @@ public interface MainController {
 	public String writeReviewAction(HttpServletRequest request, ReviewVO vo);
 	
 	public String review(Model model, int placeId, int page);
+	
+	public String myPage(HttpServletRequest request);
 
 }

@@ -33,21 +33,6 @@ public class MainDAOImpl implements MainDAO {
 	}
 	
 	@Override
-	public MemberVO selectMember(String id) {
-		return sqlSession.selectOne("main.selectMember", id);
-	}
-	
-	@Override
-	public int insertMember(MemberVO vo) {
-		return sqlSession.insert("main.insertMember", vo);
-	}
-	
-	@Override
-	public int changePw(Map<String, String> info) {
-		return sqlSession.update("main.changePw", info);
-	}
-	
-	@Override
 	public int totSearchNO(String search) {
 		return sqlSession.selectOne("main.totSearchNO", search);
 	}

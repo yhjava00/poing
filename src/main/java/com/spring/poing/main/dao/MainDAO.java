@@ -16,12 +16,6 @@ public interface MainDAO {
 	
 	public List<StoreVO> selectRecommendList();
 	
-	public MemberVO selectMember(String id);
-	
-	public int insertMember(MemberVO vo);
-	
-	public int changePw(Map<String, String> info);
-	
 	public int totSearchNO(String search);
 	
 	public int totReviewNO(int storeIdx);

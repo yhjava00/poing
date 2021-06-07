@@ -12,12 +12,6 @@ public interface MainService {
 	
 	public Map<String, Object> getMainInfo();
 	
-	public String login(String id, String pw);
-	
-	public String findPw(String id, String pw);
-	
-	public String signUp(MemberVO vo);
-	
 	public Map<String, Object> search(String search, int page);
 	
 	public Map<String, Object> store(int storeIdx);
@@ -31,5 +25,7 @@ public interface MainService {
 	public Map<String, Object> review(int placeId, int page);
 	
 	public StoreVO getStoreinfo(int storeIdx);
+	
+	public Map<String, Object> myPage(String path, int page);
 	
 }

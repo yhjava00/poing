@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.spring.poing.main.service.MainServiceImpl;
+import com.spring.poing.member.service.MemberService;
 
 @Controller
 public class MailController {
@@ -21,7 +21,7 @@ public class MailController {
 	JavaMailSender mailSender;
 
 	@Autowired
-	MainServiceImpl mainService;
+	MemberService memberService;
 
 	@ResponseBody
 	@RequestMapping("/findPw.do")
@@ -41,7 +41,7 @@ public class MailController {
 			newPw.append(words[r.nextInt(words.length)]);
 		}
 		
-		String state = mainService.findPw(id, newPw.toString());
+		String state = memberService.findPw(id, newPw.toString());
 		
 		if(state.equals("no member")) {
 			return state;
@@ -68,7 +68,7 @@ public class MailController {
 			e.printStackTrace();
 		}
 		
-		return "redirect:/mailSend.do";
+		return state;
 	}
 	
 	@RequestMapping("/mailSend.do")

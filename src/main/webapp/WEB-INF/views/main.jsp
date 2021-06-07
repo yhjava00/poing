@@ -8,7 +8,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-		<link rel="stylesheet"  href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+		<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
 		<link rel="stylesheet" href="${contextPath}/resources/css/main.css">
         <style>
             

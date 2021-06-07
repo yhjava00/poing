@@ -41,61 +41,6 @@ public class MainControllerImpl implements MainController {
 	}
 	
 	@Override
-	@RequestMapping("/login")
-	public String login() {
-		return "login";
-	}
-	
-	@Override
-	@ResponseBody
-	@RequestMapping("/login.do")
-	public String loginAction(HttpServletRequest request, String id, String pw) {
-		
-		String loginState = mainService.login(id, pw);
-		
-		if(loginState.equals("login")) {
-			HttpSession session = request.getSession();
-			session.setAttribute("loginCheck", id);
-			session.setMaxInactiveInterval(60*60*3);
-		}
-		
-		return loginState;
-	}
-	
-	@Override
-	@RequestMapping("/findPw")
-	public String findPw() {
-		return "findPw";
-	}
-	
-	@Override
-	@RequestMapping("/logOut.do")
-	public String logOutAction(HttpServletRequest request) {
-		
-		HttpSession session = request.getSession();
-		
-		session.removeAttribute("loginCheck");
-		
-		return "redirect:/main";
-	}
-	
-	@Override
-	@RequestMapping("/signUp")
-	public String signUp() {
-		return "signUp";
-	}
-	
-	@Override
-	@ResponseBody
-	@RequestMapping("/signUp.do")
-	public String signUpAction(MemberVO vo) {
-		
-		String signUpState = mainService.signUp(vo);
-		
-		return signUpState;
-	}
-	
-	@Override
 	@RequestMapping("/search")
 	public String search(Model model, String search, 
 			@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
@@ -188,6 +133,19 @@ public class MainControllerImpl implements MainController {
 		model.addAttribute("reviewInfo", reviewInfo);
 		
 		return "review";
+	}
+	
+	@Override
+	@RequestMapping(value = {"/myPage", "/myPage/*"})
+	public String myPage(HttpServletRequest request) {
+		
+		String uri = request.getRequestURI();
+		
+		String path = uri.substring(uri.lastIndexOf('/')+1);
+		
+		request.setAttribute("path", path);
+		
+		return "myPage";
 	}
 	
 }

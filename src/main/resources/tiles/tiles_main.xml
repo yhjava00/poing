@@ -15,18 +15,6 @@
 		<put-attribute name="body" value="/WEB-INF/views/main.jsp"/>
 	</definition>
 	
-	<definition name="login" extends="baseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/login.jsp"/>
-	</definition>
-	
-	<definition name="signUp" extends="baseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/signUp.jsp"/>
-	</definition>
-
-	<definition name="findPw" extends="baseLayout">
-		<put-attribute name="body" value="/WEB-INF/views/findPw.jsp"/>
-	</definition>
-	
 	<definition name="search" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/search.jsp"/>
 	</definition>
@@ -41,6 +29,10 @@
 
 	<definition name="review" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/review.jsp"/>
+	</definition>
+	
+	<definition name="myPage" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/myPage/myPage.jsp"/>
 	</definition>
 	
 </tiles-definitions>

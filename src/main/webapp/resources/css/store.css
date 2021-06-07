@@ -380,3 +380,8 @@ dd {
 	border: 0;
 	cursor: pointer;
 }
+.like_btn {
+	float: right;
+    fill: #838383;
+    cursor: pointer;
+}
