@@ -9,6 +9,42 @@ public class ReservationVO {
 	String time;
 	int people_num;
 	
+	String store_name;
+	String introduce;
+	String location1;
+	String location2;
+	String main_img;
+	
+	public String getStore_name() {
+		return store_name;
+	}
+	public void setStore_name(String store_name) {
+		this.store_name = store_name;
+	}
+	public String getIntroduce() {
+		return introduce;
+	}
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
+	public String getLocation1() {
+		return location1;
+	}
+	public void setLocation1(String location1) {
+		this.location1 = location1;
+	}
+	public String getLocation2() {
+		return location2;
+	}
+	public void setLocation2(String location2) {
+		this.location2 = location2;
+	}
+	public String getMain_img() {
+		return main_img;
+	}
+	public void setMain_img(String main_img) {
+		this.main_img = main_img;
+	}
 	public String getTime() {
 		return time;
 	}

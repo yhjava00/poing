@@ -20,6 +20,12 @@ public interface MainDAO {
 	
 	public int totReviewNO(int storeIdx);
 	
+	public int totPastRes(Map<String, Object> info);
+
+	public int totComingVisit(Map<String, Object> info);
+	
+	public int totMyReview(String id);
+	
 	public List<StoreVO> selectSearchList(Map<String, Object> searchMap);
 	
 	public StoreAllVO selectStoreAll(int storeIdx);
@@ -41,4 +47,10 @@ public interface MainDAO {
 	public List<ReviewVO> selectOnlyThreeReviewList(int storeIdx);
 	
 	public List<ReviewVO> selectReviewList(Map<String, Object> info);
+	
+	public List<Object> pastResList(Map<String, Object> info);
+	
+	public List<Object> comingVisitList(Map<String, Object> info);
+	
+	public List<Object> myReviewList(Map<String, Object> info);
 }

@@ -26,6 +26,6 @@ public interface MainService {
 	
 	public StoreVO getStoreinfo(int storeIdx);
 	
-	public Map<String, Object> myPage(String path, int page);
+	public Map<String, Object> myPage(String path, String id, int page);
 	
 }

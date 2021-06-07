@@ -323,11 +323,67 @@ public class MainServiceImpl implements MainService {
 	}
 	
 	@Override
-	public Map<String, Object> myPage(String path, int page) {
+	public Map<String, Object> myPage(String path, String id, int page) {
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
 		
+		Date todayDate = new Date();
 		
+		String today = dateFormat.format(todayDate);
 		
-		return null;
+		int totNum = 0;
+		
+		Map<String, Object> info = new HashMap<String, Object>();
+		
+		info.put("id", id);
+		info.put("today", today);
+		
+		if(path.equals("past_reservation")) {
+			totNum = mainDAO.totPastRes(info);
+		}else if(path.equals("review")) {
+			totNum = mainDAO.totMyReview(id);
+		}else {
+			totNum = mainDAO.totComingVisit(info);
+		}
+
+		int lastPage = (totNum-1)/10 + 1;
+
+		if(page > lastPage)
+		page = lastPage;
+		
+		info.put("page", page);
+		
+		List<Object> itemList =  null;
+		
+		if(path.equals("past_reservation")) {
+			itemList = mainDAO.pastResList(info);
+		}else if(path.equals("review")) {
+			itemList = mainDAO.myReviewList(info);
+		}else {
+			itemList = mainDAO.comingVisitList(info);
+		}
+		
+		info.clear();
+		
+		int frontPage = 1;
+		int behindPage = lastPage;
+		
+		if(page>2) {
+			frontPage = page-2;
+		}
+		
+		if(page<lastPage-1) {
+			behindPage = page+2;
+		}
+		
+		info.put("itemList", itemList);
+
+		info.put("frontPage", frontPage);
+		info.put("behindPage", behindPage);
+		info.put("page", page);
+		info.put("lastPage", lastPage);
+		
+		return info;
 	}
 	
 }

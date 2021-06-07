@@ -137,13 +137,19 @@ public class MainControllerImpl implements MainController {
 	
 	@Override
 	@RequestMapping(value = {"/myPage", "/myPage/*"})
-	public String myPage(HttpServletRequest request) {
+	public String myPage(HttpServletRequest request, 
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
 		
 		String uri = request.getRequestURI();
 		
 		String path = uri.substring(uri.lastIndexOf('/')+1);
 		
+		String id = (String) request.getSession().getAttribute("loginCheck");
+		
+		Map<String, Object> info = mainService.myPage(path, id, page);
+		
 		request.setAttribute("path", path);
+		request.setAttribute("info", info);
 		
 		return "myPage";
 	}

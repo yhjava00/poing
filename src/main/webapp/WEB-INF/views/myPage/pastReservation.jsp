@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -101,55 +102,60 @@
 	</head>
 	<body>
 		<h2>지난 예약</h2>
-		<!-- <div class="jss1010">
-            <span class="jss1011">
-				<svg class="itemImg" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M17.618 5.968l1.453-1.453 1.414 1.414-1.453 1.453c2.981 3.731 2.528 9.142-1.032 12.326-3.56 3.184-8.986 3.033-12.364-.344C2.26 15.986 2.108 10.559 5.292 7c3.184-3.56 8.595-4.013 12.326-1.032zM12 20c2.5 0 4.812-1.334 6.062-3.5s1.25-4.834 0-7C16.812 7.334 14.501 6 12 6c-3.866 0-7 3.134-7 7s3.134 7 7 7zM11 8h2v6h-2V8zM8 1h8v2H8V1z"></path></svg>
-			</span>
-            지난 예약이 없습니다.
-        </div> -->
-		<div class="reservation_box">
-			<img src="https://c2.poing.co.kr/PIMAGE-original/MjAxNzA5/150658829659ccb68831bf4.jpeg">
-			<div class="reservation_info">
-				<h3>아삐에디폴</h3>
-				<p>2명 / 2월 17일 (토) 오전 12:30</p>
-			</div>
-			<nav>
-	            <ul class="jss1025">
-	            	<c:if test="${searchMap.page != 1}">
-                		<li>
-		                    <button onclick="location.href='${contextPath}/search?search=${searchMap.search}&page=1'" tabindex="0" type="button" aria-current="true">
-		                        <span>
-		                            <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z"></path></svg>
-		                        </span>
-		                    </button>
-		                </li>
-	            	</c:if>
-	                <c:forEach var="i" begin="${searchMap.frontPage}" end="${searchMap.behindPage}">
-			                <c:choose>
-			                	<c:when test="${searchMap.page == i}">
-					                <li>
-					                    <button class="jss1026" onclick="location.href='${contextPath}/search?search=${searchMap.search}&page=${i}'" tabindex="0" type="button" aria-current="true">${i}</button>
-					                </li>
-			                	</c:when>
-			                	<c:otherwise>
-					                <li>
-					                    <button onclick="location.href='${contextPath}/search?search=${searchMap.search}&page=${i}'" tabindex="0" type="button" aria-current="true">${i}</button>
-					                </li>
-			                	</c:otherwise>
-			                </c:choose>
-	                </c:forEach>
-	                <c:if test="${searchMap.page != searchMap.lastPage}">
-		                <li>
-		                    <button onclick="location.href='${contextPath}/search?search=${searchMap.search}&page=${searchMap.lastPage}'" tabindex="0" type="button" aria-current="true">
-		                        <span class="MuiButton-label">
-		                            <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
-		                        </span>
-		                    </button>
-		                </li>
-	                </c:if>
-	            </ul>
-	        </nav>
-		</div>
-
+		<c:if test="${empty info.itemList}">
+			<div class="jss1010">
+	            <span class="jss1011">
+					<svg class="itemImg" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M17.618 5.968l1.453-1.453 1.414 1.414-1.453 1.453c2.981 3.731 2.528 9.142-1.032 12.326-3.56 3.184-8.986 3.033-12.364-.344C2.26 15.986 2.108 10.559 5.292 7c3.184-3.56 8.595-4.013 12.326-1.032zM12 20c2.5 0 4.812-1.334 6.062-3.5s1.25-4.834 0-7C16.812 7.334 14.501 6 12 6c-3.866 0-7 3.134-7 7s3.134 7 7 7zM11 8h2v6h-2V8zM8 1h8v2H8V1z"></path></svg>
+				</span>
+	            지난 예약이 없습니다.
+	        </div>
+		</c:if>
+		<c:forEach var="vo" items="${info.itemList}">
+			<a href="${contextPath}/store/${vo.store_idx}">
+				<div class="reservation_box">
+					<img src="${contextPath}/resources/store/${vo.store_idx}/${vo.main_img}">
+					<div class="reservation_info">
+						<h3>${vo.store_name}</h3>
+						<p>${vo.people_num}명 / ${vo.resDate} / ${vo.time}</p>
+					</div>
+				</div>
+			</a>
+		</c:forEach>
+		<nav>
+            <ul class="jss1025">
+            	<c:if test="${info.page != 1}">
+               		<li>
+	                    <button onclick="location.href='${contextPath}/myPage/past_reservation?page=1'" tabindex="0" type="button" aria-current="true">
+	                        <span>
+	                            <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z"></path></svg>
+	                        </span>
+	                    </button>
+	                </li>
+            	</c:if>
+                <c:forEach var="i" begin="${info.frontPage}" end="${info.behindPage}">
+		                <c:choose>
+		                	<c:when test="${info.page == i}">
+				                <li>
+				                    <button class="jss1026" onclick="location.href='${contextPath}/myPage/past_reservation?page=${i}'" tabindex="0" type="button" aria-current="true">${i}</button>
+				                </li>
+		                	</c:when>
+		                	<c:otherwise>
+				                <li>
+				                    <button onclick="location.href='${contextPath}/myPage/past_reservation?page=${i}'" tabindex="0" type="button" aria-current="true">${i}</button>
+				                </li>
+		                	</c:otherwise>
+		                </c:choose>
+                </c:forEach>
+                <c:if test="${info.page != info.lastPage}">
+	                <li>
+	                    <button onclick="location.href='${contextPath}/myPage/past_reservation?page=${info.lastPage}'" tabindex="0" type="button" aria-current="true">
+	                        <span class="MuiButton-label">
+	                            <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
+	                        </span>
+	                    </button>
+	                </li>
+                </c:if>
+            </ul>
+        </nav>
 	</body>
 </html>

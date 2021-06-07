@@ -29,7 +29,7 @@
 	            </a>
 	        </div>
 	        <div class="box1">
-	            <a href="#">
+	            <a href="${contextPath}/myPage/coming_visit">
 	                <div class="boxInA">
 						<svg class="itemImg" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M17.618 5.968l1.453-1.453 1.414 1.414-1.453 1.453c2.981 3.731 2.528 9.142-1.032 12.326-3.56 3.184-8.986 3.033-12.364-.344C2.26 15.986 2.108 10.559 5.292 7c3.184-3.56 8.595-4.013 12.326-1.032zM12 20c2.5 0 4.812-1.334 6.062-3.5s1.25-4.834 0-7C16.812 7.334 14.501 6 12 6c-3.866 0-7 3.134-7 7s3.134 7 7 7zM11 8h2v6h-2V8zM8 1h8v2H8V1z"></path></svg>
 	                    <span class="spanInBox">방문 예정 예약</span>
@@ -39,7 +39,7 @@
 	            </a>
 	        </div>
 	        <div class="box1">
-	            <a href="#">
+	            <a href="${contextPath}/myPage/review">
 	                <div class="boxInA">
 	                    <svg class="itemImg" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M6.455 19L2 22.5V4c0-.552.448-1 1-1h18c.552 0 1 .448 1 1v14c0 .552-.448 1-1 1H6.455zM4 18.385L5.763 17H20V5H4v13.385zm8.018-3.685l-3.359-3.36c-.568-.568-.79-1.397-.582-2.173.208-.777.814-1.383 1.59-1.591.777-.208 1.606.014 2.174.582l.177.177.177-.177c.568-.568 1.397-.79 2.173-.582.777.208 1.383.814 1.591 1.59.208.777-.014 1.606-.582 2.174l-3.36 3.359.001.001z"></path></svg>
 	                    <span class="spanInBox">리뷰</span>
@@ -65,22 +65,22 @@
 	        <div class="sideBox">
 	            <div class="reviewBox">
 	                <div>
-	                    <h3 class="jss1006">나의 쇼핑</h3>
+	                    <h3 class="jss1006">메뉴</h3>
 	                </div>
 	                <div class="jss283">
-	                    <a class="jss1007" href="#">
+	                    <a class="jss1007" href="${contextPath}/myPage/coming_visit">
 	                        <span class="jss288">방문 예정 예약</span>
 	                        <svg class="jss1008" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
 	                    </a>
 	                </div>
 	                <div class="jss283">
-	                    <a class="jss1007" href="#">
+	                    <a class="jss1007" href="${contextPath}/myPage/past_reservation">
 	                        <span class="jss288">지난 예약</span>
 	                        <svg class="jss1008" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
 	                    </a>
 	                </div>
 	                <div class="jss283">
-	                    <a class="jss1007" href="#">
+	                    <a class="jss1007" href="${contextPath}/myPage/review">
 	                        <span class="jss288">리뷰</span>
 	                        <svg class="jss1008" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
 	                    </a>
@@ -104,11 +104,11 @@
 	            <main>
 	                
 	                <c:choose>
-	                	<c:when test="${path == 'coming_visit'}">
-	                		<jsp:include page="comingVisit.jsp"></jsp:include>
-	                	</c:when>
 	                	<c:when test="${path == 'past_reservation'}">
 	                		<jsp:include page="pastReservation.jsp"></jsp:include>
+	                	</c:when>
+	                	<c:when test="${path == 'review'}">
+	                		<jsp:include page="review.jsp"></jsp:include>
 	                	</c:when>
 	                	<c:otherwise>
 	                		<jsp:include page="comingVisit.jsp"></jsp:include>

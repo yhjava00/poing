@@ -26,6 +26,6 @@ public interface MainController {
 	
 	public String review(Model model, int placeId, int page);
 	
-	public String myPage(HttpServletRequest request);
+	public String myPage(HttpServletRequest request, int page);
 
 }

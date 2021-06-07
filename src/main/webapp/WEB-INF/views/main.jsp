@@ -163,7 +163,7 @@
             </div>
             <div class="recommend_box">
                 <div class="recommend_title">
-                    <div>다이닝 티켓</div>
+                    <div>좋아요가 많은 집</div>
                 </div>
                 <div class="recommend_content_box">
                     <div class="recommend_content swiper-container mySwiper3">
