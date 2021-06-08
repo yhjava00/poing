@@ -14,7 +14,7 @@ public interface MainService {
 	
 	public Map<String, Object> search(String search, int page);
 	
-	public Map<String, Object> store(int storeIdx);
+	public Map<String, Object> store(String id, int storeIdx);
 	
 	public String selectTime(int storeIdx, String date);
 	
@@ -27,5 +27,7 @@ public interface MainService {
 	public StoreVO getStoreinfo(int storeIdx);
 	
 	public Map<String, Object> myPage(String path, String id, int page);
+	
+	public String like(String memberId, int storeIdx, byte like);
 	
 }

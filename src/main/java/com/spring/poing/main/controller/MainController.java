@@ -1,8 +1,10 @@
 package com.spring.poing.main.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.poing.vo.MemberVO;
 import com.spring.poing.vo.ReservationVO;
@@ -20,12 +22,16 @@ public interface MainController {
 	
 	public String reservation(HttpServletRequest request, ReservationVO vo);
 	
-	public String writeReview(Model model, int placeId);
+	public String writeReview(HttpServletRequest request, int placeId);
 	
 	public String writeReviewAction(HttpServletRequest request, ReviewVO vo);
 	
 	public String review(Model model, int placeId, int page);
 	
 	public String myPage(HttpServletRequest request, int page);
+	
+	public String likeAction(HttpServletRequest request, byte like, int idx);
+	
+	public String uploadProfilAction(MultipartHttpServletRequest request);
 
 }

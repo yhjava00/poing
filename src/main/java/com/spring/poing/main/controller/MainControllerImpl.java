@@ -1,11 +1,17 @@
 package com.spring.poing.main.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +22,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.poing.main.service.MainServiceImpl;
 import com.spring.poing.vo.MemberVO;
@@ -25,6 +33,8 @@ import com.spring.poing.vo.StoreVO;
 
 @Controller
 public class MainControllerImpl implements MainController {
+
+	private static final String PROFILE_PATH = "C:\\lyh_java_2\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\poing\\resources\\profile\\";
 	
 	@Autowired
 	MainServiceImpl mainService;
@@ -59,8 +69,9 @@ public class MainControllerImpl implements MainController {
 		String uri = request.getRequestURI();
 		
 		int storeIdx = Integer.parseInt(uri.substring(uri.lastIndexOf('/')+1));
+		String id = (String) request.getSession().getAttribute("loginCheck");
 		
-		Map<String, Object> storeInfo = mainService.store(storeIdx);
+		Map<String, Object> storeInfo = mainService.store(id, storeIdx);
 		
 		request.setAttribute("storeInfo", storeInfo);
 		
@@ -95,11 +106,11 @@ public class MainControllerImpl implements MainController {
 	
 	@Override
 	@RequestMapping("/write_review")
-	public String writeReview(Model model, int placeId) {
+	public String writeReview(HttpServletRequest request, int placeId) {
 		
 		StoreVO store = mainService.getStoreinfo(placeId);
 		
-		model.addAttribute("store", store);
+		request.setAttribute("store", store);
 		
 		return "write_review";
 	}
@@ -144,6 +155,10 @@ public class MainControllerImpl implements MainController {
 		
 		String path = uri.substring(uri.lastIndexOf('/')+1);
 		
+		if(path.equals("myPage")) {
+			path = "coming_visit";
+		}
+		
 		String id = (String) request.getSession().getAttribute("loginCheck");
 		
 		Map<String, Object> info = mainService.myPage(path, id, page);
@@ -152,6 +167,56 @@ public class MainControllerImpl implements MainController {
 		request.setAttribute("info", info);
 		
 		return "myPage";
+	}
+	
+	@Override
+	@ResponseBody
+	@RequestMapping("/iLikeThis.do")
+	public String likeAction(HttpServletRequest request, byte like, int idx) {
+		
+		String id = (String) request.getSession().getAttribute("loginCheck");
+		
+		if(id==null)
+			return "no member";
+		
+		String state = mainService.like(id, idx, like);
+		
+		return state;
+	}
+	
+	@Override
+	@ResponseBody
+	@RequestMapping("/upload_profile.do")
+	public String uploadProfilAction(MultipartHttpServletRequest request) {
+		
+		String state = "success";
+		
+		String id = (String) request.getSession().getAttribute("loginCheck");
+		
+		String path = PROFILE_PATH + "\\" + id + "\\";
+		
+		try {
+			Iterator<String> itr = request.getFileNames();
+			
+			if(itr.hasNext()) {
+				List<MultipartFile> mFile = request.getFiles((String) itr.next());
+				for(int i=0; i<mFile.size(); i++) {
+					
+					long time = System.currentTimeMillis(); 
+					
+					File file = new File(path + time + mFile.get(i).getOriginalFilename());
+					
+					if(!file.getParentFile().exists())
+						file.getParentFile().mkdir();
+					
+					mFile.get(i).transferTo(file);
+				}
+			}
+			} catch (Exception e) {
+			e.printStackTrace();
+			state = "error";
+			}
+		return state;
 	}
 	
 }

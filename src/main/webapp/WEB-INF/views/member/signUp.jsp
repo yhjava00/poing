@@ -67,6 +67,13 @@
 			}
 		</style>
 		<script type="text/javascript">
+			$(document).ready(function() {
+	            $(".enter").keydown(function(key) {
+	                if (key.keyCode == 13) {
+	                	signUp()
+	                }
+	            });
+	        });
 			function signUp() {
 				var nickname = $('.nickname').val()
 				var email = $('.email').val()
@@ -121,16 +128,16 @@
 			<div>
 				<form class="f">
 					<div class="input_box">
-						<input type="text" class="nickname" name="nickname" placeholder="닉네임 입력">
+						<input type="text" class="nickname enter" name="nickname" placeholder="닉네임 입력">
 					</div>
 					<div class="input_box">
-						<input type="text" class="email" name="email" placeholder="이메일 입력">
+						<input type="text" class="email enter" name="email" placeholder="이메일 입력">
 					</div>
 					<div class="input_box">
-						<input type="password" class="pw" name="pw" placeholder="비밀번호 (6~16자)">
+						<input type="password" class="pw enter" name="pw" placeholder="비밀번호 (6~16자)">
 					</div>
 					<div class="input_box">
-						<input type="password" class="pwCheck" name="pwCheck" placeholder="비밀번호 확인">
+						<input type="password" class="pwCheck enter" name="pwCheck" placeholder="비밀번호 확인">
 					</div>
 				</form>
 				<button class="signUp_btn" onclick="signUp()">가입완료</button>

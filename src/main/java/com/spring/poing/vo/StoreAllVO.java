@@ -18,7 +18,15 @@ public class StoreAllVO {
 	String closed_days;
 	String parking;
 	String maxNumPeople;
+	
+	int likeStore;
 
+	public int getLikeStore() {
+		return likeStore;
+	}
+	public void setLikeStore(int likeStore) {
+		this.likeStore = likeStore;
+	}
 	public int getCountAllReview() {
 		return countAllReview;
 	}

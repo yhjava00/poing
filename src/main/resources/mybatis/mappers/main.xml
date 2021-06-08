@@ -43,6 +43,10 @@
 		]]>
 	</select>
 	
+	<select id="totLikeStore" parameterType="String" resultType="int">
+		select count(idx) from like_store where member_id = #{id}
+	</select>
+	
 	<select id="selectSearchList" parameterType="map" resultType="storeVO">
 		select * 
 		from (select rownum rn, A.* 
@@ -53,8 +57,11 @@
 		where rn between (#{page}-1) * 12 + 1 and #{page} * 12 
 	</select>
 	
-	<select id="selectStoreAll" parameterType="int" resultType="storeAllVO">
-		select * from store s inner join store_info i on s.idx = i.store_idx where s.idx = #{storeIdx} 
+	<select id="selectStoreAll" parameterType="map" resultType="storeAllVO">
+		select s.*, i.*, nvl(A.store_idx, 0) likeStore
+		from store s inner join store_info i on s.idx = i.store_idx 
+		left join (select store_idx from like_store where member_id = #{id}) A on A.store_idx = s.idx
+		where s.idx = #{storeIdx}
 	</select>
 	
 	<select id="selectStore" parameterType="int" resultType="storeVO">
@@ -153,5 +160,24 @@
 			where rn between (#{page}-1) * 10 + 1 and #{page} * 10 
 		]]>
 	</select>
+	
+	<select id="likeStoreList" parameterType="map" resultType="storeVO">
+		<![CDATA[
+			select * 
+			from (select rownum rn, A.* 
+			        from (select *
+			                from store
+			                where idx in (select store_idx from like_store where member_id = #{id})) A)
+			where rn between (#{page}-1) * 10 + 1 and #{page} * 10
+		]]> 
+	</select>
+	
+	<insert id="iLikeThis" parameterType="map">
+		insert into like_store values(like_store_seq.nextVal, #{id}, #{idx})
+	</insert>
+	
+	<delete id="iLikedThis" parameterType="map">
+		delete from like_store where member_id = #{id} and store_idx = #{idx}
+	</delete>
 	
 </mapper>

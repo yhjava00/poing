@@ -58,13 +58,18 @@ public class MainDAOImpl implements MainDAO {
 	}
 	
 	@Override
+	public int totLikeStore(String id) {
+		return sqlSession.selectOne("main.totLikeStore", id);
+	}
+	
+	@Override
 	public List<StoreVO> selectSearchList(Map<String, Object> searchMap) {
 		return sqlSession.selectList("main.selectSearchList", searchMap);
 	}
 	
 	@Override
-	public StoreAllVO selectStoreAll(int storeIdx) {
-		return sqlSession.selectOne("main.selectStoreAll", storeIdx);
+	public StoreAllVO selectStoreAll(Map<String, Object> storeInfo) {
+		return sqlSession.selectOne("main.selectStoreAll", storeInfo);
 	}
 	
 	@Override
@@ -125,5 +130,20 @@ public class MainDAOImpl implements MainDAO {
 	@Override
 	public List<Object> myReviewList(Map<String, Object> info) {
 		return sqlSession.selectList("main.myReviewList", info);
+	}
+	
+	@Override
+	public List<Object> likeStoreList(Map<String, Object> info) {
+		return sqlSession.selectList("main.likeStoreList", info);
+	}
+	
+	@Override
+	public int iLikeThis(Map<String, Object> info) {
+		return sqlSession.insert("main.iLikeThis", info);
+	}
+	
+	@Override
+	public int iLikedThis(Map<String, Object> info) {
+		return sqlSession.delete("main.iLikedThis", info);
 	}
 }

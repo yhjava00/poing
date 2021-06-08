@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.spring.poing.main.dao.MainDAO;
 import com.spring.poing.main.dao.MainDAOImpl;
+import com.spring.poing.member.dao.MemberDAO;
 import com.spring.poing.vo.CategoryVO;
 import com.spring.poing.vo.MemberVO;
 import com.spring.poing.vo.ReservationVO;
@@ -27,7 +29,10 @@ import com.spring.poing.vo.StoreVO;
 public class MainServiceImpl implements MainService {
 	
 	@Autowired
-	MainDAOImpl mainDAO;
+	MainDAO mainDAO;
+	
+	@Autowired
+	MemberDAO memberDAO;
 	
 	@Override
 	public Map<String, Object> getMainInfo() {
@@ -88,11 +93,18 @@ public class MainServiceImpl implements MainService {
 	}
 	
 	@Override
-	public Map<String, Object> store(int storeIdx) {
+	public Map<String, Object> store(String id, int storeIdx) {
 		
 		Map<String, Object> storeInfo = new HashMap<String, Object>();
 		
-		StoreAllVO storeAllVO = mainDAO.selectStoreAll(storeIdx);
+		if(id==null) {
+			id = "";
+		}
+		
+		storeInfo.put("id", id);
+		storeInfo.put("storeIdx", storeIdx);
+		
+		StoreAllVO storeAllVO = mainDAO.selectStoreAll(storeInfo);
 		List<String> storeImgList = mainDAO.selectStoreImgList(storeIdx);
 		List<ReviewVO> reviewList = mainDAO.selectOnlyThreeReviewList(storeIdx);
 		
@@ -142,7 +154,12 @@ public class MainServiceImpl implements MainService {
 			e.printStackTrace();
 		}
 		
-		StoreAllVO storeAllVO = mainDAO.selectStoreAll(storeIdx);
+		Map<String, Object> info = new HashMap<String, Object>();
+		
+		info.put("storeIdx", storeIdx);
+		info.put("id", "");
+		
+		StoreAllVO storeAllVO = mainDAO.selectStoreAll(info);
 		
 		List<String> selectTimeList = getSelectTimeList(storeAllVO.getOpening_hours());
 		
@@ -331,25 +348,30 @@ public class MainServiceImpl implements MainService {
 		
 		String today = dateFormat.format(todayDate);
 		
-		int totNum = 0;
-		
 		Map<String, Object> info = new HashMap<String, Object>();
 		
 		info.put("id", id);
 		info.put("today", today);
 		
+		int totPastRes = mainDAO.totPastRes(info);
+		int totMyReview = mainDAO.totMyReview(id);
+		int totComingVisit = mainDAO.totComingVisit(info);
+		int totLikeStore = mainDAO.totLikeStore(id);
+		
+		int lastPage = 0;
+		
 		if(path.equals("past_reservation")) {
-			totNum = mainDAO.totPastRes(info);
+			lastPage = (totPastRes-1)/10 + 1;
 		}else if(path.equals("review")) {
-			totNum = mainDAO.totMyReview(id);
-		}else {
-			totNum = mainDAO.totComingVisit(info);
+			lastPage = (totMyReview-1)/10 + 1;
+		}else if(path.equals("coming_visit")) {
+			lastPage = (totComingVisit-1)/10 + 1;
+		}else if(path.equals("like_store")) {
+			lastPage = (totLikeStore-1)/10 + 1;
 		}
 
-		int lastPage = (totNum-1)/10 + 1;
-
 		if(page > lastPage)
-		page = lastPage;
+			page = lastPage;
 		
 		info.put("page", page);
 		
@@ -359,8 +381,10 @@ public class MainServiceImpl implements MainService {
 			itemList = mainDAO.pastResList(info);
 		}else if(path.equals("review")) {
 			itemList = mainDAO.myReviewList(info);
-		}else {
+		}else if(path.equals("coming_visit")) {
 			itemList = mainDAO.comingVisitList(info);
+		}else if(path.equals("like_store")) {
+			itemList = mainDAO.likeStoreList(info);
 		}
 		
 		info.clear();
@@ -376,6 +400,14 @@ public class MainServiceImpl implements MainService {
 			behindPage = page+2;
 		}
 		
+		MemberVO member = memberDAO.selectMember(id);
+		
+		info.put("member", member);
+		
+		info.put("totComingVisit", totComingVisit);
+		info.put("totMyReview", totMyReview);
+		info.put("totLikeStore", totLikeStore);
+		
 		info.put("itemList", itemList);
 
 		info.put("frontPage", frontPage);
@@ -384,6 +416,23 @@ public class MainServiceImpl implements MainService {
 		info.put("lastPage", lastPage);
 		
 		return info;
+	}
+	
+	@Override
+	public String like(String memberId, int storeIdx, byte like) {
+		
+		Map<String, Object> info = new HashMap<String, Object>();
+		
+		info.put("id", memberId);
+		info.put("idx", storeIdx);
+		
+		if(like==0) {
+			mainDAO.iLikedThis(info);
+			return "liked";
+		}else {
+			mainDAO.iLikeThis(info);
+			return "like";
+		}
 	}
 	
 }
