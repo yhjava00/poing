@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.spring.poing.vo.MemberVO;
@@ -32,6 +33,4 @@ public interface MainController {
 	
 	public String likeAction(HttpServletRequest request, byte like, int idx);
 	
-	public String uploadProfilAction(MultipartHttpServletRequest request);
-
 }

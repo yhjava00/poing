@@ -28,5 +28,30 @@ public class MemberDAOImpl implements MemberDAO{
 	public int changePw(Map<String, String> info) {
 		return sqlSession.update("member.changePw", info);
 	}
+
+	@Override
+	public int updateProfile(Map<String, String> info) {
+		return sqlSession.update("member.updateProfile", info);
+	}
+	
+	@Override
+	public String selectProfile(String id) {
+		return sqlSession.selectOne("member.selectProfile", id);
+	}
+	
+	@Override
+	public int updateNickname(Map<String, String> info) {
+		return sqlSession.update("member.updateNickname", info);
+	}
+	
+	@Override
+	public int updatePassword(Map<String, String> info) {
+		return sqlSession.update("member.updatePassword", info);
+	}
+	
+	@Override
+	public int deleteMember(String id) {
+		return sqlSession.delete("member.deleteMember", id);
+	}
 	
 }

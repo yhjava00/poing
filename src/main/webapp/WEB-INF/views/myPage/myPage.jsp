@@ -6,9 +6,10 @@
 <html>
     <head>
         <meta charset="UTF-8">
-		<link rel="stylesheet" href="${contextPath}/resources/css/myPage.css?a">
+		<link rel="stylesheet" href="${contextPath}/resources/css/myPage.css?b">
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="${contextPath}/resources/js/myPage_event.js?a"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <title>Insert title here</title>
     </head>
     <body>
@@ -16,7 +17,14 @@
 	        <div class="box1">
 	            <a href="${contextPath}/myPage/update" style="display: flex;">
 	                <div class="jss1027">
-	                    <img src="${contextPath}/resources/user_none.png">
+	                    <c:choose>
+                    		<c:when test="${empty info.member.profile_img}">
+                          		<img class="a1150" src="${contextPath}/resources/user_none.png">
+                    		</c:when>
+                    		<c:otherwise>
+                          		<img class="a1150" src="${contextPath}/resources/profile/${info.member.id}/${info.member.profile_img}">
+                    		</c:otherwise>
+                    	</c:choose>
 	                    <span>편집</span>
 	                </div>
 	                <div style="float: left; margin: auto; margin-left: 10px;">
@@ -118,6 +126,15 @@
 	                	</c:when>
 	                	<c:when test="${path == 'update'}">
 	                		<jsp:include page="update.jsp"></jsp:include>
+	                	</c:when>
+	                	<c:when test="${path == 'update_nickname'}">
+	                		<jsp:include page="update_nickname.jsp"></jsp:include>
+	                	</c:when>
+	                	<c:when test="${path == 'update_password'}">
+	                		<jsp:include page="update_password.jsp"></jsp:include>
+	                	</c:when>
+	                	<c:when test="${path == 'withdrawal'}">
+	                		<jsp:include page="withdrawal.jsp"></jsp:include>
 	                	</c:when>
 	                </c:choose>
 	                

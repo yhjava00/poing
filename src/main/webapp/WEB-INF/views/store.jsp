@@ -16,7 +16,7 @@
 		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="${contextPath}/resources/css/store.css?d">
+		<link rel="stylesheet" href="${contextPath}/resources/css/store.css?a">
 		<script>
 			var count = 2;
 
@@ -215,7 +215,14 @@
 							<div class="review_box">
 								<div class="review_title">
 									<div class="review_profile">
-										<img src="${contextPath}/resources/user_none.png">
+										<c:choose>
+				                    		<c:when test="${empty vo.profile_img}">
+				                          		<img src="${contextPath}/resources/user_none.png">
+				                    		</c:when>
+				                    		<c:otherwise>
+				                          		<img src="${contextPath}/resources/profile/${vo.member_id}/${vo.profile_img}">
+				                    		</c:otherwise>
+				                    	</c:choose>
 									</div>
 									<div class="review_name_box">
 										<p>${vo.nickname}</p>

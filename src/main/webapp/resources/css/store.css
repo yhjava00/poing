@@ -169,6 +169,7 @@ dd {
 .review_profile > img {
 	width: 46px;
 	height: 46px;
+	border-radius: 50%
 }
 .review_name_box {
 	position: relative;

@@ -12,6 +12,23 @@
     width: 25%;
     display: flex;
 }
+
+.a1150 {
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    bottom: 0;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    object-fit: cover;
+    pointer-events: none;
+    margin: auto;
+    display: block;
+    max-width: 100%;
+}
 .jss1027 {
     width: 79px;
     height: 79px;

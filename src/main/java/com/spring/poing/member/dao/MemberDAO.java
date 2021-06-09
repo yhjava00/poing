@@ -11,5 +11,14 @@ public interface MemberDAO {
 	public int insertMember(MemberVO vo);
 	
 	public int changePw(Map<String, String> info);
+
+	public int updateProfile(Map<String, String> info);
 	
+	public String selectProfile(String id);
+	
+	public int updateNickname(Map<String, String> info);
+	
+	public int updatePassword(Map<String, String> info);
+	
+	public int deleteMember(String id);
 }

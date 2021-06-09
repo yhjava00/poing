@@ -217,22 +217,6 @@
 	            overflow: hidden;
 	            position: relative;
 	        }
-	        .a1150 {
-	            border-radius: 50%;
-	            top: 0;
-	            left: 0;
-	            right: 0;
-	            width: 100%;
-	            bottom: 0;
-	            height: 100%;
-	            overflow: hidden;
-	            position: absolute;
-	            object-fit: cover;
-	            pointer-events: none;
-	            margin: auto;
-	            display: block;
-	            max-width: 100%;
-	        }
 	        .a1151 {
 	            right: 0;
 	            bottom: 0;
@@ -260,49 +244,56 @@
 	        }
 	    </style>
 	    <script>
-            var profile = []
 
-            function addFiles(files) {
-                profile = []
-
-                var filesArr = Array.prototype.slice.call(files)
-
-                for(var i=0; i<filesArr.length; i++) {
-                    profile.push(filesArr[i])
-                }
-
-            }
-            function sendProfile() {
-                var formData = new FormData($("#f")[0])
+            function send_profile(){
+            	
+            	if($('.profile')[0].files[0] === undefined) {
+            		alert('프로필을 지정하세요.')
+            		return
+            	}
+            	
+               	var form = new FormData();
+                form.append('profile', $('.profile')[0].files[0] );
                 
-                for(var i=0; i<profile.length; i++) {
-                    formData.append("files", profile[i])
-                }
-
                 $.ajax({
+                    url : "/poing/upload_profile.do",
                     type : 'post',
-                    url : '/poing/upload_profile.do',
-                    data : formData,
-                    processData: false,
-                    contentType: false,
-                    success : function(data) {
-                        if(data === 'success') {
-                            
-                        } else {
-                            alert('프로필 업데이트를 실패했습니다.');
+                    processData : false,
+                    contentType : false,
+                    data : form,
+                    success:function (data) {
+                        if(data === 'error') {
+                        	alert('프로필 업로드에 실패하였습니다.')
+                        }else {
+                        	alert('프로필 업로드에 성공하셨습니다.')
                         }
                     },
-                    error : function(data, textStatus) {
-                        alert('에러가 발생했습니다.');
+                    error:function () {
+                        alert('에러가 발생했습니다.')
                     }
-                });
+                })
             }
-
-            $(document).ready(function() {
-                $('.profile').on('change', function(){
-                    addFiles(this.files)
-                });
-            }
+            
+        	function readURL(input) {
+        		if (input.files && input.files[0]) {
+        			var reader = new FileReader()
+        			reader.onload = function(e) {
+        				$('#profile_img').attr('src', e.target.result)
+        			}
+        			reader.readAsDataURL(input.files[0])
+        		}
+        	}
+			
+        	$(document).ready(function() {
+	        	$('#label-id-0').change(function() {
+	        		console.log(123)
+	        		if( $('#label-id-0').val() == '' ) {
+	        			$('#profile_img').attr('src' , '') 
+	        		}
+	        		readURL(this)
+	        	})
+        	})
+        	
 	    </script>
     </head>
     <body>
@@ -318,7 +309,7 @@
                     <dt class="a1136">닉네임</dt>
                     <dd class="a1137">
                         ${info.member.nickname}
-                        <a class="a1139" tabindex="0" aria-disabled="false" href="#">
+                        <a class="a1139" tabindex="0" aria-disabled="false" href="update_nickname">
                             <span>수정</span>
                             <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img">
                                 <path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path>
@@ -331,7 +322,7 @@
                     <dt class="a1136">비밀번호</dt>
                     <dd class="a1137">
                         *******
-                        <a class="a1139" tabindex="0" aria-disabled="false" href="#">
+                        <a class="a1139" tabindex="0" aria-disabled="false" href="update_password">
                             <span>수정</span>
                             <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img">
                                 <path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path>
@@ -342,10 +333,10 @@
                 </dl>
     
                 <div class="a1141">
-                    <button onclick="href='poing/logOut.do'" class="a1142" tabindex="0" type="button">
+                    <button onclick="location.href='/poing/logOut.do'" class="a1142" tabindex="0" type="button">
                         <span class="a1143">로그아웃</span>
                     </button>
-                    <a class="a1142" tabindex="0" aria-disabled="false" href="#">
+                    <a class="a1142" tabindex="0" aria-disabled="false" href="withdrawal">
                         <span class="a1143">회원탈퇴</span>
                     </a>
                 </div>
@@ -356,12 +347,17 @@
             <div class="a1144">
                 <div class="a1146">
 	                    <label class="a1147" for="label-id-0">
-                            <form:form id="f" method='post'>
-                                <input class="profile" multiple="multiple" type="file" style="display: none;">
-                            </form:form>
+                            <input id="label-id-0" class="profile" multiple="multiple" type="file" style="display: none;">
 	                        <div class="a1148">
 	                            <div class="a1149">
-	                                <img class="a1150" src="${contextPath}/resources/user_none.png">
+	                            	<c:choose>
+	                            		<c:when test="${empty info.member.profile_img}">
+			                                <img id="profile_img" class="a1150" src="${contextPath}/resources/user_none.png">
+	                            		</c:when>
+	                            		<c:otherwise>
+			                                <img id="profile_img" class="a1150" src="${contextPath}/resources/profile/${info.member.id}/${info.member.profile_img}">
+	                            		</c:otherwise>
+	                            	</c:choose>
 	                            </div>                                                           
 	                            <span class="a1151">
 	                                <svg class="a1152" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img">
@@ -371,7 +367,7 @@
 	                        </div>
 	                    </label>
                 </div>
-                <button onclick="sendProfile()" class="a1145">
+                <button onclick="send_profile()" class="a1145">
                     <span>등록하기</span>
                 </button>
             </div>

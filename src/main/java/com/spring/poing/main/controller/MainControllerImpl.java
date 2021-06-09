@@ -2,31 +2,22 @@ package com.spring.poing.main.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.comparator.DefaultFileComparator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.spring.poing.main.service.MainServiceImpl;
-import com.spring.poing.vo.MemberVO;
 import com.spring.poing.vo.ReservationVO;
 import com.spring.poing.vo.ReviewVO;
 import com.spring.poing.vo.StoreVO;
@@ -34,8 +25,6 @@ import com.spring.poing.vo.StoreVO;
 @Controller
 public class MainControllerImpl implements MainController {
 
-	private static final String PROFILE_PATH = "C:\\lyh_java_2\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\poing\\resources\\profile\\";
-	
 	@Autowired
 	MainServiceImpl mainService;
 
@@ -181,41 +170,6 @@ public class MainControllerImpl implements MainController {
 		
 		String state = mainService.like(id, idx, like);
 		
-		return state;
-	}
-	
-	@Override
-	@ResponseBody
-	@RequestMapping("/upload_profile.do")
-	public String uploadProfilAction(MultipartHttpServletRequest request) {
-		
-		String state = "success";
-		
-		String id = (String) request.getSession().getAttribute("loginCheck");
-		
-		String path = PROFILE_PATH + "\\" + id + "\\";
-		
-		try {
-			Iterator<String> itr = request.getFileNames();
-			
-			if(itr.hasNext()) {
-				List<MultipartFile> mFile = request.getFiles((String) itr.next());
-				for(int i=0; i<mFile.size(); i++) {
-					
-					long time = System.currentTimeMillis(); 
-					
-					File file = new File(path + time + mFile.get(i).getOriginalFilename());
-					
-					if(!file.getParentFile().exists())
-						file.getParentFile().mkdir();
-					
-					mFile.get(i).transferTo(file);
-				}
-			}
-			} catch (Exception e) {
-			e.printStackTrace();
-			state = "error";
-			}
 		return state;
 	}
 	

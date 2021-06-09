@@ -146,4 +146,5 @@ public class MainDAOImpl implements MainDAO {
 	public int iLikedThis(Map<String, Object> info) {
 		return sqlSession.delete("main.iLikedThis", info);
 	}
+	
 }

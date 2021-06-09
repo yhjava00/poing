@@ -110,7 +110,7 @@
 	<select id="selectOnlyThreeReviewList" parameterType="int" resultType="reviewVO">
 		<![CDATA[
 			select rownum, a.* 
-			from (select r.*, m.nickname 
+			from (select r.*, m.nickname, m.profile_img
 					from review r inner join member m on r.member_id = m.id  
 					where store_idx = #{storeIdx} order by idx desc) a
 			where rownum <= 3
@@ -121,7 +121,7 @@
 		<![CDATA[
 			select * 
 			from (select rownum rn, A.* 
-					from (select r.*, m.nickname 
+					from (select r.*, m.nickname, m.profile_img 
 							from review r inner join member m on r.member_id = m.id  
 							where store_idx = #{storeIdx} order by idx desc) A)
 			where rn between (#{page}-1) * 30 + 1 and #{page} * 30 
@@ -154,7 +154,7 @@
 		<![CDATA[
 			select * 
 			from (select rownum rn, A.* 
-					from (select r.*, m.nickname 
+					from (select r.*, m.nickname, m.profile_img 
 							from review r inner join member m on r.member_id = m.id  
 							where r.member_id = #{id} order by idx desc) A)
 			where rn between (#{page}-1) * 10 + 1 and #{page} * 10 

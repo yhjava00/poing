@@ -111,6 +111,7 @@
 			        	if(data=='Exist member') {
 			        		alert('존재하는 이메일입니다.');
 			        	}else {
+			        		alert('회원가입에 성공하셨습니다.')
 			        		location.href='main';
 			        	}
 			        },

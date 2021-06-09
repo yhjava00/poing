@@ -436,6 +436,7 @@
 			.review_profile > img {
 				width: 46px;
 				height: 46px;
+   				border-radius: 50%;
 			}
 			.review_name_box {
 				position: relative;
@@ -571,7 +572,14 @@
 						<div class="review_box">
 							<div class="review_title">
 								<div class="review_profile">
-									<img src="${contextPath}/resources/user_none.png">
+									<c:choose>
+			                    		<c:when test="${empty vo.profile_img}">
+			                          		<img src="${contextPath}/resources/user_none.png">
+			                    		</c:when>
+			                    		<c:otherwise>
+			                          		<img src="${contextPath}/resources/profile/${vo.member_id}/${vo.profile_img}">
+			                    		</c:otherwise>
+			                    	</c:choose>
 								</div>
 								<div class="review_name_box">
 									<p>${vo.nickname}</p>

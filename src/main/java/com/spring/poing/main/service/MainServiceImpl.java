@@ -25,6 +25,8 @@ import com.spring.poing.vo.ReviewVO;
 import com.spring.poing.vo.StoreAllVO;
 import com.spring.poing.vo.StoreVO;
 
+import oracle.net.aso.p;
+
 @Service("mainService")
 public class MainServiceImpl implements MainService {
 	
@@ -147,7 +149,7 @@ public class MainServiceImpl implements MainService {
 			int compare2 = selectDate.compareTo(twoMonthsLater);
 			
 			if(compare<0||compare2>0) {
-				return "{ \"time\" : [], \"len\" : 0";
+				return "{ \"time\" : [], \"len\" : 0}";
 			}
 			
 		} catch (ParseException e) {

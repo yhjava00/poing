@@ -5,7 +5,14 @@ public class MemberVO {
 	String id;
 	String pw;
 	String nickname;
+	String profile_img;
 	
+	public String getProfile_img() {
+		return profile_img;
+	}
+	public void setProfile_img(String profile_img) {
+		this.profile_img = profile_img;
+	}
 	public String getId() {
 		return id;
 	}

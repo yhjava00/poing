@@ -61,4 +61,5 @@ public interface MainDAO {
 	public int iLikeThis(Map<String, Object> info);
 
 	public int iLikedThis(Map<String, Object> info);
+	
 }

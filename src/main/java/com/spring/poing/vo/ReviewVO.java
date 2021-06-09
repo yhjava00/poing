@@ -8,8 +8,16 @@ public class ReviewVO {
 	String content;
 	int star;
 	String regDate;
-	String nickname;
 	
+	String nickname;
+	String profile_img;
+	
+	public String getProfile_img() {
+		return profile_img;
+	}
+	public void setProfile_img(String profile_img) {
+		this.profile_img = profile_img;
+	}
 	public String getNickname() {
 		return nickname;
 	}
