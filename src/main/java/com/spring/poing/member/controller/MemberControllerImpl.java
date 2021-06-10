@@ -1,16 +1,23 @@
 package com.spring.poing.member.controller;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.scribejava.core.model.OAuth2AccessToken;
+import com.spring.poing.common.NaverLoginBO;
 import com.spring.poing.member.service.MemberService;
 import com.spring.poing.vo.MemberVO;
 
@@ -20,11 +27,19 @@ public class MemberControllerImpl implements MemberController{
 	private static final String PROFILE_PATH = "C:\\lyh_java_2\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\poing\\resources\\profile\\";
 	
 	@Autowired
+	NaverLoginBO naverLoginBO;
+	
+	@Autowired
 	MemberService memberService;
 
 	@Override
 	@RequestMapping("/login")
-	public String login() {
+	public String login(Model model, HttpSession session) {
+		
+		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+		
+		model.addAttribute("url", naverAuthUrl);
+		
 		return "login";
 	}
 	
@@ -42,6 +57,29 @@ public class MemberControllerImpl implements MemberController{
 		}
 		
 		return loginState;
+	}
+	
+	@Override
+	@RequestMapping("/naverLogin.do")
+	public String naverLoginAction(String code, String state, HttpSession session) throws IOException, ParseException {
+		
+		OAuth2AccessToken oauthToken = naverLoginBO.getAccessToken(session, code, state);
+		String apiResult = naverLoginBO.getUserProfile(oauthToken);
+		
+		JSONObject json = (JSONObject) new JSONParser().parse(apiResult);
+		JSONObject info = (JSONObject) json.get("response");
+		
+		String id = (String) info.get("email");
+		String nickname = (String) info.get("nickname");
+		
+		String loginState = memberService.naverLogin(id, nickname);
+		
+		if(loginState.equals("exist member"))
+			return "redirect:/exist_member";
+		
+		session.setAttribute("loginCheck", id);
+		
+		return "redirect:/main";
 	}
 	
 	@Override

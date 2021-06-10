@@ -41,16 +41,6 @@
 				cursor: pointer;
 				margin-bottom: 10px;
 			}
-			.naver_signUp {
-				background-color: rgba(25, 206, 96, 1);
-				color: #fff;
-				font-weight: 700;
-			}
-			.kakao_signUp {
-				background-color: rgba(250, 217, 0, 1);
-				color: #fff;
-				font-weight: 700;
-			}
 			.signUp_btn {
 				background-color: rgba(236, 36, 57, 1);
 				color: #fff;
@@ -145,10 +135,6 @@
 				<div style="text-align: center;">
 					<a href="login">이미 회원이신가요? 로그인</a>
 				</div>
-			</div>
-			<div>
-				<button class="naver_signUp">네이버로 가입하기</button>
-				<!-- <button class="kakao_signUp">카카오톡으로 가입하기</button> -->
 			</div>
 		</div>
 	</body>

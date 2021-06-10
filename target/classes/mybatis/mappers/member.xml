@@ -10,7 +10,7 @@
 	</select>
 	
 	<insert id="insertMember" parameterType="memberVO">
-		insert into member (id, pw, nickname) values(#{id}, #{pw}, #{nickname})
+		insert into member (id, pw, nickname, member_type) values(#{id}, #{pw}, #{nickname}, #{member_type})
 	</insert>
 	
 	<update id="changePw" parameterType="map">

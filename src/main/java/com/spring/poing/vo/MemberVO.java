@@ -6,7 +6,24 @@ public class MemberVO {
 	String pw;
 	String nickname;
 	String profile_img;
+	String member_type;
 	
+	public MemberVO() {
+	}
+	
+	public MemberVO(String id, String nickname, String member_type) {
+		this.id = id;
+		this.nickname = nickname;
+		this.member_type = member_type;
+		this.pw = "no password";
+	}
+	
+	public String getMember_type() {
+		return member_type;
+	}
+	public void setMember_type(String member_type) {
+		this.member_type = member_type;
+	}
 	public String getProfile_img() {
 		return profile_img;
 	}

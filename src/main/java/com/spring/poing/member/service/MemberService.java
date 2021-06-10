@@ -6,6 +6,8 @@ public interface MemberService {
 
 	public String login(String id, String pw);
 	
+	public String naverLogin(String id, String nickname);
+	
 	public String findPw(String id, String pw);
 	
 	public String signUp(MemberVO vo);

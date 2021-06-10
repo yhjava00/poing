@@ -1,16 +1,23 @@
 package com.spring.poing.member.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.json.simple.parser.ParseException;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.poing.vo.MemberVO;
 
 public interface MemberController {
 
-	public String login();
+	public String login(Model model, HttpSession session);
 	
 	public String loginAction(HttpServletRequest request, String id, String pw);
+	
+	public String naverLoginAction(String code, String state, HttpSession session) throws IOException, ParseException;
 	
 	public String findPw();
 	

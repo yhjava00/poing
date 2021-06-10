@@ -38,6 +38,22 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public String naverLogin(String id, String nickname) {
+		
+		MemberVO member = memberDAO.selectMember(id);
+		
+		if(member!=null&&!member.getMember_type().equals("naver"))
+			return "exist member";
+		
+		if(member==null) {
+			member = new MemberVO(id, nickname, "naver");
+			memberDAO.insertMember(member);
+		}
+		
+		return "success";
+	}
+	
+	@Override
 	public String findPw(String id, String pw) {
 		
 		MemberVO member = memberDAO.selectMember(id);
@@ -64,6 +80,8 @@ public class MemberServiceImpl implements MemberService {
 		String signUpState = "signUp";
 		
 		MemberVO member = memberDAO.selectMember(vo.getId());
+		
+		vo.setMember_type("default");
 		
 		if(member==null) {
 			vo.setPw(passwordEncoder.encode(vo.getPw()));

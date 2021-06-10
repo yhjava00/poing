@@ -55,39 +55,22 @@ public class MainServiceImpl implements MainService {
 		
 		int totSearchNO = mainDAO.totSearchNO(search);
 		
-		int lastPage = (totSearchNO-1)/12 + 1;
+		Map<String, Object> pageInfo = paging(totSearchNO, page, 12);
 		
-		if(page > lastPage)
-			page = lastPage;
+		pageInfo.put("search", search);
 		
-		Map<String, Object> infoMap = new HashMap<String, Object>();
-		
-		infoMap.put("search", search);
-		infoMap.put("page", page);
-		
-		List<StoreVO> searchList = mainDAO.selectSearchList(infoMap);
+		List<StoreVO> searchList = mainDAO.selectSearchList(pageInfo);
 		
 		Map<String, Object> searchMap = new HashMap<String, Object>();
-		
-		int frontPage = 1;
-		int behindPage = lastPage;
-		
-		if(page>2) {
-			frontPage = page-2;
-		}
-		
-		if(page<lastPage-1) {
-			behindPage = page+2;
-		}
 		
 		searchMap.put("search", search);
 		
 		searchMap.put("totSearchNO", totSearchNO);
 		
-		searchMap.put("frontPage", frontPage);
-		searchMap.put("behindPage", behindPage);
+		searchMap.put("frontPage", pageInfo.get("frontPage"));
+		searchMap.put("behindPage", pageInfo.get("behindPage"));
 		searchMap.put("page", page);
-		searchMap.put("lastPage", lastPage);
+		searchMap.put("lastPage", pageInfo.get("lastPage"));
 		
 		searchMap.put("searchList", searchList);
 		
@@ -297,41 +280,24 @@ public class MainServiceImpl implements MainService {
 		
 		int totReviewNO = mainDAO.totReviewNO(placeId);
 		
-		int lastPage = (totReviewNO-1)/30 + 1;
+		Map<String, Object> pageInfo = paging(totReviewNO, page, 30);
 		
-		if(page > lastPage)
-			page = lastPage;
+		pageInfo.put("storeIdx", placeId);
 		
-		Map<String, Object> info = new HashMap<String, Object>();
-		
-		info.put("storeIdx", placeId);
-		info.put("page", page);
-		
-		List<ReviewVO> reviewList = mainDAO.selectReviewList(info);
+		List<ReviewVO> reviewList = mainDAO.selectReviewList(pageInfo);
 		StoreVO store = mainDAO.selectStore(placeId);
 
 		Map<String, Object> reviewInfo = new HashMap<String, Object>();
-		
-		int frontPage = 1;
-		int behindPage = lastPage;
-		
-		if(page>2) {
-			frontPage = page-2;
-		}
-		
-		if(page<lastPage-1) {
-			behindPage = page+2;
-		}
-		
+				
 		reviewInfo.put("store", store);
 		reviewInfo.put("reviewList", reviewList);
 		
 		reviewInfo.put("totReviewNO", totReviewNO);
 		
-		reviewInfo.put("frontPage", frontPage);
-		reviewInfo.put("behindPage", behindPage);
+		reviewInfo.put("frontPage", pageInfo.get("frontPage"));
+		reviewInfo.put("behindPage", pageInfo.get("behindPage"));
 		reviewInfo.put("page", page);
-		reviewInfo.put("lastPage", lastPage);
+		reviewInfo.put("lastPage", pageInfo.get("lastPage"));
 		
 		return reviewInfo;
 	}
@@ -435,6 +401,34 @@ public class MainServiceImpl implements MainService {
 			mainDAO.iLikeThis(info);
 			return "like";
 		}
+	}
+
+	public Map<String, Object> paging(int totNum, int page, int line) {
+		Map<String, Object> info = new HashMap<String, Object>();
+
+		int lastPage = (totNum-1)/line + 1;
+		
+		if(page > lastPage)
+			page = lastPage;
+		
+
+		int frontPage = 1;
+		int behindPage = lastPage;
+		
+		if(page>2) {
+			frontPage = page-2;
+		}
+		
+		if(page<lastPage-1) {
+			behindPage = page+2;
+		}
+		
+		info.put("page", page);
+		info.put("lastPage", lastPage);
+		info.put("frontPage", frontPage);
+		info.put("behindPage", behindPage);
+		
+		return info;
 	}
 	
 }

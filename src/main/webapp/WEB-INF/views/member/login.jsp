@@ -66,6 +66,7 @@
 				text-decoration: underline;
 			}
 		</style>
+		<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
 		<script>
 			$(document).ready(function() {
 	            $(".enter").keydown(function(key) {
@@ -132,7 +133,7 @@
 				</div>
 			</div>
 			<div>
-				<button class="naver_login_btn">네이버 로그인</button>
+				<button id="naver_id_login" onclick="location.href='${url}'" class="naver_login_btn">네이버 로그인</button>
 				<button class="signUp_btn" onclick="location.href='signUp'">회원가입</button>
 			</div>
 		</div>
