@@ -7,5 +7,7 @@ public interface ChattingController {
 
 	public String chat(HttpServletRequest request, String roomCode);
 	
-	public String roomInAction(HttpServletRequest request, String roomCode);
+	public String roomInAction(HttpSession session, String roomCode);
+	
+	public String makeRoomAction(HttpSession session, String roomName);
 }

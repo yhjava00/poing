@@ -25,4 +25,8 @@
 		where r.code = #{roomCode}
 	</select>
 	
+	<insert id="insertChatting" parameterType="map">
+		insert into chatting values(chatting_seq.nextval, #{roomCode}, #{id}, #{content}, sysdate)
+	</insert>
+	
 </mapper>

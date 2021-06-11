@@ -24,6 +24,8 @@ public class ChattingControllerImpl implements ChattingController{
 		
 		HttpSession session = request.getSession();
 		
+		session.setAttribute("roomCode", "waiting");
+		
 		String id = (String) session.getAttribute("loginCheck");
 		
 		Map<String, Object> info = chattingService.chat(id);
@@ -36,15 +38,23 @@ public class ChattingControllerImpl implements ChattingController{
 	@Override
 	@ResponseBody
 	@RequestMapping(value = "/chat/roomIn.do", produces = "application/json; charset=UTF-8")
-	public String roomInAction(HttpServletRequest request, String roomCode) {
+	public String roomInAction(HttpSession session, String roomCode) {
+		
+		session.setAttribute("roomCode", roomCode);
 		
 		StringBuilder json = chattingService.roomIn(roomCode); 
 		
-		String id = (String) request.getSession().getAttribute("loginCheck");
+		String id = (String) session.getAttribute("loginCheck");
 		
 		json.append(", \"id\" : \"").append(id).append("\"}");
 		
 		return json.toString();
+	}
+	
+	@Override
+	public String makeRoomAction(HttpSession session, String roomName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

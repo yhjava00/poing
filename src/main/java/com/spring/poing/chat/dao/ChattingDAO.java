@@ -1,6 +1,7 @@
 package com.spring.poing.chat.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.spring.poing.vo.ChattingRoomVO;
 import com.spring.poing.vo.ChattingVO;
@@ -14,5 +15,7 @@ public interface ChattingDAO {
 	public List<ChattingVO> selectChattingList(String roomCode);
 	
 	public List<String> selectChattingMemberList(String roomCode);
+	
+	public int insertChatting(Map<String, Object> info);
 	
 }

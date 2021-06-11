@@ -128,6 +128,33 @@
 			    cursor: pointer;
 			}
 			
+			.visitRoomBox {
+			    display: block;
+			    width: 100%;
+			    height: 35px;
+			    border-top: 2px solid #f0f0f0;
+			}
+			
+			.visitRoomInput {
+			    width: 65%;
+			    height: 30px;
+			    border: none;
+			    padding: 0 5px;
+			}
+			
+			.visitRoomInput:focus {
+			    outline: none;
+			}
+			
+			.visitRoomBtn {
+			    outline: none;
+			    border: none;
+			    background: none;
+			    color: #0084FF;
+			    font-size: 12px;
+			    cursor: pointer;
+			}
+			
 			#message {
 			    width: 85%;
 			    height: calc(100% - 1px);
@@ -206,7 +233,28 @@
 			function onMessage(msg) {
 				var data = msg.data;
 				
-				console.log(data)
+				var fromId = data.substring(0, data.indexOf('.com')+4)
+				
+				var content = data.substring(data.indexOf('.com')+4)
+				
+				var myId = $('#myId').val()
+				
+				var item = ''
+
+				if(fromId === myId) {
+        			item += '<div class="myMsg">'
+        		}else {
+        			item += '<div class="anotherMsg">'
+        			item += '<span class="anotherName">' + fromId + '</span>'
+        		}
+				item += '<span class="msg">' + content + '</span>'
+				item += '</div>'
+				
+				$('#chatLog').append(item)
+				
+				if($('#chatLog').scrollTop() > $('#chatLog').prop("scrollHeight") - 1500)
+					$('#chatLog').scrollTop($('#chatLog').prop("scrollHeight"))
+				
 			}
 			
 			function onClose(evt) {
@@ -214,6 +262,13 @@
 			}
 			
 			function roomIn(roomCode) {
+				
+				sock.close()
+				
+				sock = new SockJS("<c:url value="/chat.do"/>")
+				sock.onmessage = onMessage
+				sock.onclose = onClose
+				
 				$.ajax({
 			        type: "post", 
 			        url: "chat/roomIn.do", 
@@ -242,6 +297,8 @@
 			        	}
 			        	
 						$('#chatLog').append(item)
+
+						$('#chatLog').scrollTop($('#chatLog').prop("scrollHeight"))
 						
 						var memberList = data.chattingMemberList
 						
@@ -260,9 +317,27 @@
 			        }
 			    })
 			}
+			
+			function makeRoom() {
+
+				var roomName = $('.makeRoomInput').val()
+				
+				$.ajax({
+			        type: "post", 
+			        url: "chat/makeRoom.do", 
+			        data: {'roomName':roomName},
+			        success:function (data) {
+			        	
+			        },
+			        error:function () {
+			        	alert('에러가 발생했습니다.');
+			        }
+			    })
+			}
 		</script>
 	</head>
 	<body>
+		<input id="myId" type="hidden" value="${loginCheck}">
 		<div id="contentCover">
 	        <div id="roomWrap">
 	            <div id="roomList">
@@ -276,7 +351,12 @@
 	                <hr>
 	                <div class="makeRoomBox">
 	                	<input class="makeRoomInput" type="text">
-	                	<input class="makeRoomBtn" type="button" value="방만들기">
+	                	<input onclick="makeRoom()" class="makeRoomBtn" type="button" value="방만들기">
+	                </div>
+	                <hr>
+	                <div class="visitRoomBox">
+	                	<input class="visitRoomInput" type="text">
+	                	<input class="visitRoomBtn" type="button" value="방참여">
 	                </div>
 	            </div>
 	        </div>

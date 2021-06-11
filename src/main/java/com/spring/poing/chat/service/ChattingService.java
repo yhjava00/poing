@@ -8,4 +8,6 @@ public interface ChattingService {
 	
 	public StringBuilder roomIn(String roomCode);
 	
+	public String writeChatting(String roomCode, String id, String content);
+	
 }

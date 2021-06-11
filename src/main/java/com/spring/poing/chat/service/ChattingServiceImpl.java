@@ -36,15 +36,10 @@ public class ChattingServiceImpl implements ChattingService {
 		
 		List<ChattingVO> chattingList = chattingDAO.selectChattingList(roomCode);
 		List<String> chattingMemberList = chattingDAO.selectChattingMemberList(roomCode);
+
+		String roomName = chattingDAO.selectRoomName(roomCode);
 		
-		json.append("{\"chattingList\" : [");
-		
-		for(ChattingVO chat : chattingList) {
-			json.append("{\"id\" : \"").append(chat.getMember_id()).append("\", \"content\" : \"").append(chat.getContent())
-			.append("\", \"regDate\" : \"").append(chat.getRegDate()).append("\"}, ");
-		}
-		
-		json.deleteCharAt(json.lastIndexOf(",")).append("]");
+		json.append("{\"roomName\" : \"").append(roomName).append("\"");
 		
 		json.append(", \"chattingMemberList\" : [");
 		
@@ -53,12 +48,38 @@ public class ChattingServiceImpl implements ChattingService {
 		}
 
 		json.deleteCharAt(json.lastIndexOf(",")).append("]");
+
+		json.append(", \"chattingList\" : [");
 		
-		String roomName = chattingDAO.selectRoomName(roomCode);
+		for(ChattingVO chat : chattingList) {
+			json.append("{\"id\" : \"").append(chat.getMember_id()).append("\", \"content\" : \"").append(chat.getContent())
+			.append("\", \"regDate\" : \"").append(chat.getRegDate()).append("\"}, ");
+		}
 		
-		json.append(", \"roomName\" : \"").append(roomName).append("\"");
+		if(chattingList.size()>0)
+			json.deleteCharAt(json.lastIndexOf(","));
+		
+		json.append("]");
 		
 		return json;
+	}
+	
+	@Override
+	public String writeChatting(String roomCode, String id, String content) {
+		
+		Map<String, Object> info = new HashMap<String, Object>();
+		
+		info.put("roomCode", roomCode);
+		info.put("id", id);
+		info.put("content", content);
+		
+		int state = chattingDAO.insertChatting(info);
+		
+		if(state<=0) {
+			return "error";
+		}
+		
+		return "success";
 	}
 
 }

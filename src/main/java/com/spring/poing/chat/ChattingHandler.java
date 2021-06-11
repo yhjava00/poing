@@ -16,14 +16,14 @@ import com.spring.poing.chat.service.ChattingService;
 public class ChattingHandler extends TextWebSocketHandler {
 
 	private Map<String, List<WebSocketSession>> sessionMap = new HashMap<String, List<WebSocketSession>>();
-	
+
 	@Autowired
-	ChattingService chttingService;
-	
+	ChattingService chattingService;
+
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		String roomCode  = (String) session.getAttributes().get("roomCode");
-		
+
 		if(sessionMap.containsKey(roomCode)) {
 			sessionMap.get(roomCode).add(session);
 		}else {
@@ -34,12 +34,23 @@ public class ChattingHandler extends TextWebSocketHandler {
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		
 		String roomCode  = (String) session.getAttributes().get("roomCode");
 		
+		String id = (String) session.getAttributes().get("loginCheck");
+		
+		String content = message.getPayload();
+		
+		if(roomCode.equals("waiting")||content.equals("")) {
+			return;
+		}
+		
+		chattingService.writeChatting(roomCode, id, content);
+			
 		List<WebSocketSession> room = sessionMap.get(roomCode);
 		
 		for(WebSocketSession sess : room) {
-			sess.sendMessage(new TextMessage(message.getPayload()));
+			sess.sendMessage(new TextMessage(id + content));
 		}
 	}
 	

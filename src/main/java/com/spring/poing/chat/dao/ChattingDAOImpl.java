@@ -1,6 +1,7 @@
 package com.spring.poing.chat.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,10 @@ public class ChattingDAOImpl implements ChattingDAO {
 	@Override
 	public List<String> selectChattingMemberList(String roomCode) {
 		return sqlSession.selectList("chatting.selectChattingMemberList", roomCode);
+	}
+	
+	@Override
+	public int insertChatting(Map<String, Object> info) {
+		return sqlSession.insert("chatting.insertChatting", info);
 	}
 }
