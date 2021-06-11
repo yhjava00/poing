@@ -12,6 +12,8 @@
 		<typeAlias type="com.spring.poing.vo.ReservationVO" alias="reservationVO"/>
 		<typeAlias type="com.spring.poing.vo.ReviewVO" alias="reviewVO"/>
 		<typeAlias type="com.spring.poing.vo.LikeVO" alias="likeVO"/>
+		<typeAlias type="com.spring.poing.vo.ChattingVO" alias="chattingVO"/>
+		<typeAlias type="com.spring.poing.vo.ChattingRoomVO" alias="chattingRoomVO"/>
 		<typeAlias type="java.lang.String" alias="String"/>
 		<typeAlias type="java.util.List" alias="list"/>
 		<typeAlias type="java.util.Map" alias="map"/>

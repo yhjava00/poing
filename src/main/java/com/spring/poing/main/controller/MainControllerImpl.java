@@ -162,7 +162,6 @@ public class MainControllerImpl implements MainController {
 	@ResponseBody
 	@RequestMapping("/iLikeThis.do")
 	public String likeAction(HttpServletRequest request, byte like, int idx) {
-		
 		String id = (String) request.getSession().getAttribute("loginCheck");
 		
 		if(id==null)
@@ -172,5 +171,5 @@ public class MainControllerImpl implements MainController {
 		
 		return state;
 	}
-	
+
 }

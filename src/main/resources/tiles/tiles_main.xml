@@ -38,5 +38,9 @@
 	<definition name="myPage" extends="baseLayout">
 		<put-attribute name="body" value="/WEB-INF/views/myPage/myPage.jsp"/>
 	</definition>
+
+	<definition name="chat" extends="baseLayout">
+		<put-attribute name="body" value="/WEB-INF/views/chat.jsp"/>
+	</definition>
 	
 </tiles-definitions>

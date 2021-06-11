@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="chatting">
+	
+	<select id="selectRoomList" parameterType="String" resultType="chattingRoomVO">
+		select r.name, r.code
+		from chatting_member m inner join chatting_room r on m.room_code = r.code
+		where m.member_id = #{id}
+	</select>
+	
+	<select id="selectRoomName" parameterType="String" resultType="String">
+		select name from chatting_room where code = #{roomCode}
+	</select>
+	
+	<select id="selectChattingList" parameterType="String" resultType="chattingVO">
+		select * from chatting where room_code = #{roomCode} order by regDate
+	</select>
+	
+	<select id="selectChattingMemberList" parameterType="String" resultType="String">
+		select member_id
+		from chatting_member m inner join chatting_room r on m.room_code = r.code
+		where r.code = #{roomCode}
+	</select>
+	
+</mapper>

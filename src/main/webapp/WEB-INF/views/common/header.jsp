@@ -159,11 +159,11 @@
 			                        <li>
 			                            <a href="${contextPath}/myPage">마이페이지</a>
 			                        </li>	                    		
+			                        <li>
+			                            <a href="${contextPath}/chat">채팅방</a>
+			                        </li>
 	                    		</c:when>
 	                    	</c:choose>
-	                        <li>
-	                            <a href="#">고객센터</a>
-	                        </li>
 	                    </ul>
 	                </nav>
 	            </div>
