@@ -43,9 +43,11 @@ public class MainServiceImpl implements MainService {
 		
 		List<CategoryVO> category = mainDAO.getCategory();
 		List<StoreVO> recommendList = mainDAO.selectRecommendList();
+		List<StoreVO> likeList = mainDAO.selectLotOfLikesList();
 		
 		mainInfo.put("category", category);
 		mainInfo.put("recommendList", recommendList);
+		mainInfo.put("likeList", likeList);
 		
 		return mainInfo;
 	}

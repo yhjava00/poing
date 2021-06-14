@@ -16,6 +16,8 @@ public interface MainDAO {
 	
 	public List<StoreVO> selectRecommendList();
 	
+	public List<StoreVO> selectLotOfLikesList();
+	
 	public int totSearchNO(String search);
 	
 	public int totReviewNO(int storeIdx);

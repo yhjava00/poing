@@ -63,10 +63,10 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.15</version>
 			<exclusions>
-				<exclusion>
+				<!-- <exclusion>
 					<groupId>javax.mail</groupId>
 					<artifactId>mail</artifactId>
-				</exclusion>
+				</exclusion> -->
 				<exclusion>
 					<groupId>javax.jms</groupId>
 					<artifactId>jms</artifactId>
@@ -144,11 +144,16 @@
 		</dependency>
 
 		<!-- 이메일 발송 관련 라이브러리 -->
+         <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
         <dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4.3</version>
-		</dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
 		
 		<!-- 마이바티스 -->
 		<dependency>

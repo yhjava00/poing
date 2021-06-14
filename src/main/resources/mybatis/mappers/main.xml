@@ -17,6 +17,14 @@
 		]]>
 	</select>
 	
+	<select id="selectLotOfLikesList" resultType="storeVO">
+		<![CDATA[
+			select *
+			from (select rownum, s.* from store s order by store_like desc)
+			where rownum <= 10
+		]]>
+	</select>
+	
 	<select id="totSearchNO" parameterType="String" resultType="int">
 		select count(idx) from store where store_name like '%' || #{search} || '%' or category like '%' || #{search} || '%'
 	</select>

@@ -33,6 +33,11 @@ public class MainDAOImpl implements MainDAO {
 	}
 	
 	@Override
+	public List<StoreVO> selectLotOfLikesList() {
+		return sqlSession.selectList("main.selectLotOfLikesList");
+	}
+	
+	@Override
 	public int totSearchNO(String search) {
 		return sqlSession.selectOne("main.totSearchNO", search);
 	}

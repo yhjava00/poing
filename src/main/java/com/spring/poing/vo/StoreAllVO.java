@@ -11,6 +11,7 @@ public class StoreAllVO {
 	String main_img;
 	float star;
 	int countAllReview;
+	int store_like;
 	
 	String addr;
 	String tel;
@@ -21,6 +22,12 @@ public class StoreAllVO {
 	
 	int likeStore;
 
+	public int getStore_like() {
+		return store_like;
+	}
+	public void setStore_like(int store_like) {
+		this.store_like = store_like;
+	}
 	public int getLikeStore() {
 		return likeStore;
 	}
