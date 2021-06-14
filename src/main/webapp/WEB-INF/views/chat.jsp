@@ -53,6 +53,7 @@
 			    font-size: 25px;
 			    font-weight: 900;
 			    border-bottom: 1px solid #ddd;
+			    overflow: hidden;
 			}
 			
 			#chatLog {
@@ -174,6 +175,20 @@
 			    font-size: 17px;
 			    cursor: pointer;
 			}
+			
+			#leaveBtn {
+			    float: right;
+			    position: relative;
+			    right: 30px;
+			    top: 17px;
+			    outline: none;
+			    border: none;
+			    background: none;
+			    color: #0084FF;
+			    font-size: 17px;
+			    cursor: pointer;
+			}
+			
 			#memberWrap{
 			    width: 200px;
 			}
@@ -204,6 +219,10 @@
 			    display: flex;
 			    justify-content: space-around;
 			}
+			#roomSelect {
+				height: 210px;
+			    overflow-y: auto;
+			}
 		</style>
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 		<script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
@@ -212,27 +231,80 @@
 				$(".enter").keydown(function(key) {
 	                if (key.keyCode == 13) {
 	                	sendMessage()
-						$('#message').val('')
 	                }
-	            });
+	            })
+	            
+				$(".makeRoomInput").keydown(function(key) {
+	                if (key.keyCode == 13) {
+	                	makeRoom()
+	                	$(".makeRoomInput").val('')
+	                }
+	            })
+	            
+				$(".visitRoomInput").keydown(function(key) {
+	                if (key.keyCode == 13) {
+	                	visitRoom()
+	                	$(".visitRoomInput").val('')
+	                }
+	            })
 				 
 				$("#sendBtn").click(function() {
 					sendMessage()
-					$('#message').val('')
-				});
+				})
+				
+				$('.roomEl:first-child').addClass('active')
+				
+			    var activeCode = $('.active').attr('class').split(' ')[1]
+			    roomIn(activeCode)
 			})
 			
-			var sock = new SockJS("<c:url value="/chat.do"/>")
+			sock = new SockJS("<c:url value="/chat.do"/>")
 			sock.onmessage = onMessage
 			sock.onclose = onClose
-			
+				
 			function sendMessage() {
+
+				if($('#message').val().startsWith('-*//*-')) {
+					alert('커멘드 명령어는 전송이 불가합니다.')
+					$('#message').val('')
+					return
+				}
+
 				sock.send($('#message').val())
+				$('#message').val('')
 			}
 			
 			function onMessage(msg) {
 				var data = msg.data;
 				
+				if(data.startsWith('-*//*-')) {
+					
+					var commend = data.split(' ')
+					
+					switch(commend[1]) {
+					case 'setMember':
+						for(var i=2; i<commend.length; i++) {
+							$('#memberList').children('.memberSelect').remove()
+							for(var i=2; i<commend.length; i++) {
+								$('#memberList').append('<div class="memberSelect">' + commend[i] + '</div>')
+							}
+						}
+						break;
+					case 'addMemeber':
+						$('#memberList').append('<div class="memberSelect">' + commend[2] + '</div>')
+						break;
+					case 'delMemeber':
+						$('.memberSelect').each(function() {
+							if($(this).text()===commend[2]) {
+								$(this).remove()
+								return
+							}
+						})
+						break;
+					}
+					return
+				}
+
 				var fromId = data.substring(0, data.indexOf('.com')+4)
 				
 				var content = data.substring(data.indexOf('.com')+4)
@@ -280,8 +352,13 @@
 			        	var chatList = data.chattingList
 			        	
 			        	var item = ''
+						
+						$('.active').removeClass('active')
+
+						$('.' + roomCode).addClass('active')
 			        	
-						$('#chatHeader').text(data.roomName)
+						$('#chatHeader').text(data.roomName + ' (' + roomCode + ')')
+						$('#chatHeader').append('<input onclick="leaveRoom(\'' + roomCode + '\')" type="button" id="leaveBtn" value="나가기">')
 			        	
 						$('#chatLog').empty()
 
@@ -300,7 +377,7 @@
 
 						$('#chatLog').scrollTop($('#chatLog').prop("scrollHeight"))
 						
-						var memberList = data.chattingMemberList
+						/* var memberList = data.chattingMemberList
 						
 						$('#memberList').children('.memberSelect').remove()
 
@@ -310,7 +387,7 @@
 							item += '<div class="memberSelect">' + memberList[i] + '</div>'
 						}
 
-						$('#memberList').append(item)
+						$('#memberList').append(item) */
 			        },
 			        error:function () {
 			        	alert('에러가 발생했습니다.');
@@ -322,17 +399,138 @@
 
 				var roomName = $('.makeRoomInput').val()
 				
+				if(roomName === '') {
+					alert('방이름을 설정하세요.')
+					return;
+				}
+
 				$.ajax({
 			        type: "post", 
 			        url: "chat/makeRoom.do", 
 			        data: {'roomName':roomName},
 			        success:function (data) {
 			        	
+			        	var state = data.state
+
+			        	var activeCode = $('.active').attr('class').split(' ')[1]
+			        	
+			        	if(state==='error') {
+			        		alert('방 생성에 실패하였습니다.')
+			        	}else {
+			        		
+			        		var roomList = data.roomList
+			        		
+			        		var item = ''
+			        		
+			        		for(var i=0; i<roomList.length; i++) {
+			        			item += '<div class="roomEl ' + roomList[i].code + '" onclick="roomIn(\'' + roomList[i].code + '\')">' + roomList[i].name + '</div>';
+			        		}
+			        		$('#roomSelect').empty()
+							$('#roomSelect').append(item)
+							
+							$('.' + activeCode).addClass('active')
+				        	
+			        	}
 			        },
 			        error:function () {
-			        	alert('에러가 발생했습니다.');
+			        	alert('에러가 발생했습니다.')
 			        }
 			    })
+			}
+			
+			function visitRoom() {
+				
+				var roomCode = $('.visitRoomInput').val()
+				
+				if(roomCode === '') {
+					alert('코드를 입력하세요.')
+					return;
+				}
+				
+				$.ajax({
+					type: 'post',
+					url: 'chat/visitRoom.do',
+					data: {'roomCode' : roomCode},
+					success: function (data) {
+						
+						var state = data.state
+			        	
+			        	if(state==='error') {
+			        		alert('방 생성에 실패하였습니다.')
+			        	}else {
+			        		
+			        		var roomList = data.roomList
+			        		
+			        		var item = ''
+
+					        var activeCode = $('.active').attr('class').split(' ')[1]
+					        	
+			        		for(var i=0; i<roomList.length; i++) {
+			        			item += '<div class="roomEl ' + roomList[i].code + '" onclick="roomIn(\'' + roomList[i].code + '\')">' + roomList[i].name + '</div>';
+			        		}
+			        		$('#roomSelect').empty()
+							$('#roomSelect').append(item)
+							
+							$('.' + activeCode).addClass('active')
+			        	}
+					},
+					error: function() {
+						alert('에러가 발생했습니다.')
+					}
+				})
+			}
+			
+			function leaveRoom(roomCode) {
+				
+				$.ajax({
+					type: 'post',
+					url: 'chat/leaveRoom.do',
+					data:{'roomCode' : roomCode},
+					success: function(data) {
+						
+						if(data==='error') {
+							alert('방나가기에 실패하셨습니다.')
+							return;
+						}
+						
+						$('.active').remove()
+
+						$('.roomEl:first-child').addClass('active')
+						var activeCode = $('.active').attr('class').split(' ')[1]
+						roomIn(activeCode)
+					},
+					error: function() {
+						alert('에러가 발생했습니다.')
+					}
+				})
+				
+				function refreshMemeber() {
+
+					var roomCode = $('.active').attr('class').split(' ')[1]
+
+					$.ajax({
+						type: 'post',
+						url: 'chat/refreshMember.do',
+						data: {'roomCode': roomCode},
+						success: function(data) {
+
+			        		var memberList = data.roomMemberList
+			        		
+			        		var item = ''
+
+			        		for(var i=0; i<memberList.length; i++) {
+			        			item += '<div class="memberSelect">' + memberList[i] + '</div>'
+			        		}
+			        		
+			        		$('.roomMemberList').empty()
+							$('.roomMemberList').append(item)
+							
+						},
+						error: function() {
+							alert('에러가 발생했습니다.')
+						}
+					})
+				}
 			}
 		</script>
 	</head>
@@ -343,9 +541,8 @@
 	            <div id="roomList">
 	                <div id="roomHeader">채팅 방 목록</div>
 	                <div id="roomSelect">
-	                    <div class="roomEl active" data-id="1">Everyone</div>
 	                    <c:forEach var="room" items="${info.roomList}">
-		                    <div class="roomEl" onclick="roomIn('${room.code}')">${room.name}</div>
+		                    <div class="roomEl ${room.code}" onclick="roomIn('${room.code}')">${room.name}</div>
 	                    </c:forEach>
 	                </div>
 	                <hr>
@@ -356,12 +553,12 @@
 	                <hr>
 	                <div class="visitRoomBox">
 	                	<input class="visitRoomInput" type="text">
-	                	<input class="visitRoomBtn" type="button" value="방참여">
+	                	<input onclick="visitRoom()" class="visitRoomBtn" type="button" value="방참여">
 	                </div>
 	            </div>
 	        </div>
 	        <div id="chatWrap">
-	            <div id="chatHeader">채팅방을 선택해주세요</div>
+	            <div id="chatHeader"></div>
 	            <div id="chatLog">
 	                
 	            </div>

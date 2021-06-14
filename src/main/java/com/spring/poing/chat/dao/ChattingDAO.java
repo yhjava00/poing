@@ -18,4 +18,12 @@ public interface ChattingDAO {
 	
 	public int insertChatting(Map<String, Object> info);
 	
+	public String selectRoomCode(String code);
+	
+	public int insertRoom(Map<String, String> info);
+	
+	public int insertRoomMember(Map<String, String> info);
+	
+	public int deleteRoomMember(Map<String, String> info);
+	
 }

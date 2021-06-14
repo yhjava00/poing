@@ -10,4 +10,10 @@ public interface ChattingController {
 	public String roomInAction(HttpSession session, String roomCode);
 	
 	public String makeRoomAction(HttpSession session, String roomName);
+	
+	public String visitRoomAction(HttpSession session, String roomCode);
+	
+	public String leaveRoomAction(HttpSession session, String roomCode);
+	
+	public String refreshMember(String roomCode);
 }

@@ -9,6 +9,7 @@
 		select r.name, r.code
 		from chatting_member m inner join chatting_room r on m.room_code = r.code
 		where m.member_id = #{id}
+		order by name
 	</select>
 	
 	<select id="selectRoomName" parameterType="String" resultType="String">
@@ -28,5 +29,21 @@
 	<insert id="insertChatting" parameterType="map">
 		insert into chatting values(chatting_seq.nextval, #{roomCode}, #{id}, #{content}, sysdate)
 	</insert>
+	
+	<select id="selectRoomCode" parameterType="String" resultType="String">
+		select code from chatting_room where code = #{code}
+	</select>
+	
+	<insert id="insertRoom" parameterType="map">
+		insert into chatting_room (code, name) values (#{code}, #{roomName})
+	</insert>
+	
+	<insert id="insertRoomMember" parameterType="map">
+		insert into chatting_member (room_code, member_id) values (#{code}, #{id})
+	</insert>
+	
+	<delete id="deleteRoomMember" parameterType="map">
+		delete from chatting_member where room_code = #{code} and member_id = #{id}
+	</delete>
 	
 </mapper>

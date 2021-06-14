@@ -40,4 +40,24 @@ public class ChattingDAOImpl implements ChattingDAO {
 	public int insertChatting(Map<String, Object> info) {
 		return sqlSession.insert("chatting.insertChatting", info);
 	}
+	
+	@Override
+	public String selectRoomCode(String code) {
+		return sqlSession.selectOne("chatting.selectRoomCode", code);
+	}
+	
+	@Override
+	public int insertRoom(Map<String, String> info) {
+		return sqlSession.insert("chatting.insertRoom", info);
+	}
+	
+	@Override
+	public int insertRoomMember(Map<String, String> info) {
+		return sqlSession.insert("chatting.insertRoomMember", info);
+	}
+	
+	@Override
+	public int deleteRoomMember(Map<String, String> info) {
+		return sqlSession.delete("chatting.deleteRoomMember", info);
+	}
 }
