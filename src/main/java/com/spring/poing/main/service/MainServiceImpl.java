@@ -9,14 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.spring.poing.main.dao.MainDAO;
-import com.spring.poing.main.dao.MainDAOImpl;
 import com.spring.poing.member.dao.MemberDAO;
 import com.spring.poing.vo.CategoryVO;
 import com.spring.poing.vo.MemberVO;
@@ -56,27 +52,22 @@ public class MainServiceImpl implements MainService {
 	public Map<String, Object> search(String search, int page) {
 		
 		int totSearchNO = mainDAO.totSearchNO(search);
+
+		Map<String, Object> info = new HashMap<String, Object>();
 		
-		Map<String, Object> pageInfo = paging(totSearchNO, page, 12);
+		paging(info, totSearchNO, page, 12);
 		
-		pageInfo.put("search", search);
+		info.put("search", search);
 		
-		List<StoreVO> searchList = mainDAO.selectSearchList(pageInfo);
+		List<StoreVO> searchList = mainDAO.selectSearchList(info);
 		
-		Map<String, Object> searchMap = new HashMap<String, Object>();
+		info.put("search", search);
 		
-		searchMap.put("search", search);
+		info.put("totSearchNO", totSearchNO);
 		
-		searchMap.put("totSearchNO", totSearchNO);
+		info.put("searchList", searchList);
 		
-		searchMap.put("frontPage", pageInfo.get("frontPage"));
-		searchMap.put("behindPage", pageInfo.get("behindPage"));
-		searchMap.put("page", page);
-		searchMap.put("lastPage", pageInfo.get("lastPage"));
-		
-		searchMap.put("searchList", searchList);
-		
-		return searchMap;
+		return info;
 	}
 	
 	@Override
@@ -281,27 +272,22 @@ public class MainServiceImpl implements MainService {
 	public Map<String, Object> review(int placeId, int page) {
 		
 		int totReviewNO = mainDAO.totReviewNO(placeId);
+
+		Map<String, Object> info = new HashMap<String, Object>();
 		
-		Map<String, Object> pageInfo = paging(totReviewNO, page, 30);
+		paging(info, totReviewNO, page, 30);
 		
-		pageInfo.put("storeIdx", placeId);
+		info.put("storeIdx", placeId);
 		
-		List<ReviewVO> reviewList = mainDAO.selectReviewList(pageInfo);
+		List<ReviewVO> reviewList = mainDAO.selectReviewList(info);
 		StoreVO store = mainDAO.selectStore(placeId);
 
-		Map<String, Object> reviewInfo = new HashMap<String, Object>();
-				
-		reviewInfo.put("store", store);
-		reviewInfo.put("reviewList", reviewList);
+		info.put("store", store);
+		info.put("reviewList", reviewList);
 		
-		reviewInfo.put("totReviewNO", totReviewNO);
+		info.put("totReviewNO", totReviewNO);
 		
-		reviewInfo.put("frontPage", pageInfo.get("frontPage"));
-		reviewInfo.put("behindPage", pageInfo.get("behindPage"));
-		reviewInfo.put("page", page);
-		reviewInfo.put("lastPage", pageInfo.get("lastPage"));
-		
-		return reviewInfo;
+		return info;
 	}
 	
 	@Override
@@ -328,24 +314,17 @@ public class MainServiceImpl implements MainService {
 		int totComingVisit = mainDAO.totComingVisit(info);
 		int totLikeStore = mainDAO.totLikeStore(id);
 		
-		int lastPage = 0;
-		
 		if(path.equals("past_reservation")) {
-			lastPage = (totPastRes-1)/10 + 1;
+			paging(info, totPastRes, page, 10);
 		}else if(path.equals("review")) {
-			lastPage = (totMyReview-1)/10 + 1;
+			paging(info, totMyReview, page, 10);
 		}else if(path.equals("coming_visit")) {
-			lastPage = (totComingVisit-1)/10 + 1;
+			paging(info, totComingVisit, page, 10);
 		}else if(path.equals("like_store")) {
-			lastPage = (totLikeStore-1)/10 + 1;
+			paging(info, totLikeStore, page, 10);
 		}
 
-		if(page > lastPage)
-			page = lastPage;
-		
-		info.put("page", page);
-		
-		List<Object> itemList =  null;
+		List<Object> itemList = null;
 		
 		if(path.equals("past_reservation")) {
 			itemList = mainDAO.pastResList(info);
@@ -357,20 +336,9 @@ public class MainServiceImpl implements MainService {
 			itemList = mainDAO.likeStoreList(info);
 		}
 		
-		info.clear();
-		
-		int frontPage = 1;
-		int behindPage = lastPage;
-		
-		if(page>2) {
-			frontPage = page-2;
-		}
-		
-		if(page<lastPage-1) {
-			behindPage = page+2;
-		}
-		
 		MemberVO member = memberDAO.selectMember(id);
+		
+		member.setPw("");
 		
 		info.put("member", member);
 		
@@ -380,11 +348,6 @@ public class MainServiceImpl implements MainService {
 		
 		info.put("itemList", itemList);
 
-		info.put("frontPage", frontPage);
-		info.put("behindPage", behindPage);
-		info.put("page", page);
-		info.put("lastPage", lastPage);
-		
 		return info;
 	}
 	
@@ -405,15 +368,13 @@ public class MainServiceImpl implements MainService {
 		}
 	}
 
-	public Map<String, Object> paging(int totNum, int page, int line) {
-		Map<String, Object> info = new HashMap<String, Object>();
+	public void paging(Map<String, Object> info, int totNum, int page, int line) {
 
 		int lastPage = (totNum-1)/line + 1;
 		
 		if(page > lastPage)
 			page = lastPage;
 		
-
 		int frontPage = 1;
 		int behindPage = lastPage;
 		
@@ -429,8 +390,24 @@ public class MainServiceImpl implements MainService {
 		info.put("lastPage", lastPage);
 		info.put("frontPage", frontPage);
 		info.put("behindPage", behindPage);
-		
-		return info;
+
 	}
 	
+	@Override
+	public String cancelReservation(String id, int store_idx, String resDate, String time, int page) {
+		
+		Map<String, Object> info = new HashMap<String, Object>();
+		
+		info.put("id", id);
+		info.put("store_idx", store_idx);
+		info.put("resDate", resDate);
+		info.put("time", time);
+		
+		int state = mainDAO.deleteReservation(info);
+		
+		if(state<=0)
+			return "{\"state\" : \"error\"}";
+		
+		return "{\"state\" : \"success\"}";
+	}
 }

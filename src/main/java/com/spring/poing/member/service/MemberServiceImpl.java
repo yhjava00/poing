@@ -22,35 +22,43 @@ public class MemberServiceImpl implements MemberService {
 	PasswordEncoder passwordEncoder;
 
 	@Override
-	public String login(String id, String pw) {
+	public int login(String id, String pw) {
 		
-		String loginState = "login";
+		int state = 0;
 		
 		MemberVO member = memberDAO.selectMember(id);
 		
 		if(member==null) {
-			loginState = "no member";
+			//"no member"
+			state = -1;
 		}else if(!passwordEncoder.matches(pw, member.getPw())) {
-			loginState = "incorrect pw";
+			//incorrect pw
+			state = -2;
+		}else if(member.getStore_check()>0) {
+			state = member.getStore_check();
 		}
 		
-		return loginState;
+		return state;
 	}
 	
 	@Override
-	public String naverLogin(String id, String nickname) {
+	public int naverLogin(String id, String nickname) {
 		
 		MemberVO member = memberDAO.selectMember(id);
 		
 		if(member!=null&&!member.getMember_type().equals("naver"))
-			return "exist member";
+			return -1;
 		
 		if(member==null) {
 			member = new MemberVO(id, nickname, "naver");
 			memberDAO.insertMember(member);
 		}
 		
-		return "success";
+		if(member.getStore_check()>0) {
+			return member.getStore_check();
+		}
+		
+		return 0;
 	}
 	
 	@Override

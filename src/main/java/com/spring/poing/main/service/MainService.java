@@ -30,4 +30,6 @@ public interface MainService {
 	
 	public String like(String memberId, int storeIdx, byte like);
 	
+	public String cancelReservation(String id, int store_idx, String resDate, String time, int page);
+	
 }

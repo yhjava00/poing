@@ -2,11 +2,11 @@ package com.spring.poing.vo;
 
 public class ChattingVO {
 	
-	int idx;
-	String room_code;
-	String member_id;
-	String content;
-	String regDate;
+	private int idx;
+	private String room_code;
+	private String member_id;
+	private String content;
+	private String regDate;
 	
 	public String getRegDate() {
 		return regDate;

@@ -171,5 +171,16 @@ public class MainControllerImpl implements MainController {
 		
 		return state;
 	}
+	
+	@Override
+	@ResponseBody
+	@RequestMapping(value = "cancelReservation.do", produces = "application/json; charset=UTF-8")
+	public String cancelReservation(HttpSession session, int store_idx, String resDate, String time,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+		
+		String id = (String) session.getAttribute("loginCheck");
+		
+		return mainService.cancelReservation(id, store_idx, resDate, time, page);
+	}
 
 }

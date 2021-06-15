@@ -59,7 +59,7 @@
 					type: 'post', 
 					url: '/poing/iLikeThis.do', 
 					data: {'like':like, 'idx':store_idx},
-					success:function (data, textStatus) {
+					success:function (data) {
 						
 						if(data === 'like') {
 							alert('좋아요.')
@@ -71,10 +71,10 @@
 						}
 						
 					},
-					error:function (data, textStatus) {
-						alert('에러가 발생했습니다.');
+					error:function () {
+						alert('에러가 발생했습니다.')
 					}
-				});
+				})
 			}
 			
 		</script>

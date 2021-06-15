@@ -96,9 +96,9 @@
 			        url: "login.do", 
 			        data: {'id':id, 'pw':pw},
 			        success:function (data, textStatus) {
-			        	if(data=='no member') {
+			        	if(data==='-1') {
 			        		alert('존재하지 않는 회원입니다.');
-			        	}else if(data=='incorrect pw') {
+			        	}else if(data==='-2') {
 			        		alert('잘못된 비밀번호입니다.');
 			        	}else {
 			        		location.href='main';

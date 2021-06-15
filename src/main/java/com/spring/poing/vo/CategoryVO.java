@@ -2,8 +2,8 @@ package com.spring.poing.vo;
 
 public class CategoryVO {
 	
-	String category_name;
-	String category_img;
+	private String category_name;
+	private String category_img;
 	
 	public String getCategory_name() {
 		return category_name;

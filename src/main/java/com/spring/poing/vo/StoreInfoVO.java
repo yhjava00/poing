@@ -2,13 +2,13 @@ package com.spring.poing.vo;
 
 public class StoreInfoVO {
 	
-	int idx;
-	int stroe_idx;
-	String addr;
-	String tel;
-	String opening_hours;
-	String closed_days;
-	char parking;
+	private int idx;
+	private int stroe_idx;
+	private String addr;
+	private String tel;
+	private String opening_hours;
+	private String closed_days;
+	private char parking;
 	
 	public int getIdx() {
 		return idx;

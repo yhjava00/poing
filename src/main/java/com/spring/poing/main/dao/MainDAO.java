@@ -64,4 +64,6 @@ public interface MainDAO {
 
 	public int iLikedThis(Map<String, Object> info);
 	
+	public int deleteReservation(Map<String, Object> info);
+	
 }

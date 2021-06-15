@@ -2,8 +2,8 @@ package com.spring.poing.vo;
 
 public class LikeVO {
 	
-	String member_id;
-	int store_idx;
+	private String member_id;
+	private int store_idx;
 	
 	public String getMember_id() {
 		return member_id;

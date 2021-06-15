@@ -188,4 +188,8 @@
 		delete from like_store where member_id = #{id} and store_idx = #{idx}
 	</delete>
 	
+	<delete id="deleteReservation" parameterType="map">
+		delete from reservation where member_id = #{id} and store_idx = #{store_idx} and resDate = #{resDate} and time = #{time}
+	</delete>
+	
 </mapper>

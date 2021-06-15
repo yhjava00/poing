@@ -152,4 +152,9 @@ public class MainDAOImpl implements MainDAO {
 		return sqlSession.delete("main.iLikedThis", info);
 	}
 	
+	@Override
+	public int deleteReservation(Map<String, Object> info) {
+		return sqlSession.delete("main.deleteReservation", info);
+	}
+	
 }

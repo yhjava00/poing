@@ -363,11 +363,11 @@
 						$('#chatLog').empty()
 
 			        	for(var i=0; i<chatList.length; i++) {
-			        		if(chatList[i].id === id) {
+			        		if(chatList[i].member_id === id) {
 			        			item += '<div class="myMsg">'
 			        		}else {
 			        			item += '<div class="anotherMsg">'
-			        			item += '<span class="anotherName">' + chatList[i].id + '</span>'
+			        			item += '<span class="anotherName">' + chatList[i].member_id + '</span>'
 			        		}
 							item += '<span class="msg">' + chatList[i].content + '</span>'
 							item += '</div>'

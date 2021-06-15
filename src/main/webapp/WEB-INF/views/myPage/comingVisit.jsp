@@ -36,13 +36,21 @@
 				padding: 20px;
 				overflow: hidden;
 			}
-			.reservation_box > img {
+			.reservation_box img {
 				width: 150px;
 				height: 150px;
 				border-radius: 4px;
 				float: left;
 				margin-right: 15px;
 			}
+			.reservation_box button {
+			    position: relative;
+			    top: 100px;
+			    left: -90px;
+			    height: 30px;
+			    width: 100px;
+			    cursor: pointer;
+		    }
 			.reservation_info {
 				float: left;
 			}
@@ -99,6 +107,33 @@
 			}
 			/* 페이징 */
 		</style>
+		<script>
+			function cancel_reservation(store_idx, resDate, time, page) {
+				$.ajax({
+					type: 'post', 
+					url: '/poing/cancelReservation.do', 
+					data: {'store_idx':store_idx, 'resDate':resDate, 'time':time, 'page':page},
+					success:function (data) {
+						
+						var state = data.state
+						
+						if(state==='error') {
+							alert('예약 취소에 실패하였습니다.')
+							return
+						}
+						
+						location.href = '/poing/myPage/coming_visit?page=1'
+						
+					},
+					error:function () {
+						alert('에러가 발생했습니다.')
+					}
+				})
+				$.ajax({
+					
+				})
+			}
+		</script>
 	</head>
 	<body>
 		<h2>방문 예정 예약</h2>
@@ -111,15 +146,16 @@
 	        </div>
 		</c:if>
 		<c:forEach var="vo" items="${info.itemList}">
-			<a href="${contextPath}/store/${vo.store_idx}">
-				<div class="reservation_box">
+			<div class="reservation_box">
+				<a href="${contextPath}/store/${vo.store_idx}">
 					<img src="${contextPath}/resources/store/${vo.store_idx}/${vo.main_img}">
 					<div class="reservation_info">
 						<h3>${vo.store_name}</h3>
 						<p>${vo.people_num}명 / ${vo.resDate} / ${vo.time}</p>
 					</div>
-				</div>
-			</a>
+				</a>
+				<button onclick="cancel_reservation('${vo.store_idx}', '${vo.resDate}', '${vo.time}', '${info.page}')">예약취소</button>
+			</div>
 		</c:forEach>
 		<nav>
         	<ul class="jss1025">

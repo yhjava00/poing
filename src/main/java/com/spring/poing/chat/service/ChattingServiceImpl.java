@@ -8,6 +8,8 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.poing.chat.dao.ChattingDAO;
 import com.spring.poing.vo.ChattingRoomVO;
 import com.spring.poing.vo.ChattingVO;
@@ -38,9 +40,11 @@ public class ChattingServiceImpl implements ChattingService {
 	}
 	
 	@Override
-	public StringBuilder roomIn(String roomCode) {
+	public StringBuilder roomIn(String roomCode) throws JsonProcessingException {
 		
 		StringBuilder json = new StringBuilder();
+
+		ObjectMapper mapper = new ObjectMapper();
 		
 		List<ChattingVO> chattingList = chattingDAO.selectChattingList(roomCode);
 		List<String> chattingMemberList = chattingDAO.selectChattingMemberList(roomCode);
@@ -51,19 +55,17 @@ public class ChattingServiceImpl implements ChattingService {
 		
 		json.append(", \"roomName\" : \"").append(roomName).append("\"");
 		
-		json.append(", \"chattingMemberList\" : [");
+		json.append(", \"chattingMemberList\" : ");
 		
-		for(String member : chattingMemberList) {
-			json.append("\"").append(member).append("\", ");
-		}
-
-		json.deleteCharAt(json.lastIndexOf(",")).append("]");
-
+		json.append(mapper.writeValueAsString(chattingMemberList));
+		
 		json.append(", \"chattingList\" : [");
 		
 		for(ChattingVO chat : chattingList) {
-			json.append("{\"id\" : \"").append(chat.getMember_id()).append("\", \"content\" : \"").append(chat.getContent())
-			.append("\", \"regDate\" : \"").append(chat.getRegDate()).append("\"}, ");
+			
+			json.append(mapper.writeValueAsString(chat));
+			
+			json.append(", ");
 		}
 		
 		if(chattingList.size()>0)
@@ -169,10 +171,18 @@ public class ChattingServiceImpl implements ChattingService {
 	
 	public void makeRoomListJson(StringBuilder json, List<ChattingRoomVO> roomList) {
 
+		ObjectMapper mapper = new ObjectMapper();
+		
 		json.append(", \"roomList\" : [");
 
 		for(ChattingRoomVO room : roomList) {
-			json.append("{\"code\" : \"").append(room.getCode()).append("\", \"name\" : \"").append(room.getName()).append("\"}, ");
+			try {
+				json.append(mapper.writeValueAsString(room));
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+			
+			json.append(", ");
 		}
 
 		json.deleteCharAt(json.lastIndexOf(",")).append("]");

@@ -2,8 +2,8 @@ package com.spring.poing.vo;
 
 public class ChattingRoomVO {
 
-	String code;
-	String name;
+	private String code;
+	private String name;
 	
 	public String getCode() {
 		return code;

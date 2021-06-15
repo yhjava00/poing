@@ -2,15 +2,15 @@ package com.spring.poing.vo;
 
 public class ReviewVO {
 	
-	int idx;
-	int store_idx;
-	String member_id;
-	String content;
-	int star;
-	String regDate;
+	private int idx;
+	private int store_idx;
+	private String member_id;
+	private String content;
+	private int star;
+	private String regDate;
 	
-	String nickname;
-	String profile_img;
+	private String nickname;
+	private String profile_img;
 	
 	public String getProfile_img() {
 		return profile_img;

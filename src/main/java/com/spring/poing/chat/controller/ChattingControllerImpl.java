@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.spring.poing.chat.service.ChattingService;
 
 @Controller
@@ -47,7 +48,13 @@ public class ChattingControllerImpl implements ChattingController{
 		
 		session.setAttribute("roomCode", roomCode);
 		
-		StringBuilder json = chattingService.roomIn(roomCode); 
+		StringBuilder json = null;
+		
+		try {
+			json = chattingService.roomIn(roomCode);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		} 
 		
 		String id = (String) session.getAttribute("loginCheck");
 		

@@ -2,11 +2,12 @@ package com.spring.poing.vo;
 
 public class MemberVO {
 	
-	String id;
-	String pw;
-	String nickname;
-	String profile_img;
-	String member_type;
+	private String id;
+	private String pw;
+	private String nickname;
+	private String profile_img;
+	private String member_type;
+	private int store_check;
 	
 	public MemberVO() {
 	}
@@ -17,7 +18,15 @@ public class MemberVO {
 		this.member_type = member_type;
 		this.pw = "no password";
 	}
-	
+
+	public int getStore_check() {
+		return store_check;
+	}
+
+	public void setStore_check(int store_check) {
+		this.store_check = store_check;
+	}
+
 	public String getMember_type() {
 		return member_type;
 	}

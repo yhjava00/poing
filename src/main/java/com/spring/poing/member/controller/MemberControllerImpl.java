@@ -48,15 +48,19 @@ public class MemberControllerImpl implements MemberController{
 	@RequestMapping("/login.do")
 	public String loginAction(HttpServletRequest request, String id, String pw) {
 		
-		String loginState = memberService.login(id, pw);
+		int state = memberService.login(id, pw);
 		
-		if(loginState.equals("login")) {
+		if(state>=0) {
 			HttpSession session = request.getSession();
 			session.setAttribute("loginCheck", id);
+			
+			if(state>0)
+				session.setAttribute("storeCheck", state);
+			
 			session.setMaxInactiveInterval(60*60*3);
 		}
 		
-		return loginState;
+		return "" + state;
 	}
 	
 	@Override
@@ -72,12 +76,18 @@ public class MemberControllerImpl implements MemberController{
 		String id = (String) info.get("email");
 		String nickname = (String) info.get("nickname");
 		
-		String loginState = memberService.naverLogin(id, nickname);
+		int loginState = memberService.naverLogin(id, nickname);
 		
-		if(loginState.equals("exist member"))
+		if(loginState==-1)
 			return "redirect:/exist_member";
 		
 		session.setAttribute("loginCheck", id);
+		
+		if(loginState>0) {
+			session.setAttribute("storeCheck", loginState);
+		}
+		
+		session.setMaxInactiveInterval(60*60*3);
 		
 		return "redirect:/main";
 	}

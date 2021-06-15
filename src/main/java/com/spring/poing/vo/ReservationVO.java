@@ -2,18 +2,18 @@ package com.spring.poing.vo;
 
 public class ReservationVO {
 	
-	int idx;
-	int store_idx;
-	String member_id;
-	String resDate;
-	String time;
-	int people_num;
+	private int idx;
+	private int store_idx;
+	private String member_id;
+	private String resDate;
+	private String time;
+	private int people_num;
 	
-	String store_name;
-	String introduce;
-	String location1;
-	String location2;
-	String main_img;
+	private String store_name;
+	private String introduce;
+	private String location1;
+	private String location2;
+	private String main_img;
 	
 	public String getStore_name() {
 		return store_name;

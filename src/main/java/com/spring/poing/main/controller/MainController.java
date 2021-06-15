@@ -34,4 +34,5 @@ public interface MainController {
 	
 	public String likeAction(HttpServletRequest request, byte like, int idx);
 	
+	public String cancelReservation(HttpSession session, int store_idx, String resDate, String time, int page);
 }

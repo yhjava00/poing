@@ -2,16 +2,16 @@ package com.spring.poing.vo;
 
 public class StoreVO {
 	
-	int idx;
-	String category;
-	String store_name;
-	String introduce;
-	String location1;
-	String location2;
-	String main_img;
-	float star;
-	int countAllReview;
-	int store_like;
+	private int idx;
+	private String category;
+	private String store_name;
+	private String introduce;
+	private String location1;
+	private String location2;
+	private String main_img;
+	private float star;
+	private int countAllReview;
+	private int store_like;
 	
 	public int getStore_like() {
 		return store_like;

@@ -106,6 +106,25 @@
 	                    </a>
 	                </div>
 	            </div>
+	            <c:if test="${not empty storeCheck}">
+	            	<div class="reviewBox">
+		                <div>
+		                    <h3 class="jss1006">매장 전용 메뉴</h3>
+		                </div>
+		                <div class="jss283">
+		                    <a class="jss1007" onclick="">
+		                        <span class="jss288">매장 예약</span>
+		                        <svg class="jss1008" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
+		                    </a>
+		                </div>
+		                <div class="jss283">
+		                    <a class="jss1007" href="${contextPath}/store/modify">
+		                        <span class="jss288">매장 정보 수정</span>
+		                        <svg class="jss1008" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
+		                    </a>
+		                </div>
+		            </div>
+	            </c:if>
 	        </div>
 	        
 	        <div class="contentBox">

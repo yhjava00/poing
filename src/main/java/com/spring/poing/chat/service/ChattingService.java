@@ -2,11 +2,13 @@ package com.spring.poing.chat.service;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 public interface ChattingService {
 	
 	public Map<String, Object> chat(String id);
 	
-	public StringBuilder roomIn(String roomCode);
+	public StringBuilder roomIn(String roomCode) throws JsonProcessingException;
 	
 	public String writeChatting(String roomCode, String id, String content);
 	

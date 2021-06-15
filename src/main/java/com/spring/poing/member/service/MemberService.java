@@ -4,9 +4,9 @@ import com.spring.poing.vo.MemberVO;
 
 public interface MemberService {
 
-	public String login(String id, String pw);
+	public int login(String id, String pw);
 	
-	public String naverLogin(String id, String nickname);
+	public int naverLogin(String id, String nickname);
 	
 	public String findPw(String id, String pw);
 	
