@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="store">
+	
+	<select id="selectStoreAll" parameterType="map" resultType="storeAllVO">
+		select s.*, i.*, nvl(A.store_idx, 0) likeStore
+		from store s inner join store_info i on s.idx = i.store_idx 
+		left join (select store_idx from like_store where member_id = #{id}) A on A.store_idx = s.idx
+		where s.idx = #{storeIdx}
+	</select>
+	
+	<select id="selectStore" parameterType="int" resultType="storeVO">
+		select * from store where idx = #{storeIdx}
+	</select>
+	
+	<select id="selectstoreImgList" parameterType="int" resultType="String">
+		select img_name from store_img where store_idx = #{idx}
+	</select>
+	
+</mapper>

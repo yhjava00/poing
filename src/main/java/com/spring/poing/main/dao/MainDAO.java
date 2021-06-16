@@ -32,12 +32,6 @@ public interface MainDAO {
 	
 	public List<StoreVO> selectSearchList(Map<String, Object> searchMap);
 	
-	public StoreAllVO selectStoreAll(Map<String, Object> storeInfo);
-	
-	public StoreVO selectStore(int storeIdx);
-	
-	public List<String> selectStoreImgList(int storeIdx);
-	
 	public List<String> getUnreservedTimeList(Map<String, Object> info);
 	
 	public int insertReservation(ReservationVO vo);

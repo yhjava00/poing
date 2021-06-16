@@ -65,21 +65,6 @@
 		where rn between (#{page}-1) * 12 + 1 and #{page} * 12 
 	</select>
 	
-	<select id="selectStoreAll" parameterType="map" resultType="storeAllVO">
-		select s.*, i.*, nvl(A.store_idx, 0) likeStore
-		from store s inner join store_info i on s.idx = i.store_idx 
-		left join (select store_idx from like_store where member_id = #{id}) A on A.store_idx = s.idx
-		where s.idx = #{storeIdx}
-	</select>
-	
-	<select id="selectStore" parameterType="int" resultType="storeVO">
-		select * from store where idx = #{storeIdx}
-	</select>
-	
-	<select id="selectstoreImgList" parameterType="int" resultType="String">
-		select img_name from store_img where store_idx = #{idx}
-	</select>
-	
 	<select id="unreservedTimeList" parameterType="map" resultType="String">
 		<![CDATA[
 			select DISTINCT(time)

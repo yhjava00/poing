@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.poing.main.dao.MainDAO;
 import com.spring.poing.member.dao.MemberDAO;
+import com.spring.poing.store.dao.StoreDAO;
 import com.spring.poing.vo.CategoryVO;
 import com.spring.poing.vo.MemberVO;
 import com.spring.poing.vo.ReservationVO;
@@ -31,6 +32,9 @@ public class MainServiceImpl implements MainService {
 	
 	@Autowired
 	MemberDAO memberDAO;
+	
+	@Autowired
+	StoreDAO storeDAO;
 	
 	@Override
 	public Map<String, Object> getMainInfo() {
@@ -82,8 +86,8 @@ public class MainServiceImpl implements MainService {
 		storeInfo.put("id", id);
 		storeInfo.put("storeIdx", storeIdx);
 		
-		StoreAllVO storeAllVO = mainDAO.selectStoreAll(storeInfo);
-		List<String> storeImgList = mainDAO.selectStoreImgList(storeIdx);
+		StoreAllVO storeAllVO = storeDAO.selectStoreAll(storeInfo);
+		List<String> storeImgList = storeDAO.selectStoreImgList(storeIdx);
 		List<ReviewVO> reviewList = mainDAO.selectOnlyThreeReviewList(storeIdx);
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
@@ -137,7 +141,7 @@ public class MainServiceImpl implements MainService {
 		info.put("storeIdx", storeIdx);
 		info.put("id", "");
 		
-		StoreAllVO storeAllVO = mainDAO.selectStoreAll(info);
+		StoreAllVO storeAllVO = storeDAO.selectStoreAll(info);
 		
 		List<String> selectTimeList = getSelectTimeList(storeAllVO.getOpening_hours());
 		
@@ -280,7 +284,7 @@ public class MainServiceImpl implements MainService {
 		info.put("storeIdx", placeId);
 		
 		List<ReviewVO> reviewList = mainDAO.selectReviewList(info);
-		StoreVO store = mainDAO.selectStore(placeId);
+		StoreVO store = storeDAO.selectStore(placeId);
 
 		info.put("store", store);
 		info.put("reviewList", reviewList);
@@ -292,7 +296,7 @@ public class MainServiceImpl implements MainService {
 	
 	@Override
 	public StoreVO getStoreinfo(int storeIdx) {
-		return mainDAO.selectStore(storeIdx);
+		return storeDAO.selectStore(storeIdx);
 	}
 	
 	@Override

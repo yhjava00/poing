@@ -73,21 +73,6 @@ public class MainDAOImpl implements MainDAO {
 	}
 	
 	@Override
-	public StoreAllVO selectStoreAll(Map<String, Object> storeInfo) {
-		return sqlSession.selectOne("main.selectStoreAll", storeInfo);
-	}
-	
-	@Override
-	public StoreVO selectStore(int storeIdx) {
-		return sqlSession.selectOne("main.selectStore", storeIdx);
-	}
-	
-	@Override
-	public List<String> selectStoreImgList(int storeIdx) {
-		return sqlSession.selectList("main.selectstoreImgList", storeIdx);
-	}
-	
-	@Override
 	public List<String> getUnreservedTimeList(Map<String, Object> info) {
 		return sqlSession.selectList("main.unreservedTimeList", info);
 	}
