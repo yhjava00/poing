@@ -286,7 +286,7 @@
 			
         	$(document).ready(function() {
 	        	$('#label-id-0').change(function() {
-	        		console.log(123)
+	        		
 	        		if( $('#label-id-0').val() == '' ) {
 	        			$('#profile_img').attr('src' , '') 
 	        		}

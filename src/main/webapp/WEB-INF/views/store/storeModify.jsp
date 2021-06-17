@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"/>
 <c:set var="store" value="${info.store}"/>
 <c:set var="storeImgList" value="${info.storeImgList}"/>
 <c:set var="categoryList" value="${info.categoryList}"/>
@@ -26,6 +28,11 @@
 			.store_modify_box label {
 				margin: 10px 0;
 				display: block;
+			}
+			.store_modify_box img {
+				width: 150px;
+				height: 150px;
+				margin-bottom: 20px;
 			}
 			.modify_btn {
 			    font-size: 14px;
@@ -56,16 +63,17 @@
 				var opening_hours = $('#opening_hours').val()
 				var closed_days = $('#closed_days').val()
 				var parking = $('input[name="parking"]:checked').val()
+				var max_num_people = $('#max_num_people').val()
 				
 				var opening_hours_test =  /^((?=.{1,11}$)([01][0-9]|2[0-3]):(00|30)~([01][0-9]|2[0-3]):(00|30))|(([01][0-9]|2[0-3]):(00|30)~([01][0-9]|2[0-3]):(00|30) \/ ([01][0-9]|2[0-3]):(00|30)~([01][0-9]|2[0-3]):(00|30))$/
 				
 				if(store_name===''||introduce===''||addr===''||tel===''||
-						closed_days==='') {
+						closed_days===''||max_num_people==='') {
 					alert('모든 정보를 기입해주세요');
 				}
 				
 				if(!opening_hours_test.test(opening_hours)) {
-					alert('영업시간은 hh:mm~hh:mm 또는hh:mm~hh:mm / hh:mm~hh:mm 형식으로 작성해주세요.')
+					alert('영업시간은 hh:mm~hh:mm 또는hh:mm~hh:mm / hh:mm~hh:mm 형식으로 작성해주세요.\n또한 분은 00분과 30분만 가능합니다.')
 					return
 				}
 				
@@ -73,9 +81,14 @@
 					type: 'post', 
 					url: '/poing/store/modify.do', 
 					data: {'store_name':store_name, 'category':category, 'introduce':introduce, 'addr':addr,
-						'tel':tel, 'opening_hours':opening_hours, 'closed_days':closed_days, 'parking':parking},
+						'tel':tel, 'opening_hours':opening_hours, 'closed_days':closed_days, 'parking':parking, 'max_num_people':max_num_people},
 					success:function (data) {
+						if(data==='error') {
+							alert('정보 수정에 실패했습니다.')
+							return
+						}
 						
+						alert('정보를 수정하였습니다.')
 					},
 					error:function () {
 						alert('에러가 발생했습니다.')
@@ -83,11 +96,62 @@
 				})
 				
 			}
+			
+			function delImg(img) {
+				
+				if(!confirm('해당 사진을 삭제하시겠습니까?')) {
+					return
+				}
+				
+				img_cnt--
+				
+				$.ajax({
+					type: 'post', 
+					url: '/poing/store/deleteImg.do', 
+					data: {'img':img},
+					success:function (data) {
+
+			        	var state = data.state
+			        	
+			        	if(state==='error') {
+			        		alert('사진을 삭제하는데 실패했습니다.')
+			        	}
+			        	
+			        	setImg(data)
+			        	if(img_cnt==9)
+			        		addImgBtn()
+					},
+					error:function () {
+						alert('에러가 발생했습니다.')
+					}
+				})
+			}
+			
+			function setImg(data) {
+
+	        	var imgList = data.imgList
+	        	
+	        	var item = ''
+	        	
+	        	var idx = $('#store_idx').val()
+				
+				$('#img_box').empty()
+
+	        	for(var i=0; i<imgList.length; i++) {
+					item += '<img onclick="delImg(\'' + imgList[i] + '\')" style="float: left; margin-left: 10px" src="/poing/resources/store/' + idx + '/' + imgList[i] + '">'
+	        	}
+	        	
+				$('#img_box').append(item)
+
+			}
+			
 		</script>
 	</head>
 	<body>
 		<div class="store_modify_box">
 			<h1>매장 정보 수정</h1>
+			
+			<input id="store_idx" type="hidden" value="${store.idx}">
 			
 			<label>매장명</label>
 			<input id="store_name" value="${store.store_name}">
@@ -127,23 +191,187 @@
 			<input id="closed_days" value="${store.closed_days}">
 			
 			<label>주차</label>
-				<div>
+			<div>
+				<c:choose>
+					<c:when test="${store.parking == '가능'}">
+						<input checked="checked" name="parking" type="radio" value="가능">
+						가능
+						<input name="parking" type="radio" value="불가능">
+						불가능
+					</c:when>
+					<c:otherwise>
+						<input name="parking" type="radio" value="가능">
+						가능
+						<input checked="checked" name="parking" type="radio" value="불가능">
+						불가능
+					</c:otherwise>
+				</c:choose>
+			</div>
+					
+			<label>최대 인원 수</label>
+			<input id="max_num_people" type="number" value="${store.max_num_people}"> <br>
+				
+			<button onclick="store_modify()" class="modify_btn">수정하기</button>
+			
+			<hr>
+			
+			<label>메인 이미지 (변경하시려면 이미지를 클릭하세요)</label>
+			<form id="main_img_form" enctype="multipart/form-data">
+				<input id="main_img" name="main_img" type="file" style="display: none;">
+			</form>
+			<label for="main_img" style="display: inline;">
+				<img id="mainImg" src="${contextPath}/resources/store/${store.idx}/${store.main_img}">
+			</label>
+			
+			 <br>
+			
+			<label>매장 이미지 (삭제하시려면 이미지를 클릭하세요)</label>
+			<div id="img_box" style="overflow: hidden;">
+				<c:forEach var="img" items="${storeImgList}">
+					<img onclick="delImg('${img}')" style="float: left; margin-left: 10px" src="${contextPath}/resources/store/${store.idx}/${img}">
+				</c:forEach>
+			</div>
+			
+			<script type="text/javascript">
+				
+				var img_cnt = 0
+			
+				$(document).ready(function() {
+					img_cnt = parseInt($('#img_cnt').val())
+					
+					addEvent()
+					
+					$('#main_img').change(function() {
+
+						if( $('#main_img').val() == '' ) {
+							return
+						}
+
+						var formData = new FormData($("#main_img_form")[0])
+						
+						$.ajax({
+		                    type : 'post',
+		                    url : '/poing/store/uploadMainImg.do',
+		                    data : formData,
+		                    processData : false,
+		                    contentType : false,
+		                    success : function(data) {
+
+					        	var state = data.state
+					        	
+					        	if(state==='error') {
+					        		alert('에러가 발생함')
+					        		return
+					        	}
+					        	
+					        	var path = $('#mainImg').attr('src')
+					        	
+					        	path = path.substring(0, path.lastIndexOf('/')+1)
+					        	
+					        	var mainImg = data.mainImg
+
+								path += mainImg
+
+					        	$('#mainImg').attr('src', path)
+		                    },
+		                    error : function(error) {
+								alert('에러가 발생했습니다.')
+		                    }
+		                })
+					})
+				})
+				
+				function addEvent() {
+					$('#add_img').change(function() {
+						
+						if( $('#add_img').val() == '' ) {
+							return
+						}
+
+						readURL(this)
+						
+	        			img_cnt++
+	        			
+	        			if(imt_cnt==10)
+							addImgBtn()
+					})
+				}
+				
+	        	function readURL(input) {
+	        		if (input.files && input.files[0]) {
+	        			var reader = new FileReader()
+	        			reader.onload = function(e) {
+	        				$('#new_img').attr('src', e.target.result)
+	        				$('#add_label').attr('for', '')
+	        				$('#add_label').removeAttr('id')
+							$('#add_img').removeAttr('id')
+							$('#new_img').removeAttr('id')
+							addEvent()
+	        			}
+	        			reader.readAsDataURL(input.files[0])
+	        		}
+	        	}
+				
+	        	function addImgBtn() {
+					
+					var item = ''
+					
+					item += '<input id="add_img" type="file" name="upload_img' + img_cnt + '" style="display: none;">'
+					item += '<label id="add_label" for="add_img" style="float: left; margin-right: 10px;">'
+					item += '<img id="new_img" src="${contextPath}/resources/icon_plus.png">'
+					item += '</label>'
+					
+					$('#img_form').append(item)
+	        	}
+	        	
+	        	function uploadImg() {
+					var formData = new FormData($("#img_form")[0])
+					
+	                $.ajax({
+	                    type : 'post',
+	                    url : '/poing/store/uploadImg.do',
+	                    data : formData,
+	                    processData : false,
+	                    contentType : false,
+	                    success : function(data) {
+
+				        	var state = data.state
+				        	
+				        	if(state==='error') {
+				        		alert('에러가 발생합')
+				        		return
+				        	}
+				        	
+	                    	setImg(data)
+
+	        				$('#img_form').empty()
+							
+	        				addImgBtn()
+	                    },
+	                    error : function(error) {
+							alert('에러가 발생했습니다.')
+	                    }
+	                })
+	        	}
+			</script>
+			<c:set var="storeImgListSize" value="${fn:length(storeImgList)}"/>
+			<input id="img_cnt" type="hidden" value="${storeImgListSize}">
+			<label>이미지 추가 (이미지는 메인 이미지 제외 최대 10장까지 가능합니다.)</label>
+			<div id="img_add_box" style="overflow: hidden;">
+				<form id="img_form" action="/poing/store/uploadImg.do" method="post" enctype="multipart/form-data">
 					<c:choose>
-						<c:when test="${store.parking == '가능'}">
-							<input checked="checked" name="parking" type="radio" value="가능">
-							가능
-							<input name="parking" type="radio" value="불가능">
-							불가능
+						<c:when test="${storeImgListSize!='10'}">
+							<input id="add_img" type="file" name="upload_img${fn:length(storeImgList)}" style="display: none;">
+							<label id="add_label" for="add_img" style="float: left; margin-right: 10px;">
+								<img id="new_img" src="${contextPath}/resources/icon_plus.png">
+							</label>
 						</c:when>
-						<c:otherwise>
-							<input name="parking" type="radio" value="가능">
-							가능
-							<input checked="checked" name="parking" type="radio" value="불가능">
-							불가능
-						</c:otherwise>
 					</c:choose>
-				</div>
-				<button onclick="store_modify()" class="modify_btn">수정하기</button>
+				</form>
+			</div>
+			
+			<button onclick="uploadImg()" class="modify_btn">등록하기</button>
+			
 		</div>
 		
 		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

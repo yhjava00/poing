@@ -20,4 +20,37 @@
 		select img_name from store_img where store_idx = #{idx}
 	</select>
 	
+	<update id="updateStore" parameterType="storeAllVO">
+		update store set category = #{category}, store_name = #{store_name}, introduce = #{introduce},
+		location1 = #{location1}, location2 = #{location2} where idx = #{idx}
+	</update>
+	
+	<update id="updateStoreInfo" parameterType="storeAllVO">
+		update store_info set addr = #{addr}, tel = #{tel}, opening_hours = #{opening_hours},
+		closed_days = #{closed_days}, parking = #{parking}, max_num_people = #{max_num_people}
+		where store_idx = #{idx}
+	</update>
+	
+	<select id="totStoreImg" parameterType="int" resultType="int">
+		select count(idx) from store_img where store_idx = #{storeIdx}
+	</select>
+	
+	<delete id="deleteImg" parameterType="map">
+		delete from store_img where store_idx = #{storeIdx} and img_name = #{img}
+	</delete>
+	
+	<update id="updateMainImg" parameterType="map">
+		update store set main_img = #{mainImg} where idx = #{storeIdx}
+	</update>
+	
+	<insert id="insertImg" parameterType="map">
+		insert into store_img(idx, img_name, store_idx)
+		select store_img_seq.nextval, A.*
+		from (
+		<foreach collection="fileNameList" item="item" separator="union all">
+			select #{item}, #{storeIdx} from dual
+		</foreach>
+		) A
+	</insert>
+	
 </mapper>

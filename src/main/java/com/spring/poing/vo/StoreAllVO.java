@@ -18,10 +18,17 @@ public class StoreAllVO {
 	private String opening_hours;
 	private String closed_days;
 	private String parking;
-	private String maxNumPeople;
+//	private String maxNumPeople;
+	private int max_num_people;
 	
 	int likeStore;
 
+	public int getMax_num_people() {
+		return max_num_people;
+	}
+	public void setMax_num_people(int max_num_people) {
+		this.max_num_people = max_num_people;
+	}
 	public int getStore_like() {
 		return store_like;
 	}
@@ -40,12 +47,12 @@ public class StoreAllVO {
 	public void setCountAllReview(int countAllReview) {
 		this.countAllReview = countAllReview;
 	}
-	public String getMaxNumPeople() {
-		return maxNumPeople;
-	}
-	public void setMaxNumPeople(String maxNumPeople) {
-		this.maxNumPeople = maxNumPeople;
-	}
+//	public String getMaxNumPeople() {
+//		return maxNumPeople;
+//	}
+//	public void setMaxNumPeople(String maxNumPeople) {
+//		this.maxNumPeople = maxNumPeople;
+//	}
 	public float getStar() {
 		return star;
 	}

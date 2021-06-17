@@ -14,4 +14,16 @@ public interface StoreDAO {
 	
 	public List<String> selectStoreImgList(int storeIdx);
 	
+	public int updateStore(StoreAllVO store);
+	
+	public int updateStoreInfo(StoreAllVO store);
+	
+	public int totStoreImg(int storeIdx);
+	
+	public int deleteImg(Map<String, Object> info);
+	
+	public int updateMainImg(Map<String, Object> info);
+	
+	public int insertImg(Map<String, Object> info);
+	
 }
