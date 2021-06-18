@@ -26,7 +26,7 @@ public interface MainService {
 	
 	public StoreVO getStoreinfo(int storeIdx);
 	
-	public Map<String, Object> myPage(String path, String id, int page);
+	public Map<String, Object> myPage(String path, String id, int page, Integer storeIdx);
 	
 	public String like(String memberId, int storeIdx, byte like);
 	

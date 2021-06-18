@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.spring.poing.vo.ReservationVO;
 import com.spring.poing.vo.StoreAllVO;
 import com.spring.poing.vo.StoreVO;
 
@@ -17,7 +18,17 @@ public class StoreDAOImpl implements StoreDAO {
 
 	@Autowired
 	SqlSession sqlSession;
+	
+	@Override
+	public int totStorePastRes(Map<String, Object> info) {
+		return sqlSession.selectOne("store.totStorePastRes", info);
+	}
 
+	@Override
+	public int totStoreComingVisit(Map<String, Object> info) {
+		return sqlSession.selectOne("store.totStoreComingVisit", info);
+	}
+	
 	@Override
 	public StoreAllVO selectStoreAll(Map<String, Object> storeInfo) {
 		return sqlSession.selectOne("store.selectStoreAll", storeInfo);
@@ -61,6 +72,36 @@ public class StoreDAOImpl implements StoreDAO {
 	@Override
 	public int insertImg(Map<String, Object> info) {
 		return sqlSession.insert("store.insertImg", info);
+	}
+	
+	@Override
+	public List<Object> storePastResList(Map<String, Object> info) {
+		return sqlSession.selectList("store.storePastResList", info);
+	}
+	
+	@Override
+	public List<Object> storeComingVisitList(Map<String, Object> info) {
+		return sqlSession.selectList("store.storeComingVisitList", info);
+	}
+	
+	@Override
+	public int insertStore() {
+		return sqlSession.insert("store.insertStore");
+	}
+	
+	@Override
+	public int selectNewStoreIdx() {
+		return sqlSession.selectOne("selectNewStoreIdx");
+	}
+	
+	@Override
+	public int updateMemberStore(Map<String, Object> info) {
+		return sqlSession.update("updateMemberStore", info);
+	}
+	
+	@Override
+	public int insertStoreInfo(int storeIdx) {
+		return sqlSession.insert("store.insertStoreInfo", storeIdx);
 	}
 	
 }

@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.poing.main.dao.MainDAO;
+import com.spring.poing.member.dao.MemberDAO;
 import com.spring.poing.store.dao.StoreDAO;
 import com.spring.poing.vo.CategoryVO;
+import com.spring.poing.vo.MemberVO;
 import com.spring.poing.vo.StoreAllVO;
 import com.spring.poing.vo.StoreVO;
 
@@ -24,24 +26,8 @@ public class StoreServiceImpl implements StoreService {
 	@Autowired
 	MainDAO mainDAO;
 	
-	@Override
-	public Map<String, Object> storeModifyInfo(String id, int storeIdx) {
-		
-		Map<String, Object> info = new HashMap<String, Object>();
-		
-		info.put("id", id);
-		info.put("storeIdx", storeIdx);
-		
-		StoreAllVO store = storeDAO.selectStoreAll(info);
-		List<String> storeImgList = storeDAO.selectStoreImgList(storeIdx);
-		List<CategoryVO> categoryList = mainDAO.getCategory();
-		
-		info.put("store", store);
-		info.put("storeImgList", storeImgList);
-		info.put("categoryList", categoryList);
-		
-		return info;
-	}
+	@Autowired
+	MemberDAO memberDAO;
 	
 	@Override
 	public String storeModify(StoreAllVO store) {
@@ -154,6 +140,31 @@ public class StoreServiceImpl implements StoreService {
 		json.append("}");
 		
 		return json.toString();
+	}
+	
+	@Override
+	public int addStore(String storeId) {
+		
+		MemberVO member = memberDAO.selectMember(storeId);
+		
+		if(member==null) {
+			return -1;
+		}else if(member.getStore_check()>0) {
+			return -2;
+		}
+		
+		storeDAO.insertStore();
+		int storeIdx = storeDAO.selectNewStoreIdx();
+		
+		Map<String, Object> info = new HashMap<String, Object>();
+		
+		info.put("storeId", storeId);
+		info.put("storeIdx", storeIdx);
+		
+		storeDAO.updateMemberStore(info);
+		storeDAO.insertStoreInfo(storeIdx);
+		
+		return storeIdx;
 	}
 	
 }

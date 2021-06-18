@@ -5,6 +5,42 @@
 
 <mapper namespace="store">
 	
+	<select id="totStorePastRes" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(idx) from reservation where store_idx = #{storeIdx} and resDate < #{today}
+		]]>
+	</select>
+	
+	<select id="totStoreComingVisit" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(idx) from reservation where store_idx = #{storeIdx} and resDate >= #{today}
+		]]>
+	</select>
+	
+	<select id="storePastResList" parameterType="map" resultType="reservationVO">
+		<![CDATA[
+			select * 
+			from (select rownum rn, A.* 
+			        from (select * 
+			                from reservation r   
+			                where r.store_idx = #{storeIdx} and r.resdate < #{today}
+			                order by r.resdate desc, r.time)A)
+			where rn between (#{page}-1) * 10 + 1 and #{page} * 10
+		]]>
+	</select>
+
+	<select id="storeComingVisitList" parameterType="map" resultType="reservationVO">
+		<![CDATA[
+			select * 
+			from (select rownum rn, A.* 
+			        from (select * 
+			                from reservation r   
+			                where r.store_idx = #{storeIdx} and r.resdate >= #{today}
+			                order by r.resdate, r.time)A)
+			where rn between (#{page}-1) * 10 + 1 and #{page} * 10
+		]]>
+	</select>
+	
 	<select id="selectStoreAll" parameterType="map" resultType="storeAllVO">
 		select s.*, i.*, nvl(A.store_idx, 0) likeStore
 		from store s inner join store_info i on s.idx = i.store_idx 
@@ -51,6 +87,24 @@
 			select #{item}, #{storeIdx} from dual
 		</foreach>
 		) A
+	</insert>
+	
+	<insert id="insertStore">
+		insert into store (idx, category, store_name, introduce, location1, location2, main_img)
+		values (store_seq.nextval, '중식', '이름을 정해주세요', '소개를 정해주세요', '위치', '위치', '뷔페.png')
+	</insert>
+	
+	<select id="selectNewStoreIdx" resultType="int">
+		select max(idx) from store
+	</select>
+	
+	<update id="updateMemberStore" parameterType="map">
+		update member set store_check = #{storeIdx} where id = #{storeId}
+	</update>
+	
+	<insert id="insertStoreInfo" parameterType="int">
+		insert into store_info (idx, store_idx, addr, tel, opening_hours, closed_days, parking, max_num_people)
+		values (store_info_seq.nextval, #{storeIdx}, '주소를 정해주세요', '전화번호', '영업 시간', '휴무일', '불가능', 0)
 	</insert>
 	
 </mapper>

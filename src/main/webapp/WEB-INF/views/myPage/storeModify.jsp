@@ -12,10 +12,6 @@
 		<meta charset="UTF-8">
 		<title>Insert title here</title>
 		<style type="text/css">
-			.store_modify_box {
-				width: 70%;
-				margin: 0 auto;
-			}
 			.store_modify_box > input {
 			    border: solid 1px black;
 			    box-shadow: none;
@@ -118,8 +114,11 @@
 			        	}
 			        	
 			        	setImg(data)
-			        	if(img_cnt==9)
+			        	if(img_cnt==9) {
 			        		addImgBtn()
+			        		addEvent()
+			        	}
+			        		
 					},
 					error:function () {
 						alert('에러가 발생했습니다.')
@@ -292,7 +291,7 @@
 						
 	        			img_cnt++
 	        			
-	        			if(imt_cnt==10)
+	        			if(img_cnt!=10)
 							addImgBtn()
 					})
 				}
@@ -346,7 +345,10 @@
 
 	        				$('#img_form').empty()
 							
-	        				addImgBtn()
+	        				if(img_cnt!=10) {
+								addImgBtn()
+								addEvent()
+	        				}
 	                    },
 	                    error : function(error) {
 							alert('에러가 발생했습니다.')

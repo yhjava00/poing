@@ -105,6 +105,7 @@ public class MemberControllerImpl implements MemberController{
 		HttpSession session = request.getSession();
 		
 		session.removeAttribute("loginCheck");
+		session.removeAttribute("storeCheck");
 		
 		return "redirect:/main";
 	}

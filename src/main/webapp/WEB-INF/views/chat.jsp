@@ -376,18 +376,6 @@
 						$('#chatLog').append(item)
 
 						$('#chatLog').scrollTop($('#chatLog').prop("scrollHeight"))
-						
-						/* var memberList = data.chattingMemberList
-						
-						$('#memberList').children('.memberSelect').remove()
-
-						item = ''
-
-						for(var i=0; i<memberList.length; i++) {
-							item += '<div class="memberSelect">' + memberList[i] + '</div>'
-						}
-
-						$('#memberList').append(item) */
 			        },
 			        error:function () {
 			        	alert('에러가 발생했습니다.');

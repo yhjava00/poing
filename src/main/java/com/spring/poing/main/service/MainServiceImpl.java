@@ -300,7 +300,7 @@ public class MainServiceImpl implements MainService {
 	}
 	
 	@Override
-	public Map<String, Object> myPage(String path, String id, int page) {
+	public Map<String, Object> myPage(String path, String id, int page, Integer storeIdx) {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy-MM-dd");
 		
@@ -313,31 +313,53 @@ public class MainServiceImpl implements MainService {
 		info.put("id", id);
 		info.put("today", today);
 		
-		int totPastRes = mainDAO.totPastRes(info);
 		int totMyReview = mainDAO.totMyReview(id);
 		int totComingVisit = mainDAO.totComingVisit(info);
 		int totLikeStore = mainDAO.totLikeStore(id);
-		
-		if(path.equals("past_reservation")) {
-			paging(info, totPastRes, page, 10);
-		}else if(path.equals("review")) {
-			paging(info, totMyReview, page, 10);
-		}else if(path.equals("coming_visit")) {
-			paging(info, totComingVisit, page, 10);
-		}else if(path.equals("like_store")) {
-			paging(info, totLikeStore, page, 10);
-		}
-
 		List<Object> itemList = null;
 		
-		if(path.equals("past_reservation")) {
+		switch (path) {
+		case "past_reservation":
+			int totPastRes = mainDAO.totPastRes(info);
+			paging(info, totPastRes, page, 10);
 			itemList = mainDAO.pastResList(info);
-		}else if(path.equals("review")) {
+			break;
+		case "review":
+			paging(info, totMyReview, page, 10);
 			itemList = mainDAO.myReviewList(info);
-		}else if(path.equals("coming_visit")) {
+			break;
+		case "coming_visit":
+			paging(info, totComingVisit, page, 10);
 			itemList = mainDAO.comingVisitList(info);
-		}else if(path.equals("like_store")) {
+			break;
+		case "like_store":
+			paging(info, totLikeStore, page, 10);
 			itemList = mainDAO.likeStoreList(info);
+			break;
+		case "store_coming_visit":
+			info.put("storeIdx", storeIdx);
+			int totStoreComingVisit = storeDAO.totStoreComingVisit(info);
+			paging(info, totStoreComingVisit, page, 10);
+			itemList = storeDAO.storeComingVisitList(info);
+			break;
+		case "store_past_reservation":
+			info.put("storeIdx", storeIdx);
+			int totStorePastRes = storeDAO.totStorePastRes(info);
+			paging(info, totStorePastRes, page, 10);
+			itemList = storeDAO.storePastResList(info);
+			break;
+		case "store_modify":
+			info.put("storeIdx", storeIdx);
+
+			StoreAllVO store = storeDAO.selectStoreAll(info);
+			List<String> storeImgList = storeDAO.selectStoreImgList(storeIdx);
+			List<CategoryVO> categoryList = mainDAO.getCategory();
+			
+			info.put("store", store);
+			info.put("storeImgList", storeImgList);
+			info.put("categoryList", categoryList);
+			
+			break;
 		}
 		
 		MemberVO member = memberDAO.selectMember(id);

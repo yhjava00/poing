@@ -1,6 +1,9 @@
 package com.spring.poing.store.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,20 +31,6 @@ public class StoreControllerImpl implements StoreController {
 	
 	@Autowired
 	StoreService storeService;
-	
-	@Override
-	@RequestMapping("/store/modify")
-	public String storeModify(Model model, HttpSession session) {
-		
-		String id = (String) session.getAttribute("loginCheck");
-		int storeIdx = (Integer) session.getAttribute("storeCheck");
-		
-		Map<String, Object> info = storeService.storeModifyInfo(id, storeIdx);
-		
-		model.addAttribute("info", info);
-		
-		return "storeModify";
-	}
 	
 	@Override
 	@ResponseBody
@@ -155,6 +144,42 @@ public class StoreControllerImpl implements StoreController {
 		}
 		
 		return fileNameList;
+	}
+	
+	@Override
+	@ResponseBody
+	@RequestMapping("/addStore.do")
+	public String addStore(String storeId) {
+		
+		int state = storeService.addStore(storeId);
+		
+		if(state>0) {
+			String path = STORE_PATH + state;
+			
+			File originFile = new File(STORE_PATH, "뷔페.png");
+			File newFile = new File(path, "뷔페.png");
+			
+			newFile.getParentFile().mkdir();
+			
+			try {
+				FileInputStream fis = new FileInputStream(originFile);
+				FileOutputStream fos = new FileOutputStream(newFile);
+				
+				int fileByte = 0; 
+	            while((fileByte = fis.read()) != -1) {
+	                fos.write(fileByte);
+	            }
+	            
+	            fis.close();
+	            fos.close();
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return String.valueOf(state);
 	}
 	
 }

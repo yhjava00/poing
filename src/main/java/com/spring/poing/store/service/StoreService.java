@@ -7,8 +7,6 @@ import com.spring.poing.vo.StoreAllVO;
 
 public interface StoreService {
 	
-	public Map<String, Object> storeModifyInfo(String id, int storeIdx);
-	
 	public String storeModify(StoreAllVO store);
 	
 	public StringBuilder deleteImg(int storeIdx, String img);
@@ -18,5 +16,7 @@ public interface StoreService {
 	public String updateMainImg(int storeIdx, String mainImg);
 	
 	public String updateImg(int storeIdx, List<String> fileNameList);
+	
+	public int addStore(String storeId);
 
 }

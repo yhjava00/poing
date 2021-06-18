@@ -144,13 +144,14 @@ public class MainControllerImpl implements MainController {
 		
 		String path = uri.substring(uri.lastIndexOf('/')+1);
 		
-		if(path.equals("myPage")) {
+		String id = (String) request.getSession().getAttribute("loginCheck");
+		Integer storeIdx = (Integer) request.getSession().getAttribute("storeCheck");
+				
+		if(path.equals("myPage")||(path.startsWith("store")&&storeIdx==null)||(path.startsWith("admin")&&!id.equals("admin@gmail.com"))) {
 			path = "coming_visit";
 		}
 		
-		String id = (String) request.getSession().getAttribute("loginCheck");
-		
-		Map<String, Object> info = mainService.myPage(path, id, page);
+		Map<String, Object> info = mainService.myPage(path, id, page, storeIdx);
 		
 		request.setAttribute("path", path);
 		request.setAttribute("info", info);

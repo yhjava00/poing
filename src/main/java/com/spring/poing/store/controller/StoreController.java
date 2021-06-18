@@ -9,8 +9,6 @@ import com.spring.poing.vo.StoreAllVO;
 
 public interface StoreController {
 	
-	public String storeModify(Model model, HttpSession session);
-	
 	public String storeModifyAction(HttpSession session, StoreAllVO store);
 	
 	public String storeImgDeleteAction(HttpSession session, String img);
@@ -18,4 +16,6 @@ public interface StoreController {
 	public String uploadMainImgAction(HttpSession session, MultipartHttpServletRequest multi);
 	
 	public String uploadImgAction(HttpSession session, MultipartHttpServletRequest multi);
+	
+	public String addStore(String storeId);
 }

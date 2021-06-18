@@ -99,32 +99,39 @@
 	                        <svg class="jss1008" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
 	                    </a>
 	                </div>
-	                <div class="jss283">
-	                    <a class="jss1007" href="#">
-	                        <span class="jss288">고객센터</span>
-	                        <svg class="jss1008" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
-	                    </a>
-	                </div>
 	            </div>
+	            <c:if test="${loginCheck == 'admin@gmail.com'}">
+	            	<div class="reviewBox">
+		                <div>
+		                    <h3 class="jss1006">관리자 전용 메뉴</h3>
+		                </div>
+		                <div class="jss283">
+		                    <a class="jss1007" href="${contextPath}/myPage/admin_store_add">
+		                        <span class="jss288">매장 등록</span>
+		                        <svg class="jss1008" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
+		                    </a>
+		                </div>
+		            </div>
+	            </c:if>
 	            <c:if test="${not empty storeCheck}">
 	            	<div class="reviewBox">
 		                <div>
 		                    <h3 class="jss1006">매장 전용 메뉴</h3>
 		                </div>
 		                <div class="jss283">
-		                    <a class="jss1007" onclick="">
+		                    <a class="jss1007" href="${contextPath}/myPage/store_coming_visit">
 		                        <span class="jss288">매장 예약</span>
 		                        <svg class="jss1008" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
 		                    </a>
 		                </div>
 		                <div class="jss283">
-		                    <a class="jss1007" onclick="">
+		                    <a class="jss1007" href="${contextPath}/myPage/store_past_reservation">
 		                        <span class="jss288">지난 매장 예약</span>
 		                        <svg class="jss1008" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
 		                    </a>
 		                </div>
 		                <div class="jss283">
-		                    <a class="jss1007" href="${contextPath}/store/modify">
+		                    <a class="jss1007" href="${contextPath}/myPage/store_modify">
 		                        <span class="jss288">매장 정보 수정</span>
 		                        <svg class="jss1008" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="img"><path d="M8.828 12L17.413 20.645 15.999 22.06 6 12 15.999 2.002 17.413 3.417z" transform="matrix(-1 0 0 1 23.413 0)"></path></svg>
 		                    </a>
@@ -160,6 +167,18 @@
 	                	</c:when>
 	                	<c:when test="${path == 'withdrawal'}">
 	                		<jsp:include page="withdrawal.jsp"></jsp:include>
+	                	</c:when>
+	                	<c:when test="${path == 'store_past_reservation'}">
+	                		<jsp:include page="store_past_reservation.jsp"></jsp:include>
+	                	</c:when>
+	                	<c:when test="${path == 'store_coming_visit'}">
+	                		<jsp:include page="store_coming_visit.jsp"></jsp:include>
+	                	</c:when>
+	                	<c:when test="${path == 'store_modify'}">
+	                		<jsp:include page="storeModify.jsp"></jsp:include>
+	                	</c:when>
+	                	<c:when test="${path == 'admin_store_add'}">
+	                		<jsp:include page="admin_store_add.jsp"></jsp:include>
 	                	</c:when>
 	                </c:choose>
 	                
