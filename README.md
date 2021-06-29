@@ -1,5 +1,8 @@
 # Poing
 식당 예약 사이트
+
+## 구동 영상
+https://www.youtube.com/watch?v=iMwRCjd45qY
   
 ## 개발 정보
 개발 인원 -> 혼자    
